@@ -12,3 +12,4 @@ app.db
 *.pdf
 *.txt
 *.csv
+*.bat

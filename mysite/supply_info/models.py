@@ -3,7 +3,7 @@ from django.utils import timezone
 
 
 class Product(models.Model):
-    code = models.CharField(max_length=60)
+    code = models.CharField(max_length=60, unique=True)
     manufacturer = models.CharField(max_length=30)
     name = models.CharField(max_length=200)
     prod_group = models.CharField(max_length=60)
@@ -16,7 +16,7 @@ class Product(models.Model):
 
 
 class PriceList(models.Model):
-    product_code = models.ForeignKey('Product', on_delete=models.CASCADE)
+    product_code = models.ForeignKey('Product', on_delete=models.CASCADE, related_name="price_lists")
     price_a = models.DecimalField(max_digits=10, decimal_places=2)
     price_b = models.DecimalField(max_digits=10, decimal_places=2)
     price_c = models.DecimalField(max_digits=10, decimal_places=2)
@@ -24,10 +24,10 @@ class PriceList(models.Model):
 
     def __str__(self):
         return f'{self.product_code}:\n' \
-               f'Cena A: {self.price_a} zł \n' \
-               f'Cena B: {self.price_b} zł \n' \
-               f'Cena C: {self.price_c} zł \n' \
-               f'Cena D: {self.price_d} zł \n'
+               f'| Cena A: {self.price_a} zł \n' \
+               f'| Cena B: {self.price_b} zł \n' \
+               f'| Cena C: {self.price_c} zł \n' \
+               f'| Cena D: {self.price_d} zł |'
 
 
 class ActiveProductList(models.Model):
@@ -39,7 +39,8 @@ class ActiveProductList(models.Model):
         self.save()
 
     def __str__(self):
-        return f'{self.product_code} is active' if self.is_active is True else f'{self.product_code} is inactive'
+        return f'{self.product_code} status: ACTIVE' if self.is_active is True \
+            else f'{self.product_code} status: INACTIVE'
 
 
 class ProductAvailability(models.Model):
