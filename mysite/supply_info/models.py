@@ -31,7 +31,7 @@ class PriceList(models.Model):
 
 
 class ActiveProductList(models.Model):
-    product_code = models.ForeignKey('Product', on_delete=models.CASCADE)
+    product_code = models.ForeignKey('Product', on_delete=models.CASCADE, related_name="active_product_list")
     is_active = models.BooleanField(default=False)
 
     def change_activity(self, new_status):
@@ -44,11 +44,12 @@ class ActiveProductList(models.Model):
 
 
 class ProductAvailability(models.Model):
-    product_code = models.ForeignKey('Product', on_delete=models.CASCADE)
+    product_code = models.ForeignKey('Product', on_delete=models.CASCADE, related_name="product_availability")
     availability = models.IntegerField()
     not_enough = models.IntegerField()
     unavailable = models.IntegerField()
 
+    @property
     def availability_info(self):
         if None not in (self.not_enough, self.unavailable):
             if self.availability >= self.not_enough:
@@ -60,4 +61,4 @@ class ProductAvailability(models.Model):
             return availability_info
 
     def __str__(self):
-        return f'{self.product_code} : {self.availability} sztuk. Stan: {self.availability_info()}'
+        return f'{self.product_code} : {self.availability} sztuk. Stan: {self.availability_info}'

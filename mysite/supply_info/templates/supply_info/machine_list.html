@@ -1,3 +1,7 @@
 {% for machine in machines %}
-    <p>{{machine}} </p>
+    <p>{{machine.product_code}}|
+        {% if machine.availability %}
+        {{ machine.availability}}
+        {% endif %}
+        |{{machine.price_d }} zł</p>
     {% endfor %}
