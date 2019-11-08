@@ -1,0 +1,34 @@
+#machines_list_table {
+  font-family: Lato,sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+  color: black;
+}
+
+#machines_list_table td, #machines_list_table th {
+  border: 3px solid #black;
+  padding: 8px;
+}
+
+#machines_list_table tbody:nth-child(even){background-color: #f2f2f2;}
+
+#machines_list_table tr:hover {background-color: #ddd;}
+
+#machines_list_table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #e5ecf0;
+  color: black;
+}
+
+#Braktd {
+    background-color: red;
+    }
+#Małotd {
+    background-color: orange;
+    }
+#Dużotd {
+    background-color: #34d614;
+    }
+

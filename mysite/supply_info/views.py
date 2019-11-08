@@ -9,33 +9,7 @@ def index(request):
 
 
 def machine_list(request):
-    #machines = PriceList.objects.filter(product_code__mark('M'))
-    #machines = PriceList.objects.filter(product_code__mark="M")
-    machines = Product.objects.prefetch_related('price_lists', 'product_availability').filter(mark='M')
-    print('='*50)
-    print(dir(machines[0]))
-    print('-'*50)
-    print(len(machines))
-    print(machines[5].code)
-    print(machines[5].price_lists.all())
-    print(machines[5].product_availability.all()[0].availability)
-    print(machines[5].product_availability.all()[0].availability_info)
-    print('=' * 50)
-    '''
-    # Do usunięcia
-    # Do zrobienia: dodać "product_availability" do machines!!!!!
-    
-    
-    print(50*'-')
-    #print(dir(machines[0].product_availability))
-    print(50 * '-')
-    availa = ProductAvailability.objects.raw("""
-    SELECT supply_info_productavailability.*
-    FROM supply_info_productavailability""")
-    print(availa[0].availability_info)
-    print(availa[1].availability_info)
-    print(availa[2].availability_info)
-    print(dir(availa[0]))'''
+    machines = Product.objects.prefetch_related('price_lists', 'product_availability').filter(mark='M').order_by("code")
 
     return render(request, 'supply_info/machine_list.html', {'machines': machines})
 

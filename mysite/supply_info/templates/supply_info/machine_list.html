@@ -1,7 +1,45 @@
-{% for machine in machines %}
-    <p>{{machine.product_code}}|
-        {% if machine.availability %}
-        {{ machine.availability}}
-        {% endif %}
-        |{{machine.price_d }} zł</p>
-    {% endfor %}
+{% extends 'supply_info/base.html' %}
+
+{% block content %}
+
+<div class="machine_table">
+    <table border="1" id="machines_list_table">
+        <tr>
+            <th width=30%>Kod produktu</th>
+            <th width=10%>Dostępność</th>
+            {% if user.is_authenticated %}
+                <th>stan realny</th>
+            {% endif %}
+            <th width=11%>Cena</th>
+            <th>Uwagi</th>
+        </tr>
+        {% for machine in machines %}
+        <tbody id="machine_list_table_body">
+            <form action="" method="post">
+                <td>{{ machine.code }}</td>
+                {% if machine.product_availability.all %}
+                    {% for item in machine.product_availability.all %}
+                        <td id="{{ item.availability_info }}td" align="center"> {{ item.availability_info }}</td>
+                        {% if user.is_authenticated %}
+                            <td> {{ item.availability }}</td>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <td> </td>
+                    {% if user.is_authenticated %}
+                        <td> </td>
+                    {% endif %}
+                {% endif %}
+                {% for item in machine.price_lists.all %}
+                    <td>{{ item.price_d }}</td>
+                {% endfor %}
+                <td> </td>
+                {# <td><input type="button" name="send_question" value="Zadaj pytanie"></td> #}
+            </form>
+        </tbody>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
