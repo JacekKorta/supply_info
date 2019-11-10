@@ -46,8 +46,8 @@ class ActiveProductList(models.Model):
 class ProductAvailability(models.Model):
     product_code = models.ForeignKey('Product', on_delete=models.CASCADE, related_name="product_availability")
     availability = models.IntegerField()
-    not_enough = models.IntegerField()
-    unavailable = models.IntegerField()
+    not_enough = models.IntegerField(default=None,blank=True,null=True)
+    unavailable = models.IntegerField(default=None,blank=True,null=True)
 
     @property
     def availability_info(self):

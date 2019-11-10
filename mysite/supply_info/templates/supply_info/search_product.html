@@ -1,0 +1,47 @@
+{% extends 'supply_info/base.html' %}
+
+{% block content %}
+
+{% if submitbutton == 'Szukaj' and request.GET.q != '' %}
+{% if results %}
+<h3>Wynik dla: <b>{{ request.GET.q }}</b></h3>
+<br/><br/>
+
+<div class="machine_table">
+    <table border="1" id="machines_list_table">
+        <tr>
+            <th width=30%>Kod produktu</th>
+            <th width=10%>Dostępność</th>
+            <th width=11%>Cena katalogowa (brutto)</th>
+            <th>Uwagi</th>
+        </tr>
+        {% for result in results %}
+        <tbody id="machines_search_table_body">
+            <form action="" method="post">
+                <td>{{ result.code }}</td>
+                {% if result.product_availability.all %}
+                    {% for item in result.product_availability.all %}
+                        {#<td id="{{ item.availability_info }}td" align="center"> {{ item.availability_info }}</td> #}
+                        <td> {{ item.availability }}</td>
+                    {% endfor %}
+                {% else %}
+                    <td> </td>
+                {% endif %}
+                {% for item in result.price_lists.all %}
+                    <td>{{ item.price_d }} zł</td>
+                {% endfor %}
+                <td> </td>
+                <input type="hidden" name="error_prod_code" value="{{ result.code }} {{ request.GET.q }}">
+                <td><input type="button" name="report_an_error" value="Zgłoś błąd"></td>
+            </form>
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
+
+{% else %}
+No search results for this query
+{% endif %}
+{% endif %}
+
+{% endblock %}

@@ -4,6 +4,24 @@
         <title>Stany magazynowe</title>
         <link rel="stylesheet" href="{% static 'css/supply_info.css' %}">
     </head>
+    <div class="page-header">
+    <h1>Stany magazynowe JANOME i ELNA</h1>
+    </div>
+    <br>
+    <div>
+        Menu Admina: , uaktualnij stany,
+        <a href="{% url 'admin:index' %}">Admin Panel</a> |
+        <a href="{% url 'supply_info:update_product_info' %}" >Zasil bazę</a> |
+
+    </div><br>
+
+    <div class ='user_menu'>
+        User_menu: <a href="{% url 'supply_info:machine_list' %}" >Lista maszyn</a><br>
+        <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}">
+        <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu"/>
+        <input type="submit" name="submit" value="Szukaj"/>
+        </form>
+    </div>
     <body>
         {% block content %}
         {% endblock %}
