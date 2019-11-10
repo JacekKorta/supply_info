@@ -27,7 +27,7 @@ def update_product_info(request):
         return redirect('supply_info:index')
     else:
         form = ProductFullInfoUpdateForm()
-    return render(request, 'supply_info/update_product_info.html', {'form': form})
+    return render(request, 'supply_info/update_product_info.html', {'form': form, 'title': 'Import produktów'})
 
 
 @login_required
@@ -40,7 +40,7 @@ def update_product_availability(request):
         return redirect('supply_info:index')
     else:
         form = ProductFullInfoUpdateForm()
-    return render(request, 'supply_info/update_product_info.html', {'form': form})
+    return render(request, 'supply_info/update_product_info.html', {'form': form, 'title': 'Uaktualnij stany'})
 
 
 @login_required

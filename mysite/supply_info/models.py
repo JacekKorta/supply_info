@@ -5,11 +5,13 @@ from django.utils import timezone
 class Product(models.Model):
     code = models.CharField(max_length=60, unique=True)
     manufacturer = models.CharField(max_length=30)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=400)
     prod_group = models.CharField(max_length=60)
     type = models.CharField(max_length=30)
     sub_type = models.CharField(max_length=30)
     mark = models.CharField(max_length=3)
+    additional_info = models.CharField(max_length=400)
+    site_address = models.CharField(max_length=100)
 
     def __str__(self):
         return self.code
@@ -46,8 +48,8 @@ class ActiveProductList(models.Model):
 class ProductAvailability(models.Model):
     product_code = models.ForeignKey('Product', on_delete=models.CASCADE, related_name="product_availability")
     availability = models.IntegerField()
-    not_enough = models.IntegerField(default=None,blank=True,null=True)
-    unavailable = models.IntegerField(default=None,blank=True,null=True)
+    not_enough = models.IntegerField(default=5, blank=True, null=True)
+    unavailable = models.IntegerField(default=0, blank=True, null=True)
 
     @property
     def availability_info(self):
