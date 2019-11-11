@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-import dj_database_url
 
 from . import config
 
@@ -80,7 +79,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': dj_database_url.config(conn_max_age=600, ssl_require=True) or 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DB_USER') or config.DB_USER,
         'USER': os.environ.get('DB_USER') or config.DB_USER,
         'PASSWORD': os.environ.get('DB_PASSWORD') or config.DB_PASSWORD,

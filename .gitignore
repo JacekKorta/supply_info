@@ -3,6 +3,7 @@ __pycache__/
 migrations/
 materialy/
 config.py
+products_info.py
 logs/
 venv/
 app.db
@@ -10,6 +11,5 @@ app.db
 *.xlsx
 *.db
 *.pdf
-*.txt
 *.csv
 *.bat
