@@ -8,6 +8,7 @@
     <h1>Stany magazynowe JANOME i ELNA</h1>
     </div>
     <br>
+    {% if user.is_authenticated %}
     <div>
         Admin_menu:
         <a href="{% url 'admin:index' %}">Admin panel</a> |
@@ -15,14 +16,18 @@
         <a href="{% url 'supply_info:update_product_availability' %}">Uaktualnij stany</a> |
 
     </div><br>
-
+    {% endif %}
+    {% if user.is_authenticated %}
     <div class ='user_menu'>
-        User_menu: <a href="{% url 'supply_info:machine_list' %}" >Lista maszyn</a><br>
+        <p>Zalogowany jako: {{ user.username }}</p>
+        <p>User_menu: <a href="{% url 'supply_info:machine_list' %}" >Lista maszyn</a></p>
         <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}">
         <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu"/>
         <input type="submit" name="submit" value="Szukaj"/>
         </form>
-    </div>
+
+    </div><br>
+    {% endif %}
     <body>
         {% block content %}
         {% endblock %}
