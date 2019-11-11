@@ -21,6 +21,8 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ActiveProductInLine, PriceListInLine]
 
     list_display = ('code', 'name', )
+    search_fields = ['code', 'name']
+    list_filter = ['type', 'sub_type', 'mark']
 
 
 class ActiveProductListAdmin(admin.ModelAdmin):
@@ -29,7 +31,7 @@ class ActiveProductListAdmin(admin.ModelAdmin):
         ]
     list_display = ('product_code', 'is_active')
     list_filter = ['is_active']
-
+    search_fields = ['product_code']
 
 
 admin.site.register(Product, ProductAdmin)
