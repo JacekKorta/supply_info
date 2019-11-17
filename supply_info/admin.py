@@ -1,8 +1,13 @@
 from django.contrib import admin
 from .models import ActiveProductList, PriceList, Product
 
+
 class ActiveProductInLine(admin.StackedInline):
     model = ActiveProductList
+    #fieldsets = [
+     #   (None, {'fields': ['product_code', 'is_active']}),
+      #  ]
+    #list_filter = ['is_active']
     extra = 0
 
 
@@ -23,6 +28,18 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('code', 'name', )
     search_fields = ['code', 'name']
     list_filter = ['type', 'sub_type', 'mark']
+
+    actions = ['change_activity_status']
+
+    def change_activity_status(self, request, queryset):
+        print(type(queryset[0]))
+        print(queryset[0].code)
+        for product_in_query in queryset:
+            a = ActiveProductList.objects.filter(product_code__code=product_in_query)
+            if a:
+                new_status = (not a[0].is_active)
+                a[0].change_activity(new_status)
+        pass
 
 
 class ActiveProductListAdmin(admin.ModelAdmin):

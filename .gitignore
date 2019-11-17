@@ -13,3 +13,4 @@ app.db
 *.pdf
 *.csv
 *.bat
+*.sqlite3
