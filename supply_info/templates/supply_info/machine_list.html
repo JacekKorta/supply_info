@@ -15,6 +15,9 @@
         </tr>
         {% for machine in machines %}
         <tbody id="machine_list_table_body">
+        {% if machine.active_product_list.all %}
+        {% for item in machine.active_product_list.all %}
+        {% if item.is_active %}
             <form action="" method="post">
                 <td>{{ machine.code }}</td>
                 {% if machine.product_availability.all %}
@@ -36,6 +39,9 @@
                 <td> </td>
                 {# <td><input type="button" name="send_question" value="Zadaj pytanie"></td> #}
             </form>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
         </tbody>
         {% endfor %}
         </tbody>
