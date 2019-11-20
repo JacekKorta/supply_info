@@ -8,3 +8,4 @@ class ProductFullInfoUpdateForm(forms.Form):
 
 
 
+

@@ -19,6 +19,7 @@ def machine_list(request):
     return render(request, 'supply_info/machine_list.html', {'machines': machines})
 
 
+
 @login_required
 def update_product_info(request):
     if request.method == 'POST':
