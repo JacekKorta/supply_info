@@ -1,13 +1,9 @@
 from django.contrib import admin
-from .models import ActiveProductList, PriceList, Product
+from .models import ActiveProductList, PriceList, Product, ProductAvailability
 
 
 class ActiveProductInLine(admin.StackedInline):
     model = ActiveProductList
-    #fieldsets = [
-     #   (None, {'fields': ['product_code', 'is_active']}),
-      #  ]
-    #list_filter = ['is_active']
     extra = 0
 
 
@@ -16,14 +12,19 @@ class PriceListInLine(admin.TabularInline):
     extra = 0
 
 
+class ProductAvailabilityInLine(admin.TabularInline):
+    model = ProductAvailability
+    extra = 0
+
+
 class ProductAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['code', 'name', 'additional_info']}),
+        (None, {'fields': ['code', 'name', 'next_shipment','additional_info']}),
         ('Dodatkowe informacje:', {'fields': ['manufacturer', 'site_address'], 'classes': ['collapse']}),
         ('Grupy:', {'fields': ['type', 'sub_type', 'mark'], 'classes': ['collapse']}),
 
     ]
-    inlines = [ActiveProductInLine, PriceListInLine]
+    inlines = [ActiveProductInLine, PriceListInLine, ProductAvailabilityInLine]
 
     list_display = ('code', 'name', )
     search_fields = ['code', 'name']

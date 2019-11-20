@@ -4,14 +4,15 @@ from django.utils import timezone
 
 class Product(models.Model):
     code = models.CharField(max_length=60, unique=True)
-    manufacturer = models.CharField(max_length=30)
+    manufacturer = models.CharField(max_length=30, blank=True, null=True)
     name = models.CharField(max_length=400)
-    prod_group = models.CharField(max_length=60)
-    type = models.CharField(max_length=30)
-    sub_type = models.CharField(max_length=30)
-    mark = models.CharField(max_length=3)
-    additional_info = models.CharField(max_length=400)
-    site_address = models.CharField(max_length=100)
+    prod_group = models.CharField(max_length=60, blank=True, null=True)
+    type = models.CharField(max_length=30, blank=True, null=True)
+    sub_type = models.CharField(max_length=30, blank=True, null=True)
+    mark = models.CharField(max_length=3, blank=True, null=True)
+    additional_info = models.CharField(max_length=400, blank=True, null=True)
+    next_shipment = models.DateField(blank=True, null=True)
+    site_address = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.code

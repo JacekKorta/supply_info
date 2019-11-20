@@ -8,7 +8,7 @@ from .sp_modules import receiving_data
 
 
 def index(request):
-    machines = Product.objects.prefetch_related('price_lists', 'product_availability', 'ActiveProductList').filter(mark='M').order_by("code")
+    machines = Product.objects.prefetch_related('price_lists', 'product_availability').filter(mark='M').order_by("code")
 
     return render(request, 'supply_info/machine_list.html', {'machines': machines})
 
