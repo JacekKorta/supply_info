@@ -5,6 +5,7 @@
   color: black;
 }
 
+
 #machines_list_table td, #machines_list_table th {
   border: 3px solid #black;
   padding: 8px;
@@ -32,3 +33,10 @@
     background-color: #34d614;
     }
 
+h1, h2, h3, h4 {
+    font-family: Lato,sans-serif;
+}
+
+.user_menu, .page-header {
+    font-family: Lato,sans-serif;
+}
