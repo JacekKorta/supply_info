@@ -1,6 +1,10 @@
+import datetime
+
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 from django.contrib.auth.models import User
+from supply_info.models import Product
 
 
 class LoggedInTestCase(TestCase):
@@ -52,6 +56,7 @@ class TestPageLogged(LoggedInTestCase):
 
 
 class TestPageAnonymous(TestCase):
+
     def test_machine_list_page_works(self):
         response = self.client.get(reverse('supply_info:index'))
         self.assertEqual(response.status_code, 200)

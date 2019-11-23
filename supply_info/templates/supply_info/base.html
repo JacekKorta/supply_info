@@ -7,34 +7,35 @@
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="{% static 'css/supply_info.css' %}">
     </head>
-    <div class="page-header">
-    <h1>Stany magazynowe JANOME i ELNA</h1>
-    </div>
-    <br>
-    {% if user.is_superuser %}
-    <div>
-        Admin_menu:
-        <a href="{% url 'admin:index' %}">Admin panel</a> |
-        <a href="{% url 'supply_info:update_product_info' %}" >Zasil bazę</a> |
-        <a href="{% url 'supply_info:update_product_availability' %}">Uaktualnij stany</a> |
-
-    </div><br>
-    {% endif %}
-    {% if user.is_authenticated %}
-    <div class ="user_menu">
-        <p>Zalogowany jako: <b>{{ user.username }}</b> <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span></a>
-        </p>
-
-        <p>User_menu: <a href="{% url 'supply_info:machine_list' %}" >Lista maszyn</a></p>
-        <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}">
-        <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu"/>
-        <input type="submit" name="submit" value="Szukaj"/>
-        </form>
-    {% else %}
-        <a href="{% url 'login' %}" class="top-menu"><span class="pull-right glyphicon glyphicon-user" style="color:red"></span></a><br>
-    </div><br>
-    {% endif %}
     <body>
+        <div class="page-header">
+        <h1>Stany magazynowe JANOME i ELNA</h1>
+        </div>
+        <br>
+        {% if user.is_superuser %}
+        <div>
+            Admin_menu:
+            <a href="{% url 'admin:index' %}">Admin panel</a> |
+            <a href="{% url 'supply_info:update_product_info' %}" >Zasil bazę</a> |
+            <a href="{% url 'supply_info:update_product_availability' %}">Uaktualnij stany</a> |
+
+        </div><br>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <div class ="user_menu">
+            <p>Zalogowany jako: <b>{{ user.username }}</b> <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span></a>
+            </p>
+
+            <p>User_menu: <a href="{% url 'supply_info:machine_list' %}" >Lista maszyn</a></p>
+            <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}">
+            <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu"/>
+            <input type="submit" name="submit" value="Szukaj"/>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}" class="top-menu"><span class="pull-right glyphicon glyphicon-user" style="color:red"></span></a><br>
+        </div><br>
+        {% endif %}
+
         {% block content %}
         {% endblock %}
     </body>

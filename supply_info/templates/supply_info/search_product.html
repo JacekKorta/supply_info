@@ -6,22 +6,25 @@
 {% if results %}
 <h3>Wynik dla: <b>{{ request.GET.q }}</b></h3>
 <br/><br/>
-
 <div class="machine_table">
     <table border="1" id="machines_list_table">
         <tr>
             <th width=30%>Kod produktu</th>
             <th width=10%>Dostępność</th>
             <th width=11%>Cena katalogowa (brutto)</th>
+            <th width=24%>Kolejna dostawa</th>
             <th>Uwagi</th>
         </tr>
         {% for result in results %}
         <tbody id="machines_search_table_body">
             <form action="" method="post">
-                <td>{{ result.code }}</td>
+                {% if result.site_address %}
+                    <td><a href="{{ result.site_address }}" style="color:black">{{ result.code }}</a></td>
+                {% else %}
+                    <td>{{ result.code }}</td>
+                {% endif %}
                 {% if result.product_availability.all %}
                     {% for item in result.product_availability.all %}
-                        {#<td id="{{ item.availability_info }}td" align="center"> {{ item.availability_info }}</td> #}
                         <td> {{ item.availability }}</td>
                     {% endfor %}
                 {% else %}
@@ -30,9 +33,10 @@
                 {% for item in result.price_lists.all %}
                     <td>{{ item.price_d }} zł</td>
                 {% endfor %}
-                <td> </td>
+                <td>{{ result.next_shipment|default_if_none:"" }}</td>
+                <td>{{ result.additional_info|default_if_none:"" }}</td>
                 <input type="hidden" name="error_prod_code" value="{{ result.code }} {{ request.GET.q }}">
-                <td><input type="button" name="report_an_error" value="Zgłoś błąd"></td>
+                {# <td><input type="button" name="report_an_error" value="Zgłoś błąd" ></td> #}
             </form>
         </tbody>
         {% endfor %}

@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.db.models import Q
+from datetime import datetime
 
 from .models import ActiveProductList, PriceList, Product, ProductAvailability
 from .forms import ProductFullInfoUpdateForm
@@ -8,15 +9,20 @@ from .sp_modules import receiving_data
 
 
 def index(request):
+    # this page will be changed in the future
     machines = Product.objects.prefetch_related('price_lists', 'product_availability').filter(mark='M').order_by("code")
 
-    return render(request, 'supply_info/machine_list.html', {'machines': machines})
+    return render(request, 'supply_info/machine_list.html', {'machines': machines,
+                                                             'now': datetime.today().date()
+                                                             })
 
 
 def machine_list(request):
     machines = Product.objects.prefetch_related('price_lists', 'product_availability').filter(mark='M').order_by("code")
 
-    return render(request, 'supply_info/machine_list.html', {'machines': machines})
+    return render(request, 'supply_info/machine_list.html', {'machines': machines,
+                                                             'now': datetime.today().date()
+                                                             })
 
 
 
@@ -57,7 +63,8 @@ def search_product(request):
             lookups = Q(code__icontains=query) | Q(name__icontains=query)
             results = Product.objects.prefetch_related('price_lists', 'product_availability').filter(lookups).order_by('code')
             context = {'results': results,
-                       'submitbutton':submitbutton}
+                       'submitbutton':submitbutton,
+                       'now': datetime.today()}
             return render(request, 'supply_info/search_product.html', context)
 
         else:
