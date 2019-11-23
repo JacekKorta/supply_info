@@ -3,27 +3,31 @@ from django.utils import timezone
 
 
 class Product(models.Model):
-    code = models.CharField(max_length=60, unique=True)
-    manufacturer = models.CharField(max_length=30, blank=True, null=True)
-    name = models.CharField(max_length=400)
+    code = models.CharField(max_length=60, unique=True, verbose_name='Kod')
+    manufacturer = models.CharField(max_length=30, blank=True, null=True, verbose_name='Producent')
+    name = models.CharField(max_length=400, verbose_name='Nazwa')
     prod_group = models.CharField(max_length=60, blank=True, null=True)
     type = models.CharField(max_length=30, blank=True, null=True)
     sub_type = models.CharField(max_length=30, blank=True, null=True)
-    mark = models.CharField(max_length=3, blank=True, null=True)
-    additional_info = models.CharField(max_length=400, blank=True, null=True)
-    next_shipment = models.DateField(blank=True, null=True)
-    site_address = models.CharField(max_length=100, blank=True, null=True)
+    mark = models.CharField(max_length=3, blank=True, null=True, verbose_name='Znacznik')
+    additional_info = models.CharField(max_length=400, blank=True, null=True, verbose_name='Dodatkowe informacje')
+    next_shipment = models.DateField(blank=True, null=True, verbose_name='Następna dostawa')
+    site_address = models.CharField(max_length=100, blank=True, null=True, verbose_name='link do strony')
 
     def __str__(self):
         return self.code
 
+    class Meta:
+        verbose_name = 'Produkt'
+        verbose_name_plural = 'Produkty'
+
 
 class PriceList(models.Model):
     product_code = models.ForeignKey('Product', on_delete=models.CASCADE, related_name="price_lists")
-    price_a = models.DecimalField(max_digits=10, decimal_places=2)
-    price_b = models.DecimalField(max_digits=10, decimal_places=2)
-    price_c = models.DecimalField(max_digits=10, decimal_places=2)
-    price_d = models.DecimalField(max_digits=10, decimal_places=2)
+    price_a = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Cena A')
+    price_b = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Cena B')
+    price_c = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Cena C')
+    price_d = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Cena D')
 
     def __str__(self):
         return f'{self.product_code}:\n' \
@@ -32,10 +36,14 @@ class PriceList(models.Model):
                f'| Cena C: {self.price_c} zł \n' \
                f'| Cena D: {self.price_d} zł |'
 
+    class Meta:
+        verbose_name = 'Ceny'
+        verbose_name_plural = 'Ceny'
+
 
 class ActiveProductList(models.Model):
     product_code = models.ForeignKey('Product', on_delete=models.CASCADE, related_name="active_product_list")
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False, verbose_name='Aktywny(zaznaczony)')
 
     def change_activity(self, new_status):
         self.is_active = new_status
@@ -45,12 +53,16 @@ class ActiveProductList(models.Model):
         return f'{self.product_code} status: ACTIVE' if self.is_active is True \
             else f'{self.product_code} status: INACTIVE'
 
+    class Meta:
+        verbose_name = 'Aktywność'
+        verbose_name_plural = 'Aktywność'
+
 
 class ProductAvailability(models.Model):
     product_code = models.ForeignKey('Product', on_delete=models.CASCADE, related_name="product_availability")
-    availability = models.IntegerField()
-    not_enough = models.IntegerField(default=5, blank=True, null=True)
-    unavailable = models.IntegerField(default=0, blank=True, null=True)
+    availability = models.IntegerField(verbose_name='Stan magazynowy')
+    not_enough = models.IntegerField(default=5, blank=True, null=True, verbose_name='Mało')
+    unavailable = models.IntegerField(default=0, blank=True, null=True, verbose_name='Brak')
 
     @property
     def availability_info(self):
@@ -65,3 +77,7 @@ class ProductAvailability(models.Model):
 
     def __str__(self):
         return f'{self.product_code} : {self.availability} sztuk. Stan: {self.availability_info}'
+
+    class Meta:
+        verbose_name = 'Informacje o dostępności'
+        verbose_name_plural = 'Informacje o dostępności'
