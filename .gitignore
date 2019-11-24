@@ -14,3 +14,4 @@ app.db
 *.csv
 *.bat
 *.sqlite3
+settings.py

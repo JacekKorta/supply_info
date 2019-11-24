@@ -55,13 +55,14 @@ def update_product_availability(request):
 @login_required
 def search_product(request):
     if request.method == 'GET':
+
         query = request.GET.get('q')
-
         submitbutton = request.GET.get('submit')
-
+        print(query)
         if query is not None:
             lookups = Q(code__icontains=query) | Q(name__icontains=query)
             results = Product.objects.prefetch_related('price_lists', 'product_availability').filter(lookups).order_by('code')
+            print(len(results))
             context = {'results': results,
                        'submitbutton':submitbutton,
                        'now': datetime.today()}
