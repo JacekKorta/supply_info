@@ -58,11 +58,9 @@ def search_product(request):
 
         query = request.GET.get('q')
         submitbutton = request.GET.get('submit')
-        print(query)
         if query is not None:
             lookups = Q(code__icontains=query) | Q(name__icontains=query)
             results = Product.objects.prefetch_related('price_lists', 'product_availability').filter(lookups).order_by('code')
-            print(len(results))
             context = {'results': results,
                        'submitbutton':submitbutton,
                        'now': datetime.today()}
@@ -72,3 +70,4 @@ def search_product(request):
             return render(request, 'supply_info/search_product.html')
     else:
         return render(request, 'supply_info/search_product.html')
+

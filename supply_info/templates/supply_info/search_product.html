@@ -17,6 +17,9 @@
         </tr>
         {% for result in results %}
         <tbody id="machines_search_table_body">
+        {% if result.active_product_list.all %}
+        {% for item in result.active_product_list.all %}
+        {% if item.is_active %}
             <form action="" method="post">
                 {% if result.site_address %}
                     <td><a href="{{ result.site_address }}" style="color:black">{{ result.code }}</a></td>
@@ -38,6 +41,9 @@
                 <input type="hidden" name="error_prod_code" value="{{ result.code }} {{ request.GET.q }}">
                 {# <td><input type="button" name="report_an_error" value="Zgłoś błąd" ></td> #}
             </form>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
         </tbody>
         {% endfor %}
     </table>

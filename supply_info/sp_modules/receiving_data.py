@@ -10,7 +10,7 @@ def receive_main_data(data):
             = line.split('\t')
         code = code[1:] if code.startswith(' ') else code
         name = name[1:] if name.startswith(' ') else name
-        type, sub_type, is_active = products_info.fill_category(code, mark)
+        manufacturer, type, sub_type, is_active = products_info.fill_category(code, mark)
         try:
             Product.objects.get(code=code)
             print(f'{code} already exist')
@@ -20,7 +20,8 @@ def receive_main_data(data):
                                prod_group=prod_group,
                                mark=mark,
                                type=type,
-                               sub_type=sub_type)
+                               sub_type=sub_type,
+                               manufacturer=manufacturer)
 
                 prod.save()
                 p = PriceList(product_code=Product.objects.get(code=prod.code),
