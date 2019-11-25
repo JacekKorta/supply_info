@@ -42,7 +42,10 @@ dane z raportu: "bierzące stany i rezerwacje towarów"
 
 def receive_availability_data(data):
     for line in data.split('\n')[2:]:
-        code, _, _, _, _, _, availability, *_ = line.split('\t')
+        try:
+            code, _, _, _, _, _, availability, *_ = line.split('\t')
+        except ValueError:
+            print(f'corrupted data in {line}')
         try:
             a = ProductAvailability.objects.get(product_code=Product.objects.get(code=code))
             a.availability = availability
