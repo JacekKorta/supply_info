@@ -5,13 +5,13 @@
 <div class="machine_table">
     <table border="1" id="machines_list_table">
         <tr>
-            <th width=30%>Kod produktu</th>
-            <th width=10%>Dostępność</th>
+            <th width="28%">Kod produktu</th>
+            <th width="11%">Dostępność</th>
             {% if user.is_authenticated %}
-                <th>stan realny</th>
+                <th width="8%"> Stan </th>
             {% endif %}
-            <th width=11%>Cena</th>
-            <th width=24%>Kolejna dostawa</th>
+            <th width="10%">Cena (zł)</th>
+            <th width="19%">Kolejna dostawa</th>
             <th>Uwagi</th>
         </tr>
         {% for machine in machines %}
@@ -19,6 +19,7 @@
         {% if machine.active_product_list.all %}
         {% for item in machine.active_product_list.all %}
         {% if item.is_active %}
+        <tr>
             <form action="" method="post">
                 {% if machine.site_address %}
                     <td><a href="{{ machine.site_address }}" style="color:black">{{ machine.code }}</a></td>
@@ -41,7 +42,7 @@
                 {% for item in machine.price_lists.all %}
                     <td>{{ item.price_d }}</td>
                 {% endfor %}
-                {% if machine.next_shipment|date > now|date %}
+                {% if machine.next_shipment > now %}
                 <td>{{ machine.next_shipment }}</td>
                 {% else %}
                     <td> </td>
@@ -49,6 +50,7 @@
                 <td>{{ machine.additional_info|default_if_none:""}}</td>
                 {# <td><input type="button" name="send_question" value="Zadaj pytanie"></td> #}
             </form>
+        </tr>
         {% endif %}
         {% endfor %}
         {% endif %}
