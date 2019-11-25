@@ -5,13 +5,13 @@
 <div class="machine_table">
     <table border="1" id="machines_list_table">
         <tr>
-            <th width="28%">Kod produktu</th>
-            <th width="11%">Dostępność</th>
+            <th width="21%">Kod produktu</th>
+            <th width="6%">Dostępność</th>
             {% if user.is_authenticated %}
-                <th width="8%"> Stan </th>
+                <th width="6%"> Stan </th>
             {% endif %}
-            <th width="10%">Cena (zł)</th>
-            <th width="19%">Kolejna dostawa</th>
+            <th width="7%">Cena (zł)</th>
+            <th width="16%">Kolejna dostawa</th>
             <th>Uwagi</th>
         </tr>
         {% for machine in machines %}
