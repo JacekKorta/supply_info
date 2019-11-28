@@ -46,9 +46,9 @@
         <tr>
             <td colspan="6">
                 <div id="extra_{{ forloop.parentloop.counter }}" style="display: none;">
-                    <br>Nazwa: {{ result.name }}
+                    <br>Opis: {{ result.name }}
                     <br>Cena hurtowa:  {% for item in result.price_lists.all %}
-                                {{ item.price_b }} zł
+                                {{ item.price_b }} zł NETTO
                             {% endfor %}
                     <br>
                 </div>
