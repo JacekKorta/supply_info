@@ -20,6 +20,8 @@
         {% if result.active_product_list.all %}
         {% for item in result.active_product_list.all %}
         {% if item.is_active %}
+
+        <tr>
             <form action="" method="post">
                 {% if result.site_address %}
                     <td><a href="{{ result.site_address }}" style="color:black">{{ result.code }}</a></td>
@@ -38,9 +40,20 @@
                 {% endfor %}
                 <td>{{ result.next_shipment|default_if_none:"" }}</td>
                 <td>{{ result.additional_info|default_if_none:"" }}</td>
-                <input type="hidden" name="error_prod_code" value="{{ result.code }} {{ request.GET.q }}">
-                {# <td><input type="button" name="report_an_error" value="Zgłoś błąd" ></td> #}
+                <td width="1%"><a href="#" id="show_{{ forloop.parentloop.counter }}"><span class="glyphicon glyphicon-plus"></span></a></td>
             </form>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <div id="extra_{{ forloop.parentloop.counter }}" style="display: none;">
+                    <br>Nazwa: {{ result.name }}
+                    <br>Cena hurtowa:  {% for item in result.price_lists.all %}
+                                {{ item.price_b }} zł
+                            {% endfor %}
+                    <br>hidden row
+                </div>
+            </td>
+        </tr>
         {% endif %}
         {% endfor %}
         {% endif %}

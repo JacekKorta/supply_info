@@ -1,4 +1,5 @@
 {% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <html>
     <head>
         <title>Stany magazynowe</title>
@@ -40,3 +41,10 @@
         {% endblock %}
     </body>
 </html>
+
+<script>
+    $("a[id^=show_]").click(function(event) {
+    $("#extra_" + $(this).attr('id').substr(5)).slideToggle("slow");
+    event.preventDefault();
+});
+</script>
