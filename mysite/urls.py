@@ -18,6 +18,10 @@ from django.urls import include, path
 
 from django.contrib.auth import views
 
+admin.site.site_header = "Panel administracyjny - Stany magazynowe JANOME"
+admin.site.site_title = "Panel administracyjny - Stany magazynowe JANOME"
+admin.site.index_title = "Stany magazynowe JANOME"
+
 urlpatterns = [
     path('', include('supply_info.urls')),
     path('admin/', admin.site.urls),
