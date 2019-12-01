@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import  staff_member_required
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from datetime import datetime
@@ -26,7 +27,7 @@ def machine_list(request):
 
 
 
-@login_required
+@staff_member_required
 def update_product_info(request):
     if request.method == 'POST':
         form = ProductFullInfoUpdateForm(request.POST)
@@ -39,7 +40,7 @@ def update_product_info(request):
     return render(request, 'supply_info/update_product_info.html', {'form': form, 'title': 'Import produktów'})
 
 
-@login_required
+@staff_member_required
 def update_product_availability(request):
     if request.method == 'POST':
         form = ProductFullInfoUpdateForm(request.POST)
