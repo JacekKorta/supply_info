@@ -81,3 +81,14 @@ class ProductAvailability(models.Model):
     class Meta:
         verbose_name = 'Informacje o dostępności'
         verbose_name_plural = 'Informacje o dostępności'
+
+
+class Event(models.Model):
+    user_name = models.CharField(max_length=30, blank=True, null=True, verbose_name='Użytkownik')
+    date = models.DateTimeField(auto_now_add=True, verbose_name='Data')
+    event_name = models.CharField(max_length=30, blank=True, null=True, verbose_name='Zdarzenie')
+
+
+    class Meta:
+        verbose_name = 'Zdarzenie'
+        verbose_name_plural = 'Zdarzenia'
