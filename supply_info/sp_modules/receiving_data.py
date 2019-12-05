@@ -31,7 +31,7 @@ def receive_main_data(data):
                               price_d=round(float(price_d), 2))
                 p.save()
                 if is_active:
-                    a = ActiveProductList(product_code=Product.objects.get(code=prod.code))
+                    a = ActiveProductList(product_code=Product.objects.get(code=prod.code, is_active=True))
                     a.save()
 
 
