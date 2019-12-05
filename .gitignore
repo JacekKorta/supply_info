@@ -15,3 +15,4 @@ app.db
 *.bat
 *.sqlite3
 settings.py
+supply_info/sp_modules/receiving_data.py
