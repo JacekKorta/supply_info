@@ -1,3 +1,5 @@
+from abc import ABC
+
 from rest_framework import serializers
 from .models import Product, ProductAvailability, ActiveProductList
 from django.contrib.auth.models import User
@@ -18,3 +20,13 @@ class ProductSerializer(serializers.Serializer):
         instance.name = validated_data.get('name', instance.name)
         instance.type = validated_data.get('type', instance.type)
         instance.sub_type = validated_data.get('sub_type', instance.sub_type)
+
+
+class ProductAvailabilitySerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    product_code = serializers.CharField(max_length=100)
+    availability = serializers.IntegerField()
+
+    def update(self, instance, validated_data):
+        instance.product_code = validated_data.get('product_code', instance.product_code)
+        instance.availability = validated_data.get('availability', instance.availability)
