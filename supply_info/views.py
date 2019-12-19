@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from rest_framework.parsers import JSONParser
 
 from django.db.models import Q
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, ProductAvailabilitySerializer
 
 
 from .models import ActiveProductList, Event, PriceList, Product, ProductAvailability
@@ -102,11 +102,9 @@ def product_detail(request, code):
         product = Product.objects.get(code=code)
     except Product.DoesNotExist:
         return HttpResponse(status=404)
-
     if request.method == 'GET':
         serializer = ProductSerializer(product)
         return JsonResponse(serializer.data)
-
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
         serializer = ProductSerializer(product, data=data)
@@ -114,8 +112,40 @@ def product_detail(request, code):
             serializer.save()
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
-
     elif request.method == 'DELETE':
         product.delete()
         return HttpResponse(status=204)
 
+
+@csrf_exempt
+def availability_list(request):
+    if request.method == 'GET':
+        availability = ProductAvailability.objects.all()
+        serializer = ProductAvailabilitySerializer(availability, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = ProductAvailabilitySerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.data, status=400)
+
+
+@csrf_exempt
+def availability_detail(request, product_code):
+    try:
+        # availability = ProductAvailability(product_code=product_code)
+        availability = ProductAvailability.objects.get(product_code=Product.objects.get(code=product_code))
+    except Product.DoesNotExist:
+        return HttpResponse(status=404)
+    if request.method == 'GET':
+        serializer = ProductAvailabilitySerializer(availability)
+        return JsonResponse(serializer.data)
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = ProductAvailabilitySerializer(availability, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
