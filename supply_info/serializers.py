@@ -11,6 +11,8 @@ class ProductSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=200)
     type = serializers.CharField(required=False, allow_blank=True, max_length=30)
     sub_type = serializers.CharField(required=False, allow_blank=True, max_length=30)
+    next_shipment = serializers.CharField(required=False, allow_blank=True, max_length=12)
+    site_address = serializers.CharField(required=False, allow_blank=True, max_length=120)
 
     def create(self, validated_data):
         return ProductSerializer.object.create(**validated_data)
@@ -20,6 +22,8 @@ class ProductSerializer(serializers.Serializer):
         instance.name = validated_data.get('name', instance.name)
         instance.type = validated_data.get('type', instance.type)
         instance.sub_type = validated_data.get('sub_type', instance.sub_type)
+        instance.next_shipment = validated_data.get('next_shipment', instance.next_shipment)
+        instance.site_address = validated_data.get('site_address', instance.site_address)
 
 
 class ProductAvailabilitySerializer(serializers.Serializer):
