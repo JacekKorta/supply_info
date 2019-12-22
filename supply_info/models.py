@@ -76,7 +76,7 @@ class ProductAvailability(models.Model):
             return availability_info
 
     def __str__(self):
-        return f'{self.product_code} : {self.availability} sztuk. Stan: {self.availability_info}'
+        return f'{self.availability}'
 
     class Meta:
         verbose_name = 'Informacje o dostępności'

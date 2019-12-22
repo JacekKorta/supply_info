@@ -2,13 +2,16 @@ from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from django.http import HttpResponse, JsonResponse  # sprawdz
 from django.db.models import Q
 from django.shortcuts import render, redirect
-from rest_framework.parsers import JSONParser
-from rest_framework import status
+from django.http import Http404
+from rest_framework.parsers import JSONParser # sprawdz
 from rest_framework.decorators import api_view
+
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+
 
 from .serializers import ProductSerializer, ProductAvailabilitySerializer
 from .models import ActiveProductList, Event, PriceList, Product, ProductAvailability
@@ -82,82 +85,85 @@ def search_product(request):
         return render(request, 'supply_info/search_product.html')
 
 
-@api_view(['GET', 'POST'])
-def api_product_list(request):
-    if request.method == 'GET':
+class ApiProductList(APIView):
+    def get(self, request, format=None):
         products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = ProductSerializer(data=data)
+    def post(self, request, format=None):
+        serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-"""
-TODO
-@api_view(['GET'])
-def api_machines_list(request):
-    if request.method == 'GET':
-        machines =  ProductAvailability.objects.all(product_code=Product.objects.all().filter(mark="M"))
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
 
-"""
+class ApiProductDetail(APIView):
+    def get_object(self, code):
+        try:
+            return Product.objects.get(code=code)
+        except Product.DoesNotExist:
+            raise Http404
 
-
-@api_view(['GET', 'PUT', 'DELETE'])
-def api_product_detail(request, code):
-    try:
-        product = Product.objects.get(code=code)
-    except Product.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    if request.method == 'GET':
+    def get(self, request, code, format=None):
+        product = self.get_object(code)
         serializer = ProductSerializer(product)
         return Response(serializer.data)
-    elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = ProductSerializer(product, data=data)
+
+    def put(self, request, code, format=None):
+        product = self.get_object(code)
+        serializer = ProductSerializer(product, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'DELETE':
+
+    def delete(self, request, code, forma=None):
+        product = self.get_object(code)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class ApiMachinesAvailabilityList(APIView):
+    # only machines
+    def get(self, request, format=None):
+        products = Product.objects.all().filter(type='maszyny')
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
 
-@api_view(['GET', 'POST'])
-def api_availability_list(request):
-    if request.method == 'GET':
+
+class ApiAvailabilityList(APIView):
+    def get(self, request, format=None):
         availability = ProductAvailability.objects.all()
         serializer = ProductAvailabilitySerializer(availability, many=True)
         return Response(serializer.data)
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = ProductAvailabilitySerializer(data=data)
+
+    def post(self, request, format=None):
+        serializer = ProductAvailabilitySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'PUT'])
-def api_availability_detail(request, product_code):
-    try:
-        # availability = ProductAvailability(product_code=product_code)
-        availability = ProductAvailability.objects.get(product_code=Product.objects.get(code=product_code))
-    except Product.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    if request.method == 'GET':
-        serializer = ProductAvailabilitySerializer(availability)
+class ApiAvailabilityDetail(APIView):
+    def get_object(self, product_code):
+        try:
+            a = ProductAvailability.objects.get(product_code=Product.objects.get(code=product_code))
+            print(dir(a))
+            print(a.availability)
+            return ProductAvailability.objects.get(product_code=Product.objects.get(code=product_code))
+        except ProductAvailability.DoesNotExist:
+            raise Http404
+
+    def get(self, request, product_code, format=None):
+        availability_ob = self.get_object(product_code)
+        serializer = ProductAvailabilitySerializer(availability_ob)
         return Response(serializer.data)
-    elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = ProductAvailabilitySerializer(availability, data=data)
+
+    def put(self, request, product_code, format=None):
+        availability_ob = self.get_object(product_code)
+        serializer = ProductAvailabilitySerializer(availability_ob, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

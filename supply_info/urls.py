@@ -10,8 +10,9 @@ urlpatterns = [
     path('update_product_info/', views.update_product_info, name='update_product_info'),
     path('update_product_availability/', views.update_product_availability, name='update_product_availability'),
     path('search_product/', views.search_product, name='search_product'),
-    path('api/products/', views.api_product_list),
-    path('api/products/<code>', views.api_product_detail),
-    path('api/availability/', views.api_availability_list),
-    path('api/availability/<product_code>', views.api_availability_detail),
+    path('api/machines/', views.ApiMachinesAvailabilityList.as_view()),
+    path('api/products/', views.ApiProductList.as_view()),
+    path('api/products/<code>', views.ApiProductDetail.as_view()),
+    path('api/availability/', views.ApiAvailabilityList.as_view()),
+    path('api/availability/<product_code>', views.ApiAvailabilityDetail.as_view()),
 ]

@@ -1,4 +1,4 @@
-from abc import ABC
+
 
 from rest_framework import serializers
 from .models import Product, ProductAvailability, ActiveProductList
@@ -34,3 +34,4 @@ class ProductAvailabilitySerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.product_code = validated_data.get('product_code', instance.product_code)
         instance.availability = validated_data.get('availability', instance.availability)
+
