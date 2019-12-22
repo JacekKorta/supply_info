@@ -30,7 +30,7 @@ class ProductSerializer(serializers.Serializer):
 
 class ProductAvailabilitySerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    product_code = serializers.CharField(max_length=100)
+    product_code = serializers.StringRelatedField(many=False)
     availability = serializers.IntegerField()
 
     def update(self, instance, validated_data):
@@ -38,4 +38,8 @@ class ProductAvailabilitySerializer(serializers.Serializer):
         instance.availability = validated_data.get('availability', instance.availability)
         instance.save()
         return instance
+
+    class Meta:
+        model = ProductAvailability
+        fields = ['id', 'product_code', 'availability']
 
