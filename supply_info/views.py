@@ -1,16 +1,16 @@
 from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import  staff_member_required
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.contrib.admin.views.decorators import staff_member_required
+from django.http import HttpResponse, JsonResponse  # sprawdz
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from rest_framework.parsers import JSONParser
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
-from django.db.models import Q
 from .serializers import ProductSerializer, ProductAvailabilitySerializer
-
-
 from .models import ActiveProductList, Event, PriceList, Product, ProductAvailability
 from .forms import ProductFullInfoUpdateForm
 from .sp_modules import receiving_data, db_saves
@@ -81,71 +81,84 @@ def search_product(request):
     else:
         return render(request, 'supply_info/search_product.html')
 
-@csrf_exempt
-def product_list(request):
+
+@api_view(['GET', 'POST'])
+def api_product_list(request):
     if request.method == 'GET':
         products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
 
     elif request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = ProductSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@csrf_exempt
-def product_detail(request, code):
+"""
+TODO
+@api_view(['GET'])
+def api_machines_list(request):
+    if request.method == 'GET':
+        machines =  ProductAvailability.objects.all(product_code=Product.objects.all().filter(mark="M"))
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+
+"""
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def api_product_detail(request, code):
     try:
         product = Product.objects.get(code=code)
     except Product.DoesNotExist:
-        return HttpResponse(status=404)
+        return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
         serializer = ProductSerializer(product)
-        return JsonResponse(serializer.data)
+        return Response(serializer.data)
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
         serializer = ProductSerializer(product, data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
         product.delete()
-        return HttpResponse(status=204)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-@csrf_exempt
-def availability_list(request):
+@api_view(['GET', 'POST'])
+def api_availability_list(request):
     if request.method == 'GET':
         availability = ProductAvailability.objects.all()
         serializer = ProductAvailabilitySerializer(availability, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
     elif request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = ProductAvailabilitySerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.data, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@csrf_exempt
-def availability_detail(request, product_code):
+@api_view(['GET', 'PUT'])
+def api_availability_detail(request, product_code):
     try:
         # availability = ProductAvailability(product_code=product_code)
         availability = ProductAvailability.objects.get(product_code=Product.objects.get(code=product_code))
     except Product.DoesNotExist:
-        return HttpResponse(status=404)
+        return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
         serializer = ProductAvailabilitySerializer(availability)
-        return JsonResponse(serializer.data)
+        return Response(serializer.data)
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
         serializer = ProductAvailabilitySerializer(availability, data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
