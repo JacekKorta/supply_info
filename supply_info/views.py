@@ -11,7 +11,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.decorators import permission_classes
 
 from .serializers import ProductSerializer, ProductAvailabilitySerializer
 from .models import ActiveProductList, Event, PriceList, Product, ProductAvailability
@@ -86,20 +87,26 @@ def search_product(request):
 
 
 class ApiProductList(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, format=None):
         products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = ProductSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_superuser:
+            serializer = ProductSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 class ApiProductDetail(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get_object(self, code):
         try:
             return Product.objects.get(code=code)
@@ -112,20 +119,27 @@ class ApiProductDetail(APIView):
         return Response(serializer.data)
 
     def put(self, request, code, format=None):
-        product = self.get_object(code)
-        serializer = ProductSerializer(product, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_superuser:
+            product = self.get_object(code)
+            serializer = ProductSerializer(product, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     def delete(self, request, code, forma=None):
-        product = self.get_object(code)
-        product.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if request.user.is_superuser:
+            product = self.get_object(code)
+            product.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
 
 class ApiMachinesAvailabilityList(APIView):
+    permission_classes = (IsAuthenticated,)
     # only machines
+
     def get(self, request, format=None):
         products = Product.objects.all().filter(type='maszyny')
         serializer = ProductSerializer(products, many=True)
@@ -133,25 +147,28 @@ class ApiMachinesAvailabilityList(APIView):
 
 
 class ApiAvailabilityList(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, format=None):
         availability = ProductAvailability.objects.all()
         serializer = ProductAvailabilitySerializer(availability, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = ProductAvailabilitySerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_superuser:
+            serializer = ProductAvailabilitySerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 class ApiAvailabilityDetail(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get_object(self, product_code):
         try:
-            a = ProductAvailability.objects.get(product_code=Product.objects.get(code=product_code))
-            print(dir(a))
-            print(a.availability)
             return ProductAvailability.objects.get(product_code=Product.objects.get(code=product_code))
         except ProductAvailability.DoesNotExist:
             raise Http404
@@ -162,9 +179,11 @@ class ApiAvailabilityDetail(APIView):
         return Response(serializer.data)
 
     def put(self, request, product_code, format=None):
-        availability_ob = self.get_object(product_code)
-        serializer = ProductAvailabilitySerializer(availability_ob, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_superuser:
+            availability_ob = self.get_object(product_code)
+            serializer = ProductAvailabilitySerializer(availability_ob, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
