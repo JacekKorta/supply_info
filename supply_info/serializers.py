@@ -1,5 +1,3 @@
-
-
 from rest_framework import serializers
 from .models import Product, ProductAvailability, ActiveProductList
 from django.contrib.auth.models import User
@@ -15,7 +13,7 @@ class ProductSerializer(serializers.Serializer):
     site_address = serializers.CharField(required=False, allow_blank=True, allow_null=True, max_length=120)
 
     def create(self, validated_data):
-        return ProductSerializer.object.create(**validated_data)
+        return Product.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.code = validated_data.get('code', instance.code)

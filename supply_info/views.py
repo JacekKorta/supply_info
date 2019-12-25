@@ -128,7 +128,7 @@ class ApiProductDetail(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    def delete(self, request, code, forma=None):
+    def delete(self, request, code, format=None):
         if request.user.is_superuser:
             product = self.get_object(code)
             product.delete()
