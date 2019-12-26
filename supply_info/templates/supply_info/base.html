@@ -14,7 +14,7 @@
         </div>
         <div>Ostatnia aktualizacja: {{ last_update_time.date }}</div>
         <br>
-        {% if user.is_superuser %}
+        {% if user.is_staff %}
         <div>
             Admin_menu:
             <a href="{% url 'admin:index' %}">Admin panel</a> |

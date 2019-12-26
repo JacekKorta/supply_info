@@ -5,18 +5,15 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.http import Http404
-from rest_framework.parsers import JSONParser # sprawdz
-from rest_framework.decorators import api_view
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 
-from .serializers import ProductSerializer, ProductAvailabilitySerializer
-from .models import ActiveProductList, Event, PriceList, Product, ProductAvailability
 from .forms import ProductFullInfoUpdateForm
+from .models import Event, Product, ProductAvailability
+from .serializers import ProductSerializer, ProductAvailabilitySerializer
 from .sp_modules import receiving_data, db_saves
 
 
@@ -68,6 +65,7 @@ def update_product_availability(request):
 
 @login_required
 def search_product(request):
+    last_update_time = Event.objects.filter(event_name='availability update').last()
     if request.method == 'GET':
         query = request.GET.get('q')
         submitbutton = request.GET.get('submit')
@@ -77,7 +75,8 @@ def search_product(request):
                                                        'product_availability').filter(lookups).order_by('code')
             context = {'results': results,
                        'submitbutton': submitbutton,
-                       'now': datetime.today()}
+                       'now': datetime.today(),
+                       'last_update_time': last_update_time}
             return render(request, 'supply_info/search_product.html', context)
 
         else:
@@ -165,6 +164,7 @@ class ApiAvailabilityDetail(APIView):
             serializer = ProductAvailabilitySerializer(availability_ob, data=request.data)
             if serializer.is_valid():
                 serializer.save()
+                db_saves.event_record(request.user.username, 'availability update')
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
