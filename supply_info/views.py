@@ -136,16 +136,6 @@ class ApiProductDetail(APIView):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
-class ApiMachinesAvailabilityList(APIView):
-    permission_classes = (IsAuthenticated,)
-    # only machines
-
-    def get(self, request, format=None):
-        products = Product.objects.all().filter(type='maszyny')
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
-
-
 class ApiAvailabilityList(APIView):
     permission_classes = (IsAuthenticated,)
 
