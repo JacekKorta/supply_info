@@ -16,7 +16,7 @@ from supply_info.models import Product, ProductAvailability
 class AdminInTestCase(TestCase):
     def setUp(self):
         Product.objects.create(
-            code='Machine1', name='machine_1 desc'
+            code='Machine1', name='machine_1 desc', type='maszyny'
         )
         a = ProductAvailability(product_code=Product.objects.get(code="Machine1"), availability=10)
         a.save()
@@ -221,4 +221,29 @@ class TestApiAvailabilityDetailAsUnauthorized(TestCase):
     def test_put(self):
         req = APIRequestFactory().put('api/availability/Machine1',  {'product_code': 'Machine1', 'availability':5})
         resp = views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
+        self.assertEqual(resp.status_code, 401)
+
+
+class TestApiMachinesAvailabilityListAsAdmin(AdminInTestCase):
+    def test_get(self):
+        user = User.objects.get(username='Artur_admin')
+        req = APIRequestFactory().get('api/machines/')
+        force_authenticate(req, user=user, token=None)
+        resp = views.ApiMachinesAvailabilityList.as_view()(req, *[], **{})
+        self.assertEqual(resp.status_code, 200)
+
+
+class TestApiMachinesAvailabilityListAsUser(UserInTestCase):
+    def test_get(self):
+        user = User.objects.get(username='adam')
+        req = APIRequestFactory().get('api/machines/')
+        force_authenticate(req, user=user, token=None)
+        resp = views.ApiMachinesAvailabilityList.as_view()(req, *[], **{})
+        self.assertEqual(resp.status_code, 200)
+
+
+class TestApiMachinesAvailabilityListAsUnauthorized(TestCase):
+    def test_get(self):
+        req = APIRequestFactory().get('api/machines/')
+        resp = views.ApiMachinesAvailabilityList.as_view()(req, *[], **{})
         self.assertEqual(resp.status_code, 401)
