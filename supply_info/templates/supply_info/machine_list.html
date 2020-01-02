@@ -40,7 +40,7 @@
                     {% endif %}
                 {% endif %}
                 {% for item in machine.price_lists.all %}
-                    <td>{{ item.price_d }}</td>
+                    <td align="right">{{ item.price_d }}</td>
                 {% endfor %}
                 {% if machine.next_shipment > now %}
                 <td>{{ machine.next_shipment }}</td>
