@@ -108,6 +108,7 @@ class ApiProductDetail(APIView):
 
     def get_object(self, code):
         try:
+            code = code.replace('%20', ' ')
             return Product.objects.get(code=code)
         except Product.DoesNotExist:
             raise Http404
@@ -149,6 +150,7 @@ class ApiAvailabilityDetail(APIView):
 
     def get_object(self, product_code):
         try:
+            product_code = product_code.replace('%20', ' ')
             return ProductAvailability.objects.get(product_code=Product.objects.get(code=product_code))
         except ProductAvailability.DoesNotExist:
             raise Http404
