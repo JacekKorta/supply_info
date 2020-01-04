@@ -20,10 +20,10 @@ class AdminLoggedInTestCase(TestCase):
 
 
 class TestPageAdminLogged(AdminLoggedInTestCase):
-    def test_machine_list_page_works(self):
+    def test_machines_list_page_works(self):
         response = self.client.get(reverse('supply_info:index'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'supply_info/machine_list.html')
+        self.assertTemplateUsed(response, 'supply_info/machines_list.html')
         self.assertContains(response, 'Kod produktu')
         self.assertContains(response, 'Stan')
         self.assertContains(response, 'Szukaj')
@@ -32,10 +32,10 @@ class TestPageAdminLogged(AdminLoggedInTestCase):
 
 
 class TestPageLogged(LoggedInTestCase):
-    def test_machine_list_page_works(self):
+    def test_machines_list_page_works(self):
         response = self.client.get(reverse('supply_info:index'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'supply_info/machine_list.html')
+        self.assertTemplateUsed(response, 'supply_info/machines_list.html')
         self.assertContains(response, 'Kod produktu')
         self.assertContains(response, 'Stan ')
         self.assertContains(response, 'Szukaj')
@@ -57,10 +57,10 @@ class TestPageLogged(LoggedInTestCase):
 
 class TestPageAnonymous(TestCase):
 
-    def test_machine_list_page_works(self):
+    def test_machines_list_page_works(self):
         response = self.client.get(reverse('supply_info:index'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'supply_info/machine_list.html')
+        self.assertTemplateUsed(response, 'supply_info/machines_list.html')
         self.assertContains(response, 'Kod produktu')
         self.assertNotContains(response, 'Stan ')
         self.assertNotContains(response, 'Szukaj')
