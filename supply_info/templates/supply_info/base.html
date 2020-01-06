@@ -34,7 +34,9 @@
         {% endif %}
         {% if user.is_authenticated %}
         <div class ="user_menu">
-            <p>Zalogowany jako: <b>{{ user.username }}</b> <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span></a>
+            <p>Zalogowany jako: <b>{{ user.username }}</b>
+                <a href="{% url 'supply_info:change_password' %}"><span class="glyphicon glyphicon-cog"></span></a>
+                <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span></a>
             </p>
 
             <p>User_menu: <a href="{% url 'supply_info:machines_list' %}" >Lista maszyn</a></p>

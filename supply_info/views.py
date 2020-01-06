@@ -1,5 +1,8 @@
 from datetime import datetime
 
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Q
@@ -34,6 +37,24 @@ def machines_list(request):
                                                              'now': datetime.today().date(),
                                                              'last_update_time': last_update_time,
                                                              })
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Twoje hasło zostało zmienione')
+            db_saves.event_record(request.user.username, 'password changed')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Bład')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'supply_info/change_password.html', {'form':form})
+
 
 
 @staff_member_required
