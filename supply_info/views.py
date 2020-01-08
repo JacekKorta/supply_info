@@ -48,7 +48,7 @@ def change_password(request):
             update_session_auth_hash(request, user)
             messages.success(request, 'Twoje hasło zostało zmienione')
             db_saves.event_record(request.user.username, 'password changed')
-            return redirect('change_password')
+            return redirect('supply_info:change_password')
         else:
             messages.error(request, 'Bład')
     else:
