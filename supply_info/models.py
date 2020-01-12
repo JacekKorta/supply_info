@@ -1,14 +1,18 @@
 from django.db import models
 from django.utils import timezone
 
+from .sp_modules import products_info as pi
+
 
 class Product(models.Model):
+    TYP_CHOICES = pi.TYPE_CATEGORIES
+    SUBTYPE_CHOICES = pi.SUBTYPE_CATEGORIES
     code = models.CharField(max_length=60, unique=True, verbose_name='Kod')
     manufacturer = models.CharField(max_length=30, blank=True, null=True, verbose_name='Producent')
     name = models.CharField(max_length=400, verbose_name='Nazwa')
     prod_group = models.CharField(max_length=60, blank=True, null=True)
-    type = models.CharField(max_length=30, blank=True, null=True)
-    sub_type = models.CharField(max_length=30, blank=True, null=True)
+    type = models.CharField(max_length=30, choices=TYP_CHOICES, default='Akcesoria', blank=True, null=True)
+    sub_type = models.CharField(max_length=30,choices=SUBTYPE_CHOICES, default='Inne', blank=True, null=True)
     mark = models.CharField(max_length=3, blank=True, null=True, verbose_name='Znacznik')
     additional_info = models.CharField(max_length=400, blank=True, null=True, verbose_name='Dodatkowe informacje')
     next_shipment = models.DateField(blank=True, null=True, verbose_name='Następna dostawa')

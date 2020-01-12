@@ -40,6 +40,7 @@
             </p>
 
             <p>User_menu: <a href="{% url 'supply_info:machines_list' %}" >Lista maszyn</a></p>
+            <p>User_menu: <a href="{% url 'supply_info:products_list' category='nici' %}" >nici</a></p>
             <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}">
             <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu"/>
             <input type="submit" name="submit" value="Szukaj"/>
