@@ -22,7 +22,8 @@ from .sp_modules import receiving_data, db_saves
 
 def index(request):
     # this page will be changed in the future
-    machines = Product.objects.prefetch_related('price_lists', 'product_availability').filter(mark='M').order_by("code")
+    machines = Product.objects.prefetch_related('price_lists',
+                                                'product_availability').filter(mark='M').order_by("code")
     last_update_time = Event.objects.filter(event_name='availability update').last()
     return render(request, 'supply_info/machines_list.html', {'machines': machines,
                                                              'now': datetime.today().date(),
@@ -31,7 +32,8 @@ def index(request):
 
 
 def machines_list(request):
-    machines = Product.objects.prefetch_related('price_lists', 'product_availability').filter(mark='M').order_by("code")
+    machines = Product.objects.prefetch_related('price_lists',
+                                                'product_availability').filter(mark='M').order_by("code")
     last_update_time = Event.objects.filter(event_name='availability update').last()
     return render(request, 'supply_info/machines_list.html', {'machines': machines,
                                                              'now': datetime.today().date(),
@@ -40,9 +42,10 @@ def machines_list(request):
 
 
 def product_list(request, sub_type):
-    products = Product.objects.prefetch_related('price_lists', 'product_availability').all().order_by("code")
-    print(dir(products[0]))
-    return render(request, 'supply_info/products_list.html', {'products': products, 'sub_type': sub_type})
+    products = Product.objects.prefetch_related('price_lists',
+                                                'product_availability').filter(sub_type=sub_type).order_by("code")
+
+    return render(request, 'supply_info/products_list.html', {'products': products})
 
 
 @login_required

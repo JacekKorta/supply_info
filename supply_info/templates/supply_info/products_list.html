@@ -13,7 +13,7 @@
             <th width=24%>Kolejna dostawa</th>
             <th>Uwagi</th>
         </tr>
-        {% for product in products|my_filter:sub_type %}
+        {% for product in products %}
         <tbody id="machines_search_table_body">
         {% if product.active_product_list.all %}
         {% for item in product.active_product_list.all %}
