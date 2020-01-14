@@ -73,8 +73,7 @@ def change_password(request):
             messages.error(request, 'Bład')
     else:
         form = PasswordChangeForm(request.user)
-    return render(request, 'supply_info/change_password.html', {'form':form})
-
+    return render(request, 'supply_info/change_password.html', {'form': form})
 
 
 @staff_member_required

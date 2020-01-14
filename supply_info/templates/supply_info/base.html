@@ -24,13 +24,7 @@
         <div>Ostatnia aktualizacja: {{ last_update_time.date }}</div>
         <br>
         {% if user.is_staff %}
-        <div>
-            Admin_menu:
-            <a href="{% url 'admin:index' %}">Admin panel</a> |
-            <a href="{% url 'supply_info:update_product_info' %}" >Zasil bazę</a> |
-            <a href="{% url 'supply_info:update_product_availability' %}">Uaktualnij stany</a> |
-
-        </div><br>
+            {% include "supply_info/admin_menu.html" %}<br>
         {% endif %}
         {% if user.is_authenticated %}
         <div class ="user_menu">
@@ -39,17 +33,7 @@
                 <a href="{% url 'logout' %}"><span title="Wyloguj" class="glyphicon glyphicon-log-out"></span></a>
             </p>
 
-            <p>Przegląd: <a href="{% url 'supply_info:machines_list' %}" >Lista maszyn</a></p>
-            <p>Grupy produktów:
-                <a href="{% url 'supply_info:products_list' sub_type='akcesoria_eti' %}" >ETI</a> |
-                <a href="{% url 'supply_info:products_list' sub_type='hafciarka_z_programem' %}" >Hafciarki z programami</a> |
-                <a href="{% url 'supply_info:products_list' sub_type='igly' %}" >Igły</a> |
-                <a href="{% url 'supply_info:products_list' sub_type='nici' %}" >Nici</a> |
-                <a href="{% url 'supply_info:products_list' sub_type='nozyczki' %}" >Nożyczki</a> |
-                <a href="{% url 'supply_info:products_list' sub_type='programy' %}" >Programy</a> |
-                <a href="{% url 'supply_info:products_list' sub_type='zestawy_akcesoriow' %}" >Zestawy akcesoriów</a> |
-
-            </p>
+            {% include "supply_info/filters_menu.html" %}<br>
             <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}">
             <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu"/>
             <input type="submit" name="submit" value="Szukaj"/>
