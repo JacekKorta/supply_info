@@ -39,8 +39,17 @@
                 <a href="{% url 'logout' %}"><span title="Wyloguj" class="glyphicon glyphicon-log-out"></span></a>
             </p>
 
-            <p>User_menu: <a href="{% url 'supply_info:machines_list' %}" >Lista maszyn</a></p>
-            <p>User_menu: <a href="{% url 'supply_info:products_list' category='nici' %}" >nici</a></p>
+            <p>Przegląd: <a href="{% url 'supply_info:machines_list' %}" >Lista maszyn</a></p>
+            <p>Grupy produktów:
+                <a href="{% url 'supply_info:products_list' sub_type='akcesoria_eti' %}" >ETI</a> |
+                <a href="{% url 'supply_info:products_list' sub_type='hafciarka+program' %}" >Hafciarki z programami</a> |
+                <a href="{% url 'supply_info:products_list' sub_type='igły' %}" >Igły</a> |
+                <a href="{% url 'supply_info:products_list' sub_type='nici' %}" >Nici</a> |
+                <a href="{% url 'supply_info:products_list' sub_type='nozyczki' %}" >Nożyczki</a> |
+                <a href="{% url 'supply_info:products_list' sub_type='programy' %}" >Programy</a> |
+                <a href="{% url 'supply_info:products_list' sub_type='zestawy_akcesoriow' %}" >Zestawy akcesoriów</a> |
+
+            </p>
             <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}">
             <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu"/>
             <input type="submit" name="submit" value="Szukaj"/>

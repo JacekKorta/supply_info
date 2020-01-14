@@ -6,5 +6,5 @@ register = template.Library()
 
 
 @register.filter
-def my_filter(products, category):
-    return products.filter(sub_type=category).order_by("code")
+def my_filter(products, sub_type):
+    return products.filter(sub_type=sub_type).order_by("code")
