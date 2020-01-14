@@ -5,6 +5,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.http import Http404
@@ -41,11 +42,21 @@ def machines_list(request):
                                                              })
 
 
+@login_required
 def product_list(request, sub_type):
-    products = Product.objects.prefetch_related('price_lists',
+    object_list = Product.objects.prefetch_related('price_lists',
                                                 'product_availability').filter(sub_type=sub_type).order_by("code")
+    paginator = Paginator(object_list, 10) # 10 products per page
+    page = request.GET.get('page')
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
 
-    return render(request, 'supply_info/products_list.html', {'products': products})
+    return render(request, 'supply_info/products_list.html', {'products': products,
+                                                              'page': page})
 
 
 @login_required

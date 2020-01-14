@@ -1,8 +1,7 @@
 {% extends 'supply_info/base.html' %}
-{% load filter_tags %}
 
 {% block content %}
-
+{% include "supply_info/pagination.html" with page=products %}
 <br/><br/>
 <div class="machine_table">
     <table border="1" id="machines_list_table">
