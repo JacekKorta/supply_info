@@ -30,6 +30,18 @@ class TestPageAdminLogged(AdminLoggedInTestCase):
         self.assertContains(response, 'Lista maszyn')
         self.assertContains(response, 'Admin panel')
 
+    def test_update_product_info_works(self):
+        response = self.client.get(reverse('supply_info:update_product_info'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'supply_info/update_product_info.html')
+        self.assertContains(response, 'Import produktów')
+
+    def test_update_product_availability_works(self):
+        response = self.client.get(reverse('supply_info:update_product_availability'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'supply_info/update_product_info.html')
+        self.assertContains(response, 'Uaktualnij stany')
+
 
 class TestPageLogged(LoggedInTestCase):
     def test_machines_list_page_works(self):
@@ -44,15 +56,11 @@ class TestPageLogged(LoggedInTestCase):
 
     def test_update_product_info_works(self):
         response = self.client.get(reverse('supply_info:update_product_info'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'supply_info/update_product_info.html')
-        self.assertContains(response, 'Import produktów')
+        self.assertEqual(response.status_code, 302)
 
     def test_update_product_availability_works(self):
         response = self.client.get(reverse('supply_info:update_product_availability'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'supply_info/update_product_info.html')
-        self.assertContains(response, 'Uaktualnij stany')
+        self.assertEqual(response.status_code, 302)
 
 
 class TestPageAnonymous(TestCase):
