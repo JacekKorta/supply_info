@@ -46,7 +46,7 @@ def machines_list(request):
 def product_list(request, sub_type):
     object_list = Product.objects.prefetch_related('price_lists',
                                                 'product_availability').filter(sub_type=sub_type).order_by("code")
-    paginator = Paginator(object_list, 10) # 10 products per page
+    paginator = Paginator(object_list, 100) # 100 products per page
     page = request.GET.get('page')
     try:
         products = paginator.page(page)
