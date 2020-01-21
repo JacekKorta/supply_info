@@ -8,7 +8,8 @@ def saveShippment(request):
     if request.method == 'POST':
         form = ShipmentForm(request.POST)
         if form.is_valid():
-            from_input = form.cleaned_data
+            form_input = form.cleaned_data
+            print(form_input)
             pass
         return redirect('supply_info:index')
     else:

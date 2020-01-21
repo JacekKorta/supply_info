@@ -14,9 +14,14 @@ class Customer(models.Model):
 
 
 class Machine(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Nazwa')
+    code = models.CharField(max_length=50, verbose_name='Nazwa')
     serial_number = models.CharField(max_length=12, unique=True, verbose_name='Numer seryjny')
     delivery_date = models.DateField(verbose_name='Data przypłynięcia')
+
+    class Meta:
+        verbose_name = 'Maszyna'
+        verbose_name_plural = 'Maszyny'
+
 
 
 class ShipmentToCustomer(models.Model):
