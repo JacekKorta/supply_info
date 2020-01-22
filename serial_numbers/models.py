@@ -18,10 +18,12 @@ class Machine(models.Model):
     serial_number = models.CharField(max_length=12, unique=True, verbose_name='Numer seryjny')
     delivery_date = models.DateField(verbose_name='Data przypłynięcia')
 
+    def __str__(self):
+        return self.code
+
     class Meta:
         verbose_name = 'Maszyna'
         verbose_name_plural = 'Maszyny'
-
 
 
 class ShipmentToCustomer(models.Model):
@@ -29,3 +31,10 @@ class ShipmentToCustomer(models.Model):
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE, verbose_name='Klient')
     item = models.ForeignKey('Machine', on_delete=models.CASCADE, verbose_name='Maszyna')
     shipment_date = models.DateTimeField(auto_now_add=True, verbose_name='Data wysłki')
+
+    def __str__(self):
+        return self.delivery_note_number
+
+    class Meta:
+        verbose_name = 'Dokument WZ'
+        verbose_name_plural = 'Dokument WZ'

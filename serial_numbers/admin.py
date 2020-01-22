@@ -14,5 +14,13 @@ class MachineAdmin(admin.ModelAdmin):
         ]
 
 
+class ShipmentAdmin(admin.ModelAdmin):
+    readonly_fields = ('shipment_date',)
+    fieldsets = [
+        (None, {'fields': ['delivery_note_number', 'customer', 'item']}),
+        ]
+
+
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Machine, MachineAdmin)
+admin.site.register(ShipmentToCustomer, ShipmentAdmin)
