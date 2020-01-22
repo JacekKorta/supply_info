@@ -18,7 +18,7 @@ from rest_framework.permissions import IsAuthenticated
 from .forms import ProductFullInfoUpdateForm
 from .models import Event, Product, ProductAvailability
 from .serializers import ProductSerializer, ProductAvailabilitySerializer
-from .sp_modules import receiving_data, db_saves
+from .sp_modules import receiving_data, db_save
 
 
 def index(request):
@@ -67,7 +67,7 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request, 'Twoje hasło zostało zmienione')
-            db_saves.event_record(request.user.username, 'password changed')
+            db_save.event_record(request.user.username, 'password changed')
             return redirect('supply_info:change_password')
         else:
             messages.error(request, 'Bład')
@@ -96,7 +96,7 @@ def update_product_availability(request):
         if form.is_valid():
             form_input = form.cleaned_data
             receiving_data.receive_availability_data(form_input['data'])
-            db_saves.event_record(request.user.username, 'availability update')
+            db_save.event_record(request.user.username, 'availability update')
         return redirect('supply_info:index')
     else:
         form = ProductFullInfoUpdateForm()
@@ -206,7 +206,7 @@ class ApiAvailabilityDetail(APIView):
             serializer = ProductAvailabilitySerializer(availability_ob, data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                db_saves.event_record(request.user.username, 'availability update')
+                db_save.event_record(request.user.username, 'availability update')
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
