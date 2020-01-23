@@ -5,10 +5,24 @@
 <h3>{{ title }}</h3>
 {% else %}
 <h3>Dodaj wysyłkę</h3>
-!!! do ułożenia !!!
+<br>
 {% endif %}
 <form method="POST" class="post-form">{% csrf_token %}
-    {{ form.as_p }}
+    <table class="serial_number_table">
+        <tr>
+            <td>{{ form.customer.label_tag }}</td>
+            <td>{{ form.customer }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.delivery_note_number.label_tag }}</td>
+            <td>{{ form.delivery_note_number }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.shipment.label_tag }}</td>
+            <td>{{ form.shipment }}</td>
+        </tr>
+    </table>
+
     <button type="submit" class="save btn btn-default">Zapisz</button>
 </form>
 
