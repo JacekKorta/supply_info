@@ -16,7 +16,7 @@ class Customer(models.Model):
 class Machine(models.Model):
     code = models.CharField(max_length=50, verbose_name='Nazwa')
     serial_number = models.CharField(max_length=12, unique=True, verbose_name='Numer seryjny')
-    delivery_date = models.DateField(verbose_name='Data przypłynięcia')
+    delivery_date = models.DateField(verbose_name='Data przypłynięcia', blank=True, null=True)
 
     def __str__(self):
         return self.code
