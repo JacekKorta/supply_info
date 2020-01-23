@@ -4,6 +4,7 @@ from django.db import models
 class Customer(models.Model):
     name = models.CharField(max_length=56, unique=True, verbose_name='Kod')
     tax_number = models.CharField(max_length=30, unique=True, blank=True, null=True, verbose_name='NIP/Vies')
+    email = models.EmailField(null=True, blank=True)
 
     def __str__(self):
         return self.name
