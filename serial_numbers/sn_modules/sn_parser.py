@@ -10,7 +10,7 @@ def extract_serial_numbers(data):
 def parse_serials(serials):
     machines = []
     for item in serials:
-        if re.match('[0-9]{9}', item):
+        if re.match(r"(?<!\d)\d{9}(?!\d)", item):
             machine = Machine.objects.filter(serial_number=item).first()
             if machine:
                 machines.append(machine.serial_number)
