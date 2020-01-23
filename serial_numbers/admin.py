@@ -17,7 +17,8 @@ class MachineAdmin(admin.ModelAdmin):
 class ShipmentAdmin(admin.ModelAdmin):
     readonly_fields = ('shipment_date',)
     fieldsets = [
-        (None, {'fields': ['delivery_note_number', 'customer', 'item']}),
+        (None, {'fields': ['shipment_date']}),
+        (None, {'fields': ['delivery_note_number', 'customer', 'item']})
         ]
 
 
