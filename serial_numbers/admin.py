@@ -2,10 +2,17 @@ from django.contrib import admin
 from .models import Customer, Machine, ShipmentToCustomer
 
 
+class ShipmentToCustomerInLineAdmin(admin.TabularInline):
+    model = ShipmentToCustomer
+    extra = 0
+
+
 class CustomerAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['name', 'tax_number']}),
+        (None, {'fields': ['name', 'tax_number', 'email']}),
         ]
+    list_display = ['name', 'tax_number', 'email']
+    search_fields = ['name', 'tax_number', 'email']
 
 
 class MachineAdmin(admin.ModelAdmin):
@@ -26,6 +33,7 @@ class MachineAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['code', 'serial_number', 'delivery_date']}),
         ]
+    inlines = [ShipmentToCustomerInLineAdmin]
 
     list_display = ['code',
                     'serial_number',
@@ -34,7 +42,9 @@ class MachineAdmin(admin.ModelAdmin):
                     'get_sales_date']
 
     get_delivery_note_number.short_description = 'Dokument wydania'
+    get_delivery_note_number.admin_order_field = 'id'
     get_sales_date.short_description = 'Data wydania'
+    get_sales_date.admin_order_field = 'id'
     search_fields = ['code',
                      'serial_number',
                      'shipmenttocustomer__shipment_date',
@@ -57,9 +67,16 @@ class ShipmentAdmin(admin.ModelAdmin):
     get_machine_sn.short_description = 'Numer seryjny'
 
     list_display = ['delivery_note_number',
-                    'customer', 'item',
+                    'customer',
+                    'item',
                     'get_machine_sn',
                     'shipment_date']
+
+    search_fields = ['delivery_note_number',
+                     'item_id__code',
+                     'item_id__serial_number',
+                     'shipment_date']
+    list_filter = ['shipment_date', 'item_id__code',]
 
 
 admin.site.register(Customer, CustomerAdmin)
