@@ -25,3 +25,13 @@ def parse_serials(serials):
             continue
     return machines
 
+
+def extract_data_to_register_machine(data):
+    machines = []
+    for machine in data.split('\n'):
+        code, serial_number = machine.split(';')
+        if re.match(r"(?<!\d)\d{9}(?!\d)", serial_number):
+            machines.append((code, serial_number))
+        else:
+            continue
+    return machines
