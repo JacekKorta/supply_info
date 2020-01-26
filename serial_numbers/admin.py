@@ -9,10 +9,10 @@ class ShipmentToCustomerInLineAdmin(admin.TabularInline):
 
 class CustomerAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['name', 'tax_number', 'email']}),
+        (None, {'fields': ['name', 'user_name', 'tax_number', 'email']}),
         ]
-    list_display = ['name', 'tax_number', 'email']
-    search_fields = ['name', 'tax_number', 'email']
+    list_display = ['name', 'user_name', 'tax_number', 'email']
+    search_fields = ['name', 'user_name', 'tax_number', 'email']
 
 
 class MachineAdmin(admin.ModelAdmin):
