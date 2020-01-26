@@ -28,7 +28,8 @@ class TestPageAdminLogged(AdminLoggedInTestCase):
         self.assertContains(response, 'Stan')
         self.assertContains(response, 'Szukaj')
         self.assertContains(response, 'Lista maszyn')
-        self.assertContains(response, 'Admin panel')
+        self.assertContains(response, 'Administracja')
+        self.assertContains(response, 'Magazyn')
 
     def test_update_product_info_works(self):
         response = self.client.get(reverse('supply_info:update_product_info'))
@@ -52,7 +53,8 @@ class TestPageLogged(LoggedInTestCase):
         self.assertContains(response, 'Stan ')
         self.assertContains(response, 'Szukaj')
         self.assertContains(response, 'Lista maszyn')
-        self.assertNotContains(response, 'Admin panel')
+        self.assertNotContains(response, 'Administracja')
+        self.assertNotContains(response, 'Magazyn')
 
     def test_update_product_info_works(self):
         response = self.client.get(reverse('supply_info:update_product_info'))
@@ -64,7 +66,6 @@ class TestPageLogged(LoggedInTestCase):
 
 
 class TestPageAnonymous(TestCase):
-
     def test_machines_list_page_works(self):
         response = self.client.get(reverse('supply_info:index'))
         self.assertEqual(response.status_code, 200)
@@ -73,7 +74,8 @@ class TestPageAnonymous(TestCase):
         self.assertNotContains(response, 'Stan ')
         self.assertNotContains(response, 'Szukaj')
         self.assertNotContains(response, 'Lista maszyn')
-        self.assertNotContains(response, 'Admin panel')
+        self.assertNotContains(response, 'Administracja')
+        self.assertNotContains(response, 'Magazyn')
 
     def test_update_product_info_works(self):
         response = self.client.get(reverse('supply_info:update_product_info'))

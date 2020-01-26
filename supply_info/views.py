@@ -110,7 +110,7 @@ def search_product(request):
         query = request.GET.get('q')
         submitbutton = request.GET.get('submit')
         if query is not None:
-            lookups = Q(code__icontains=query) | Q(name__icontains=query)
+            lookups = Q(code__icontains=query) | Q(sub_type__icontains=query) | Q(name__icontains=query)
             results = Product.objects.prefetch_related('price_lists',
                                                        'product_availability').filter(lookups).order_by('code')
             context = {'results': results,
