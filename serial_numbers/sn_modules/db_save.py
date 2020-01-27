@@ -16,8 +16,8 @@ def save_delivery(serial_number, code, date):
         print(f'Maszyna o nr seryjnym {machine.serial_number} jest juz w bazie')
     except Machine.DoesNotExist:
         machine = Machine(
-            code=code,
-            serial_number=serial_number,
+            code=code.strip(),
+            serial_number=serial_number.strip(),
             delivery_date=date,
         )
         machine.save()

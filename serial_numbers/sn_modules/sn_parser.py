@@ -10,11 +10,12 @@ def extract_serial_numbers(data):
 def parse_serials(serials):
     machines = []
     for item in serials:
+        print(item)
         if re.match(r"(?<!\d)\d{9}(?!\d)", item):
-            machine = Machine.objects.filter(serial_number=item).first()
-            if machine:
+            try:
+                machine = Machine.objects.get(serial_number=item)
                 machines.append(machine.serial_number)
-            else:
+            except Machine.DoesNotExist:
                 m = Machine(
                     code='Unknown',
                     serial_number=item
