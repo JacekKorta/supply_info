@@ -3,7 +3,7 @@ from serial_numbers.models import Customer, Machine, ShipmentToCustomer
 
 
 def extract_serial_numbers(data):
-    serials = data.split('\r\n')
+    serials = data.replace('\r', '').split('\n')
     return serials
 
 
