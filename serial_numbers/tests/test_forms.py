@@ -1,8 +1,7 @@
-
 from django.test import TestCase
 
-from ..forms import ShipmentForm, RegisterMachineInWarehouse
-from ..models import Customer, Machine, ShipmentToCustomer
+from ..forms import ShipmentForm
+from ..models import Customer, Machine
 
 
 class SetUpClass(TestCase):
@@ -22,5 +21,4 @@ class ShipmentToCustomerTest(SetUpClass):
         form = ShipmentForm(data={'customer': customer.id,
                                   'delivery_note_number':'00/00',
                                   'shipment':'A12345678\n123456789\n987654321\n12345678\n12345678910\n'})
-        print(form.errors)
         self.assertTrue(form.is_valid())
