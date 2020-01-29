@@ -6,6 +6,8 @@ from .forms import ShipmentForm, RegisterMachineInWarehouse
 from .sn_modules import sn_parser as snp
 from .sn_modules import db_save as sndbs
 
+from .models import Machine
+
 
 @staff_member_required
 def save_shipment(request):
@@ -28,6 +30,7 @@ def save_shipment(request):
 
 @staff_member_required
 def register_machines_in_warehouse(request):
+
     if request.method == 'POST':
         form = RegisterMachineInWarehouse(request.POST)
         if form.is_valid():
@@ -40,6 +43,7 @@ def register_machines_in_warehouse(request):
         return redirect('serial_numbers:register_machines_in_warehouse')
     else:
         form = RegisterMachineInWarehouse()
-
     return render(request, 'serial_numbers/register_machines.html', {'form': form})
+
+
 
