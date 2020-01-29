@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from . import views, api_views
 
 app_name = 'supply_info'
 
@@ -12,8 +12,8 @@ urlpatterns = [
     path('uaktualnij-stany/', views.update_product_availability, name='update_product_availability'),
     path('wyszukaj-produkt/', views.search_product, name='search_product'),
     path('konto/zmien-haslo/', views.change_password, name='change_password'),
-    path('api/products/', views.ApiProductList.as_view()),
-    path('api/products/<code>', views.ApiProductDetail.as_view()),
-    path('api/availability/', views.ApiAvailabilityList.as_view()),
-    path('api/availability/<product_code>', views.ApiAvailabilityDetail.as_view()),
+    path('api/products/', api_views.ApiProductList.as_view()),
+    path('api/products/<code>', api_views.ApiProductDetail.as_view()),
+    path('api/availability/', api_views.ApiAvailabilityList.as_view()),
+    path('api/availability/<product_code>', api_views.ApiAvailabilityDetail.as_view()),
 ]

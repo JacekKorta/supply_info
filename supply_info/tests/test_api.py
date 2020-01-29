@@ -9,7 +9,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import APITestCase, force_authenticate
-from supply_info import views
+from supply_info import api_views
 from supply_info.models import Product, ProductAvailability
 
 
@@ -49,14 +49,14 @@ class TestApiProductListAsAdmin(AdminInTestCase):
         user = User.objects.get(username='Artur_admin')
         req = APIRequestFactory().get('api/products/')
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiProductList.as_view()(req, *[], **{})
+        resp = api_views.ApiProductList.as_view()(req, *[], **{})
         self.assertEqual(resp.status_code, 200)
 
     def test_post(self):
         user = User.objects.get(username='Artur_admin')
         req = APIRequestFactory().post('api/products/',  {"code": "prod1", "name":"desc1"}, format='json')
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiProductList.as_view()(req, *[], **{})
+        resp = api_views.ApiProductList.as_view()(req, *[], **{})
         self.assertEqual(resp.status_code, 201)
 
 
@@ -66,14 +66,14 @@ class TestApiProductListAsUser(UserInTestCase):
         user = User.objects.get(username='adam')
         req = APIRequestFactory().get('api/products/')
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiProductList.as_view()(req, *[], **{})
+        resp = api_views.ApiProductList.as_view()(req, *[], **{})
         self.assertEqual(resp.status_code, 200)
 
     def test_post(self):
         user = User.objects.get(username='adam')
         req = APIRequestFactory().post('api/products/',  {"code": "prod1", "name":"desc1"}, format='json')
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiProductList.as_view()(req, *[], **{})
+        resp = api_views.ApiProductList.as_view()(req, *[], **{})
         self.assertEqual(resp.status_code, 401)
 
 
@@ -81,12 +81,12 @@ class TestApiProductListAsUnauthorized(TestCase):
 
     def test_get(self):
         req = APIRequestFactory().get('api/products/')
-        resp = views.ApiProductList.as_view()(req, *[], **{})
+        resp = api_views.ApiProductList.as_view()(req, *[], **{})
         self.assertEqual(resp.status_code, 401)
 
     def test_post(self):
         req = APIRequestFactory().post('api/products/',  {"code": "prod1", "name":"desc1"}, format='json')
-        resp = views.ApiProductList.as_view()(req, *[], **{})
+        resp = api_views.ApiProductList.as_view()(req, *[], **{})
         self.assertEqual(resp.status_code, 401)
 
 
@@ -96,21 +96,21 @@ class TestApiProductDetailAsAdmin(AdminInTestCase):
         user = User.objects.get(username='Artur_admin')
         req = APIRequestFactory().get('api/products/Machine1')
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiProductDetail.as_view()(req, code='Machine1', **{})
+        resp = api_views.ApiProductDetail.as_view()(req, code='Machine1', **{})
         self.assertEqual(resp.status_code, 200)
 
     def test_put(self):
         user = User.objects.get(username='Artur_admin')
         req = APIRequestFactory().put('api/products/Machine1',  {'code': 'Machine1', 'site_address':'www.m1.com'})
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiProductDetail.as_view()(req, code='Machine1', **{})
+        resp = api_views.ApiProductDetail.as_view()(req, code='Machine1', **{})
         self.assertEqual(resp.status_code, 200)
 
     def test_delete(self):
         user = User.objects.get(username='Artur_admin')
         req = APIRequestFactory().delete('api/products/Machine1')
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiProductDetail.as_view()(req, code='Machine1', **{})
+        resp = api_views.ApiProductDetail.as_view()(req, code='Machine1', **{})
         self.assertEqual(resp.status_code, 204)
 
 
@@ -120,38 +120,38 @@ class TestApiProductDetailAsUser(UserInTestCase):
         user = User.objects.get(username='adam')
         req = APIRequestFactory().get('api/products/Machine1')
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiProductDetail.as_view()(req, code='Machine1', **{})
+        resp = api_views.ApiProductDetail.as_view()(req, code='Machine1', **{})
         self.assertEqual(resp.status_code, 200)
 
     def test_put(self):
         user = User.objects.get(username='adam')
         req = APIRequestFactory().put('api/products/Machine1',  {'code': 'Machine1', 'site_address':'www.m1.com'})
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiProductDetail.as_view()(req, code='Machine1', **{})
+        resp = api_views.ApiProductDetail.as_view()(req, code='Machine1', **{})
         self.assertEqual(resp.status_code, 401)
 
     def test_delete(self):
         user = User.objects.get(username='adam')
         req = APIRequestFactory().delete('api/products/Machine1')
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiProductDetail.as_view()(req, code='Machine1', **{})
+        resp = api_views.ApiProductDetail.as_view()(req, code='Machine1', **{})
         self.assertEqual(resp.status_code, 401)
 
 
 class TestApiProductDetailAsUnauthorized(TestCase):
     def test_get(self):
         req = APIRequestFactory().get('api/products/Machine1')
-        resp = views.ApiProductDetail.as_view()(req, code='Machine1', **{})
+        resp = api_views.ApiProductDetail.as_view()(req, code='Machine1', **{})
         self.assertEqual(resp.status_code, 401)
 
     def test_put(self):
         req = APIRequestFactory().put('api/products/Machine1',  {'code': 'Machine1', 'site_address':'www.m1.com'})
-        resp = views.ApiProductDetail.as_view()(req, code='Machine1', **{})
+        resp = api_views.ApiProductDetail.as_view()(req, code='Machine1', **{})
         self.assertEqual(resp.status_code, 401)
 
     def test_delete(self):
         req = APIRequestFactory().delete('api/products/Machine1')
-        resp = views.ApiProductDetail.as_view()(req, code='Machine1', **{})
+        resp = api_views.ApiProductDetail.as_view()(req, code='Machine1', **{})
         self.assertEqual(resp.status_code, 401)
 
 
@@ -160,7 +160,7 @@ class TestApiAvailabilityListAsAdmin(AdminInTestCase):
         user = User.objects.get(username='Artur_admin')
         req = APIRequestFactory().get('api/availability/')
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiAvailabilityList.as_view()(req, *[], **{})
+        resp = api_views.ApiAvailabilityList.as_view()(req, *[], **{})
         self.assertEqual(resp.status_code, 200)
 
 
@@ -169,14 +169,14 @@ class TestApiAvailabilityListAsUser(UserInTestCase):
         user = User.objects.get(username='adam')
         req = APIRequestFactory().get('api/availability/')
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiAvailabilityList.as_view()(req, *[], **{})
+        resp = api_views.ApiAvailabilityList.as_view()(req, *[], **{})
         self.assertEqual(resp.status_code, 200)
 
 
 class TestApiAvailabilityListAsUnauthorized(TestCase):
     def test_get(self):
         req = APIRequestFactory().get('api/availability/')
-        resp = views.ApiAvailabilityList.as_view()(req, *[], **{})
+        resp = api_views.ApiAvailabilityList.as_view()(req, *[], **{})
         self.assertEqual(resp.status_code, 401)
 
 
@@ -185,14 +185,14 @@ class TestApiAvailabilityDetailAsAdmin(AdminInTestCase):
         user = User.objects.get(username='Artur_admin')
         req = APIRequestFactory().get('api/availability/Machine1')
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
+        resp = api_views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
         self.assertEqual(resp.status_code, 200)
 
     def test_put(self):
         user = User.objects.get(username='Artur_admin')
         req = APIRequestFactory().put('api/availability/Machine1',  {'product_code': 'Machine1', 'availability':5})
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
+        resp = api_views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
         self.assertEqual(resp.status_code, 200)
 
 
@@ -201,26 +201,26 @@ class TestApiAvailabilityDetailAsUser(UserInTestCase):
         user = User.objects.get(username='adam')
         req = APIRequestFactory().get('api/availability/Machine1')
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
+        resp = api_views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
         self.assertEqual(resp.status_code, 200)
 
     def test_put(self):
         user = User.objects.get(username='adam')
         req = APIRequestFactory().put('api/availability/Machine1',  {'product_code': 'Machine1', 'availability':5})
         force_authenticate(req, user=user, token=None)
-        resp = views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
+        resp = api_views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
         self.assertEqual(resp.status_code, 401)
 
 
 class TestApiAvailabilityDetailAsUnauthorized(TestCase):
     def test_get(self):
         req = APIRequestFactory().get('api/availability/Machine1')
-        resp = views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
+        resp = api_views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
         self.assertEqual(resp.status_code, 401)
 
     def test_put(self):
         req = APIRequestFactory().put('api/availability/Machine1',  {'product_code': 'Machine1', 'availability':5})
-        resp = views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
+        resp = api_views.ApiAvailabilityDetail.as_view()(req, product_code='Machine1', **{})
         self.assertEqual(resp.status_code, 401)
 
 

@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from ..models import Customer, Machine, ShipmentToCustomer
-from ..sn_modules.sn_parser import extract_serial_numbers, extract_data_to_register_machine, parse_serials
+from ..models import Machine
+from ..sn_modules.sn_parser import extract_serial_numbers, parse_serials
 
 
 class SetUpClass(TestCase):
