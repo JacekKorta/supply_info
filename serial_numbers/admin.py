@@ -12,7 +12,7 @@ class CustomerAdmin(admin.ModelAdmin):
         (None, {'fields': ['name', 'user_name', 'tax_number', 'email']}),
         ]
     list_display = ['name', 'user_name', 'tax_number', 'email']
-    search_fields = ['name', 'user_name', 'tax_number', 'email']
+    search_fields = ['name', 'tax_number', 'email']
 
 
 class MachineAdmin(admin.ModelAdmin):
