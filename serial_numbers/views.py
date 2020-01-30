@@ -25,7 +25,8 @@ def save_shipment(request):
         return redirect('serial_numbers:save_shipment')
     else:
         form = ShipmentForm()
-    return render(request, 'serial_numbers/add_shipment.html', {'form': form})
+    return render(request, 'serial_numbers/add_shipment.html', {'form': form,
+                                                                'date_year': today.year})
 
 
 @staff_member_required
