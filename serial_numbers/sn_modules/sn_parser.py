@@ -1,8 +1,10 @@
 import re
-from serial_numbers.models import Customer, Machine, ShipmentToCustomer
+from serial_numbers.models import Machine
 
 
 def extract_serial_numbers(data):
+    # Data filled in by barcode reader has “\r\n’ on the end of each line.
+    # Data filled in manually has only ‘\n’ on the end of the line.
     serials = data.replace('\r', '').split('\n')
     return serials
 
@@ -10,7 +12,7 @@ def extract_serial_numbers(data):
 def parse_serials(serials):
     machines = []
     for item in serials:
-        print(item)
+        # passed data must be a nine digit number
         if re.match(r"(?<!\d)\d{9}(?!\d)", item):
             try:
                 machine = Machine.objects.get(serial_number=item)
@@ -34,6 +36,7 @@ def extract_data_to_register_machine(data):
             code, serial_number = machine.split(',')
         except ValueError:
             pass
+        # passed data must be a nine digit number
         if re.match(r"(?<!\d)\d{9}(?!\d)", serial_number):
             machines.append((code, serial_number.strip()))
         else:

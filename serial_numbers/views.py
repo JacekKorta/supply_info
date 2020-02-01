@@ -1,12 +1,11 @@
 from datetime import date
-from django.shortcuts import render, redirect
 from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render, redirect
+
 
 from .forms import ShipmentForm, RegisterMachineInWarehouse
 from .sn_modules import sn_parser as snp
 from .sn_modules import db_save as sndbs
-
-from .models import Machine
 
 
 @staff_member_required
@@ -31,13 +30,11 @@ def save_shipment(request):
 
 @staff_member_required
 def register_machines_in_warehouse(request):
-
     if request.method == 'POST':
         form = RegisterMachineInWarehouse(request.POST)
         if form.is_valid():
             form_input = form.cleaned_data
             delivery_date = form_input['delivery_date']
-            print(form_input['machines_data'])
             machines = snp.extract_data_to_register_machine(form_input['machines_data'])
             for code, serial_number in machines:
                 sndbs.save_delivery(serial_number, code, delivery_date)
