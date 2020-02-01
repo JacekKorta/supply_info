@@ -1,10 +1,6 @@
-import datetime
-
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
-from django.utils import timezone
-from django.contrib.auth.models import User
-from supply_info.models import Product
 
 
 class LoggedInTestCase(TestCase):

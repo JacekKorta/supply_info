@@ -1,14 +1,8 @@
-import datetime
-
-from django.test import TestCase
-from django.views import generic
 from django.contrib.auth.models import User
-from rest_framework.authentication import TokenAuthentication
-from django.urls import reverse
+from django.test import TestCase
 
-from rest_framework import status
 from rest_framework.test import APIRequestFactory
-from rest_framework.test import APITestCase, force_authenticate
+from rest_framework.test import force_authenticate
 from supply_info import api_views
 from supply_info.models import Product, ProductAvailability
 
