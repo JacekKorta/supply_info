@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import Product, ProductAvailability, ActiveProductList
-from django.contrib.auth.models import User
+from .models import Product, ProductAvailability
 
 
 class ProductSerializer(serializers.Serializer):

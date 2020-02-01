@@ -1,13 +1,13 @@
 from django.http import Http404
 
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .sp_modules import db_save
-from .serializers import ProductSerializer, ProductAvailabilitySerializer
 from .models import Product, ProductAvailability
+from .serializers import ProductSerializer, ProductAvailabilitySerializer
+from .sp_modules import db_save
 
 
 class ApiProductList(APIView):

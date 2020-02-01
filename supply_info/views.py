@@ -1,18 +1,16 @@
 from datetime import datetime
 
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.shortcuts import render, redirect
 
-
 from .forms import ProductFullInfoUpdateForm
-from .models import Event, Product, ProductAvailability
-
+from .models import Event, Product
 from .sp_modules import receiving_data, db_save
 
 
@@ -41,7 +39,8 @@ def machines_list(request):
 def product_list(request, sub_type):
     object_list = Product.objects.prefetch_related('price_lists',
                                                 'product_availability').filter(sub_type=sub_type).order_by("code")
-    paginator = Paginator(object_list, 100) # 100 products per page
+    # 100 products per page
+    paginator = Paginator(object_list, 100)
     page = request.GET.get('page')
     try:
         products = paginator.page(page)

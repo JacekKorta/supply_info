@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 from .sp_modules import products_info as pi
 
@@ -70,6 +69,7 @@ class ProductAvailability(models.Model):
 
     @property
     def availability_info(self):
+        # values can be different for each product.
         if None not in (self.not_enough, self.unavailable):
             if self.availability >= self.not_enough:
                 availability_info = 'Dużo'
@@ -91,7 +91,6 @@ class Event(models.Model):
     user_name = models.CharField(max_length=30, blank=True, null=True, verbose_name='Użytkownik')
     date = models.DateTimeField(auto_now_add=True, verbose_name='Data')
     event_name = models.CharField(max_length=30, blank=True, null=True, verbose_name='Zdarzenie')
-
 
     class Meta:
         verbose_name = 'Zdarzenie'
