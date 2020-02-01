@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -25,6 +27,7 @@ class TestPageAdminLogged(AdminLoggedInTestCase):
         self.assertContains(response, 'Magazyn')
 
     def test_save_shipment_page_works(self):
+        current_year = datetime.now().year
         response = self.client.get(reverse('serial_numbers:save_shipment'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'serial_numbers/add_shipment.html')
@@ -32,7 +35,9 @@ class TestPageAdminLogged(AdminLoggedInTestCase):
         self.assertContains(response, 'Administracja')
         self.assertContains(response, 'Magazyn')
         self.assertContains(response, 'Klient:')
-        self.assertContains(response, 'Nr dokumentu WZ:')
+        self.assertContains(response, 'Dokument:')
+        self.assertContains(response, 'WZ/')
+        self.assertContains(response, f'{current_year}')
         self.assertContains(response, 'Numery seryjne:')
 
 
