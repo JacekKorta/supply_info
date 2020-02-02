@@ -18,16 +18,16 @@ class CustomerAdmin(admin.ModelAdmin):
 
 class MachineAdmin(admin.ModelAdmin):
     def get_delivery_note_number(self, obj):
-        shipment = ShipmentToCustomer.objects.filter(item=obj).all()
-        if shipment:
-            return shipment[0].delivery_note_number
+        shipment = ShipmentToCustomer.objects.filter(item=obj)
+        if shipment.exists():
+            return shipment.first().delivery_note_number
         else:
             return None
 
     def get_sales_date(self, obj):
-        shipment = ShipmentToCustomer.objects.filter(item=obj).all()
-        if shipment:
-            return shipment[0].shipment_date
+        shipment = ShipmentToCustomer.objects.filter(item=obj)
+        if shipment.exists():
+            return shipment.first().shipment_date
         else:
             return None
 
