@@ -5,9 +5,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Product, ProductAvailability
-from .serializers import ProductSerializer, ProductAvailabilitySerializer
-from .sp_modules import db_save
+from supply_info.models import Product, ProductAvailability
+from supply_info.serializers import ProductSerializer, ProductAvailabilitySerializer
+from supply_info.sp_modules import db_save
 
 
 class ApiProductList(APIView):

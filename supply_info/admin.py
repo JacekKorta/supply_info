@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import ActiveProductList, PriceList, Product, ProductAvailability
+from supply_info.models import ActiveProductList, PriceList, Product, ProductAvailability
 
 
 class ActiveProductInLine(admin.StackedInline):

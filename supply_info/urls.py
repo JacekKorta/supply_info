@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views, api_views
+from supply_info import api_views, views
 
 app_name = 'supply_info'
 

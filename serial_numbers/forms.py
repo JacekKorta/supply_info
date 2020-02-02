@@ -1,5 +1,6 @@
 from django import forms
-from .models import Customer
+
+from serial_numbers.models import Customer
 
 
 class ShipmentForm(forms.Form):

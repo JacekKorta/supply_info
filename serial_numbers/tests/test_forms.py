@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from ..forms import ShipmentForm
-from ..models import Customer, Machine
+from serial_numbers.forms import ShipmentForm
+from serial_numbers.models import Customer, Machine
 
 
 class SetUpClass(TestCase):

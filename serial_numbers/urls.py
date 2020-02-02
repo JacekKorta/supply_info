@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from serial_numbers import views
 
 app_name = 'serial_numbers'
 

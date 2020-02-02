@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Product, ProductAvailability
+
+from supply_info.models import Product, ProductAvailability
 
 
 class ProductSerializer(serializers.Serializer):

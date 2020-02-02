@@ -5,13 +5,13 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from django.shortcuts import render, redirect
 
-from .forms import ProductFullInfoUpdateForm
-from .models import Event, Product
-from .sp_modules import receiving_data, db_save
+from supply_info.forms import ProductFullInfoUpdateForm
+from supply_info.models import Event, Product
+from supply_info.sp_modules import db_save, receiving_data
 
 
 def index(request):

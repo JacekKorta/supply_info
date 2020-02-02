@@ -2,10 +2,9 @@ from datetime import date
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
 
-
-from .forms import ShipmentForm, RegisterMachineInWarehouse
-from .sn_modules import sn_parser as snp
-from .sn_modules import db_save as sndbs
+from serial_numbers.forms import ShipmentForm, RegisterMachineInWarehouse
+from serial_numbers.sn_modules import sn_parser as snp
+from serial_numbers.sn_modules import db_save as sndbs
 
 
 @staff_member_required

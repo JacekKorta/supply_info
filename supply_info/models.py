@@ -1,6 +1,6 @@
 from django.db import models
 
-from .sp_modules import products_info as pi
+from supply_info.sp_modules import products_info as pi
 
 
 class Product(models.Model):

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Customer, Machine, ShipmentToCustomer
+from serial_numbers.models import Customer, Machine, ShipmentToCustomer
 
 
 class ShipmentToCustomerInLineAdmin(admin.TabularInline):
