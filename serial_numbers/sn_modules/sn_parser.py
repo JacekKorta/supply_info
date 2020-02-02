@@ -34,11 +34,13 @@ def extract_data_to_register_machine(data):
     for machine in data.split('\n'):
         try:
             code, serial_number = machine.split(',')
+            code = code.strip()
+            serial_number = serial_number.strip()
         except ValueError:
-            pass
+            continue
         # passed data must be a nine digit number
         if re.match(r"(?<!\d)\d{9}(?!\d)", serial_number):
-            machines.append((code, serial_number.strip()))
+            machines.append((code, serial_number))
         else:
             continue
     return machines
