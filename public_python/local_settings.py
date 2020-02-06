@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'serial_numbers',
     'rest_framework',
     'rest_framework.authtoken',
+    'warranty_parts',
 
 ]
 

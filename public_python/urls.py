@@ -23,8 +23,9 @@ admin.site.site_title = "Panel administracyjny - Stany magazynowe JANOME"
 admin.site.index_title = "Stany magazynowe JANOME"
 
 urlpatterns = [
-    path('', include('supply_info.urls')),
     path('', include('serial_numbers.urls')),
+    path('', include('supply_info.urls')),
+    path('', include('warranty_parts')),
     path('admin/', admin.site.urls),
     path('accounts/login/', views.LoginView.as_view(), name='login'),
     path('accounts/logout', views.LogoutView.as_view(next_page='/'), name='logout'),
