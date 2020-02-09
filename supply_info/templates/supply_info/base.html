@@ -26,6 +26,7 @@
         {% if user.is_staff %}
             {% include "supply_info/admin_menu.html" %}<br>
             {% include "supply_info/warehouse_menu.html" %}<br>
+            {% include "supply_info/service_menu.html" %}<br>
         {% endif %}
         <hr>
         {% if user.is_authenticated %}
