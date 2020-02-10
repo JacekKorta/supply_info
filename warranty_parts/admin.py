@@ -58,7 +58,7 @@ class IssuesAdmin(admin.ModelAdmin):
         print(dir(obj))
         return format_html(
             '<a href="{}">Dodaj komentarz</a>',
-            '{%url "warranty_parts:add_comment" "issue_id={}}"'.format(obj)
+            obj,
         )
 
     get_machine_serial_number.short_description = 'Numer seryjny'
@@ -128,6 +128,7 @@ class CommentAdmin(admin.ModelAdmin):
             return True
         else:
             return False
+
     def has_add_permission(self, request):
         return True
 
@@ -137,9 +138,18 @@ class CommentAdmin(admin.ModelAdmin):
                     'username': request.user}
         else:
             return {'username': request.user}
+    """
+    def get_readonly_fields(self, request, obj=None):
+        if obj is None:
+            return ['username','updated', 'created']
+        else:
+            return ['username', 'updated', 'created']
+        return []"""
 
-    exclude = ('issue', 'username',)
-    readonly_fields = ['created', 'issue', 'updated', 'username']
+    #exclude = ('issue', 'username',)
+    readonly_fields = ['updated', 'created']
+    #disabled_fields = ['username']
+
     fieldsets = [
         (None,{'fields':[
             'issue', 'username', 'created', 'updated','body'

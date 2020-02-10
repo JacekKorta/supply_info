@@ -20,7 +20,8 @@ def add_issue(request):
 
 def add_comment(request, issue_id):
     if request.method == 'POST':
-        form = AddCommentForm(request.POST)
+        default_data = {'user': request.user}
+        form = AddCommentForm(request.POST, default_data)
         if form.is_valid():
             form_input = form.cleaned_data
         return redirect('admin:warranty_parts_issues_<issue_id>_change')

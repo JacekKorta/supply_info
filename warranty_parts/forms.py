@@ -1,5 +1,5 @@
 from django import forms
-
+from django.contrib.auth.models import User
 from serial_numbers.models import Machine
 from warranty_parts.models import Comments
 
@@ -20,9 +20,9 @@ class AddIssueForm(forms.Form):
             raise forms.ValidationError('Podana maszyna nie figuruje w bazie')
         return serial_number"""
 
-
+# dodaj użytkownika i numer zgłoszenia poza formularzem
 class AddCommentForm(forms.Form):
-    issue = forms.IntegerField(label='Numer zgłoszenia')
     body = forms.CharField(widget=forms.Textarea, label='komentarz')
+    inform_all = forms.BooleanField(required=False, initial=True)
 
 
