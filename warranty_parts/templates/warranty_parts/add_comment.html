@@ -9,8 +9,9 @@
 {% endif %}
 <form method="POST" class="post-form">
     {% csrf_token %}
-    {{ form.issue }}
-    {{ form.body }}
+    {{ issue_id }}<br>
+    {{ user }} <br>
+    {{ form.as_p }}
 
     <button type="submit" class="save btn btn-default">Zapisz</button>
 </form>
