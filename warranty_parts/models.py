@@ -6,7 +6,7 @@ from serial_numbers.models import Machine
 
 class Issues(models.Model):
     WHERE_IS_THE_PART_CHOICES = [
-        ('czeka_na_wymiane', 'czeka na wymianę'),
+        ('czeka_na_wymiane', 'Czeka na wymianę'),
         ('odrzucone', 'Odrzucone'),
         ('wydana_z_maszyny', 'Wydana z maszyny'),
         ('wymieniona','Wymieniona'),
@@ -14,7 +14,7 @@ class Issues(models.Model):
     FACTORY_STATUS_CHOICES = [
         ('czeka_na_wymiane', 'Czeka na wymianę'),
         ('niezgloszone', 'Niezgłoszone'),
-        ('odrzucone', 'odrzucone'),
+        ('odrzucone', 'Odrzucone'),
         ('wymienione', 'Wymienione'),
         ('zgloszone', 'Zgłoszone'),
     ]
@@ -35,13 +35,18 @@ class Issues(models.Model):
                                          verbose_name='Opis usterki')
     where_is_the_part = models.CharField(max_length=20,
                                          choices=WHERE_IS_THE_PART_CHOICES,
-                                         default='Czeka na wymianę',
+                                         default='czeka_na_wymiane',
                                          verbose_name='Status wymiany')
     factory_status = models.CharField(max_length=20,
                                       choices=FACTORY_STATUS_CHOICES,
-                                      default='Niezgłoszone',
+                                      default='niezgloszone',
                                       verbose_name='Status u producenta')
-    doc_number = models.CharField(max_length=13, blank=True, null=True, verbose_name='Numer proformy')
+    doc_number = models.CharField(max_length=13, blank=True, null=True, verbose_name='Proforma')
+    request = models.BooleanField(default=None, null=True, verbose_name='Do zwrotu')
+
+    class Meta:
+        verbose_name = 'Zgłoszenie'
+        verbose_name_plural = 'Zgłoszenia'
 
     def __str__(self):
         return str(self.id)
@@ -53,10 +58,11 @@ class Comments(models.Model):
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    inform_all = models.BooleanField(default=True, verbose_name='powiadom innych')
 
     class Meta:
         ordering = ('created',)
+        verbose_name = 'Komentarz'
+        verbose_name_plural = 'Komentarze'
 
     def __str__(self):
         return 'Comment by {} on {}'.format(self.username, self.issue)

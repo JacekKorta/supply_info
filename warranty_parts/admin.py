@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.db import models
 from django.utils.html import format_html
+from django.urls import reverse
 
 from warranty_parts.models import Comments, Issues
 from serial_numbers.models import Machine
@@ -54,19 +55,17 @@ class IssuesAdmin(admin.ModelAdmin):
             return 'Brak'
 
     def get_add_comment_link(self, obj):
-        print(obj)
-        print(dir(obj))
+        url = reverse('warranty_parts:add_comment', kwargs={'issue_id': obj} )
         return format_html(
-            '<a href="{}">Dodaj komentarz</a>',
-            obj,
-        )
+            '<a href="{}">Dodaj komentarz</a>', url, obj)
 
     get_machine_serial_number.short_description = 'Numer seryjny'
     get_machine_serial_number.ordering = 'serial_number'
     get_machine_code.short_description = 'Model maszyny'
-    get_machine_code.ordering = 'code'
+    get_machine_code.admin_order_field = 'machine__code'
     get_comments_sum.short_description = 'Komentarze'
     get_add_comment_link.short_description = 'Dodaj komentarz'
+
     readonly_fields = ('id', 'time_stamp')
     fieldsets = [
         (None, {'fields': ['id',
@@ -78,6 +77,7 @@ class IssuesAdmin(admin.ModelAdmin):
                            'where_is_the_part',
                            'factory_status',
                            'doc_number',
+                           'request',
                            ]}),
         ]
     list_display = ('id',
@@ -92,13 +92,15 @@ class IssuesAdmin(admin.ModelAdmin):
                     'doc_number',
                     'get_comments_sum',
                     'get_add_comment_link',
+                    'request'
                     )
     raw_id_fields = ('machine',)
 
     search_fields = ['id',
                      'time_stamp',
                      'customer',
-                     'machine',
+                     'machine__code',
+                     'machine__serial_number',
                      'part_number',
                      'part_name',
                      'where_is_the_part',
@@ -109,6 +111,7 @@ class IssuesAdmin(admin.ModelAdmin):
                    'where_is_the_part',
                    'factory_status',
                    'doc_number',
+                   'request',
                    ]
 
     inlines = [CommentsInlineAdmin]
@@ -130,7 +133,7 @@ class CommentAdmin(admin.ModelAdmin):
             return False
 
     def has_add_permission(self, request):
-        return True
+        return False
 
     def get_changeform_initial_data(self, request, obj=None):
         if obj is not None:
@@ -138,17 +141,9 @@ class CommentAdmin(admin.ModelAdmin):
                     'username': request.user}
         else:
             return {'username': request.user}
-    """
-    def get_readonly_fields(self, request, obj=None):
-        if obj is None:
-            return ['username','updated', 'created']
-        else:
-            return ['username', 'updated', 'created']
-        return []"""
 
-    #exclude = ('issue', 'username',)
-    readonly_fields = ['updated', 'created']
-    #disabled_fields = ['username']
+    exclude = ('issue', 'username',)
+    readonly_fields = ['issue', 'username', 'updated', 'created']
 
     fieldsets = [
         (None,{'fields':[
