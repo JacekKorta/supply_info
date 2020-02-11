@@ -1,5 +1,5 @@
 from serial_numbers.models import Machine
-from warranty_parts.models import Issues
+from warranty_parts.models import Comments, Issues
 
 
 def save_issues(form_dict):
@@ -12,6 +12,13 @@ def save_issues(form_dict):
     Issues.objects.create(customer=customer,
                           machine=machine,
                           part_number=part_number,
+                          part_name=part_name,
                           quantity=quantity,
                           issue_description=issue_description,
                           doc_number=document_number)
+
+
+def save_comment(body, issue_id, username):
+    Comments.objects.create(issue=Issues.objects.get(pk=issue_id),
+                            username=username,
+                            body=body)
