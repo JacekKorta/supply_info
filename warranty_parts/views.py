@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 
 from warranty_parts.forms import AddCommentForm, AddIssueForm
 from warranty_parts.wp_modules import db_save as wp_db_save
+from warranty_parts.wp_modules import wp_emails
 
 
 def add_issue(request):
@@ -13,7 +14,8 @@ def add_issue(request):
         form = AddIssueForm(request.POST)
         if form.is_valid():
             form_input = form.cleaned_data
-            wp_db_save.save_issues(form_input)
+            issue, machine = wp_db_save.save_issues(form_input)
+            wp_emails.send_new_issue_message(issue, machine)
         return redirect('warranty_parts:add_issue')
     else:
         form = AddIssueForm()
@@ -27,7 +29,9 @@ def add_comment(request, issue_id):
         form = AddCommentForm(request.POST, default_data)
         if form.is_valid():
             form_input = form.cleaned_data
-            wp_db_save.save_comment(form_input['body'],issue_id, current_user)
+            comment = wp_db_save.save_comment(form_input['body'],issue_id, current_user)
+            if form_input['inform_all']:
+                wp_emails.send_new_comment_notification(issue_id, comment)
         return HttpResponseRedirect(reverse('admin:warranty_parts_issues_change',
                                             args=(issue_id,),
                                             current_app='warranty_parts'))
