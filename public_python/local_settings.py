@@ -141,3 +141,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+# Emails
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = config.EmailConfigData.EMAIL_USE_TLS
+EMAIL_HOST = config.EmailConfigData.EMAIL_HOST
+EMAIL_HOST_USER = config.EmailConfigData.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = config.EmailConfigData.EMAIL_HOST_PASSWORD
+EMAIL_PORT = config.EmailConfigData.EMAIL_PORT
