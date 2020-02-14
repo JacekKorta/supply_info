@@ -29,7 +29,7 @@ class Issues(models.Model):
                                    related_name='warranty_parts_issue')
     part_number = models.CharField(max_length=24, verbose_name='Numer części')
     part_name = models.CharField(max_length=128, verbose_name='Nazwa części')
-    quantity = models.CharField(max_length=3, verbose_name='Ilość')
+    quantity = models.IntegerField(default=1, verbose_name='Ilość')
     issue_description = models.TextField(blank=True,
                                          null=True,
                                          verbose_name='Opis usterki')
