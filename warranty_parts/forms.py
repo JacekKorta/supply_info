@@ -15,13 +15,6 @@ class AddIssueForm(forms.Form):
     issue_description = forms.CharField(widget=forms.Textarea, label='Opis usterki')
     document_number = forms.CharField(label='Numer proformy', initial=f'{today.strftime("%y")}-FP/', required=False)
 
-    """
-    def clean_machine_serial_number(self):
-        serial_number = self.cleaned_data['machine_serial_number']
-        if Machine.objects.filter(serial_number=serial_number).all() is None:
-            raise forms.ValidationError('Podana maszyna nie figuruje w bazie')
-        return serial_number"""
-
 
 class AddCommentForm(forms.Form):
     body = forms.CharField(widget=forms.Textarea, label='komentarz')
