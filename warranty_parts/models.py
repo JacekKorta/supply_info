@@ -21,12 +21,12 @@ class Issues(models.Model):
     time_stamp = models.DateTimeField(auto_now_add=True, verbose_name='Data utworzenia')
     customer = models.CharField(max_length=52, blank=True, null=True, verbose_name='Klient')
     machine = models.ForeignKey(Machine,
-                                   to_field='serial_number',
-                                   on_delete=models.CASCADE,
-                                   null=True,
-                                   blank=True,
-                                   verbose_name='Maszyna',
-                                   related_name='warranty_parts_issue')
+                                to_field='serial_number',
+                                on_delete=models.CASCADE,
+                                null=True,
+                                blank=True,
+                                verbose_name='Maszyna',
+                                related_name='warranty_parts_issue')
     part_number = models.CharField(max_length=24, verbose_name='Numer części')
     part_name = models.CharField(max_length=128, verbose_name='Nazwa części')
     quantity = models.IntegerField(default=1, verbose_name='Ilość')
