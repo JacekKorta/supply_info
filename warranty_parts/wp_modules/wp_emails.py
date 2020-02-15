@@ -27,7 +27,7 @@ def send_new_comment_notification(issue_id, comment):
     send_mail(subject,
               body,
               EmailConfigData.EMAIL_HOST_USER,
-              EmailConfigData.SERVICE_RECIPIENTS, #zmień na SERVICE_RECIPIENTS TEST_RECIPIENTS
+              EmailConfigData.TEST_RECIPIENTS, #zmień na SERVICE_RECIPIENTS  SERVICE_RECIPIENTS
               auth_user=EmailConfigData.EMAIL_HOST_USER,
               auth_password=EmailConfigData.EMAIL_HOST_PASSWORD)
 

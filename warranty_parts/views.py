@@ -38,5 +38,5 @@ def add_comment(request, issue_id):
     else:
         form = AddCommentForm()
     return render(request, 'warranty_parts/add_comment.html', {'form': form,
-                                                             'issue_id': issue_id,
-                                                             'user': current_user,})
+                                                               'issue_id': issue_id,
+                                                               'user': current_user,})

@@ -30,7 +30,6 @@ class SerialNumberCustomerTest(TestCase):
         self.assertEqual('Customer1', sample_customer.name, 'The names are not the same')
 
 
-
 class SerialNumberMachineTest(TestCase):
 
     def create_machine(self, code, serial_number, delivery_date=None):
