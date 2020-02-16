@@ -2,7 +2,7 @@ from django.core.mail import send_mail
 from public_python.config import EmailConfigData
 
 
-def send_new_issue_message(issue, machine):
+def send_new_issue_notification(issue, machine):
     subject = f'[SERWIS] Nowe Zgłosznie nr {issue.id}'
     body = f'Zgłosznie nr: {issue.id}\n' \
            f'Kod produktu: {issue.part_number}\n' \
@@ -14,7 +14,7 @@ def send_new_issue_message(issue, machine):
     send_mail(subject,
               body,
               EmailConfigData.EMAIL_HOST_USER,
-              EmailConfigData.TEST_RECIPIENTS, #zmień na SERVICE_RECIPIENTS
+              EmailConfigData.SERVICE_RECIPIENTS,
               auth_user=EmailConfigData.EMAIL_HOST_USER,
               auth_password=EmailConfigData.EMAIL_HOST_PASSWORD)
 
@@ -27,7 +27,7 @@ def send_new_comment_notification(issue_id, comment):
     send_mail(subject,
               body,
               EmailConfigData.EMAIL_HOST_USER,
-              EmailConfigData.TEST_RECIPIENTS, #zmień na SERVICE_RECIPIENTS  SERVICE_RECIPIENTS
+              EmailConfigData.SERVICE_RECIPIENTS,
               auth_user=EmailConfigData.EMAIL_HOST_USER,
               auth_password=EmailConfigData.EMAIL_HOST_PASSWORD)
 

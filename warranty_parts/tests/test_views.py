@@ -47,7 +47,6 @@ class TestSiteStaffUserLogged(StaffUserLoggedInTestCase):
         self.assertContains(response, f'{today.strftime("%y")}-FP/')
         self.assertContains(response, 'Zapisz')
 
-
     def test_add_comment_page_works(self):
         response = self.client.get(reverse('warranty_parts:add_comment', kwargs={'issue_id': 1}))
         self.assertEqual(response.status_code, 200)
@@ -59,7 +58,6 @@ class TestSiteStaffUserLogged(StaffUserLoggedInTestCase):
         self.assertContains(response, 'Komentarz:')
         self.assertContains(response, 'Powiadom innych:')
         self.assertContains(response, 'Zapisz')
-
 
 
 class TestSiteUserLogged(UserLoggedInTestCase):

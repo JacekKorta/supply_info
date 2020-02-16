@@ -1,6 +1,4 @@
 from django.contrib import admin
-from django.conf import settings
-from django.db import models
 from django.utils.html import format_html
 from django.urls import reverse
 
@@ -55,7 +53,7 @@ class IssuesAdmin(admin.ModelAdmin):
             return 'Brak'
 
     def get_add_comment_link(self, obj):
-        url = reverse('warranty_parts:add_comment', kwargs={'issue_id': obj} )
+        url = reverse('warranty_parts:add_comment', kwargs={'issue_id': obj})
         return format_html(
             '<a href="{}">Dodaj komentarz</a>', url, obj)
 
@@ -115,7 +113,6 @@ class IssuesAdmin(admin.ModelAdmin):
                    ]
 
     inlines = [CommentsInlineAdmin]
-
 
 
 class CommentAdmin(admin.ModelAdmin):

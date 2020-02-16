@@ -17,7 +17,7 @@ class AddIssueForm(forms.Form):
 
 
 class AddCommentForm(forms.Form):
-    body = forms.CharField(widget=forms.Textarea, label='komentarz')
+    body = forms.CharField(widget=forms.Textarea, label='Komentarz')
     inform_all = forms.BooleanField(required=False, initial=True, label='Powiadom innych')
 
 

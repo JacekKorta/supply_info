@@ -8,7 +8,6 @@ def save_issues(form_dict):
         machine = Machine.objects.get(serial_number=machine_sn)
     except Machine.DoesNotExist:
         machine = None
-        print(f'nie znaleziono "{machine_sn}"')
     issue = Issues.objects.create(customer=customer,
                                   machine=machine,
                                   part_number=part_number,

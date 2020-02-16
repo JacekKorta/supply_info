@@ -6,13 +6,21 @@ from warranty_parts.forms import AddCommentForm, AddIssueForm
 
 
 class AddCommentFormTest(TestCase):
-    def test_add_new_comment(self):
+    # valid form data
+    def test_add_new_comment_works(self):
         form = AddCommentForm(data={'body': 'A comment body',
                                     'inform_all': True})
         self.assertTrue(form.is_valid())
 
+    # invalid form data
+    def test_add_new_comment_error(self):
+        form = AddCommentForm(data={'body': '',
+                                    'inform_all': True})
+        self.assertFalse(form.is_valid())
+
 
 class AddIssueFormTest(TestCase):
+    # valid form data
     def test_add_issue_form(self):
         today = datetime.now()
         form = AddIssueForm(data={'today': today,
