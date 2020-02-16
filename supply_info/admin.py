@@ -29,7 +29,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     list_display = ('code', 'name', )
     search_fields = ['code', 'name']
-    list_filter = ['type', 'sub_type', 'mark']
+    list_filter = ['type', 'sub_type']
 
     actions = ['change_activity_status']
 
