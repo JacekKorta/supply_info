@@ -76,7 +76,8 @@ class ShipmentAdmin(admin.ModelAdmin):
     search_fields = ['delivery_note_number',
                      'item_id__code',
                      'item_id__serial_number',
-                     'shipment_date']
+                     'shipment_date',
+                     'customer__name']
     list_filter = ['shipment_date', 'item_id__code',]
 
 
