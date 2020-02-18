@@ -7,6 +7,13 @@
 <h3>Dodaj wysyłkę</h3>
 <br>
 {% endif %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+    {% endfor %}
+</ul><br>
+{% endif %}
 <form method="POST" class="post-form">{% csrf_token %}
     <table class="serial_number_table">
         <tr>

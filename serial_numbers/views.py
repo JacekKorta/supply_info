@@ -1,5 +1,6 @@
 from datetime import date
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import messages
 from django.shortcuts import render, redirect
 
 from serial_numbers.forms import ShipmentForm, RegisterMachineInWarehouse
@@ -20,6 +21,7 @@ def save_shipment(request):
             machines_serials = snp.parse_serials(shipment)
             for item in machines_serials:
                 sndbs.shipment_record(customer, delivery_note_number, item)
+            messages.success(request, f'dodano {len(machines_serials)} maszyn z dokumentu {delivery_note_number}')
         return redirect('serial_numbers:save_shipment')
     else:
         form = ShipmentForm()
