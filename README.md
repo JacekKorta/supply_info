@@ -30,3 +30,9 @@ The company is a wholesaler of household appliances. As a part of its business, 
 ### Solution:
 
 The concept was to create an app that helps to make the whole process more transparent and the most automated possible.
+
+
+## Requirements: 
+- coverage==5.0.3
+- Django==2.2.7
+- djangorestframework==3.11.0
