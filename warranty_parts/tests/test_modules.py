@@ -63,18 +63,18 @@ class WPDbSaveSaveCommentTest(TestCase):
         self.client.login(username='adam', password='adampassword')
         Machine.objects.create(code='Machine_01',
                                serial_number='123456789')
-        Issues.objects.create(customer='Customer_01',
-                              machine=Machine.objects.get(serial_number='123456789'),
-                              part_number='00000001',
-                              issue_description='sample description',
-                              part_name='Part_01_name',
-                              doc_number='20-FP/0001')
+        self.issues = Issues.objects.create(customer='Customer_01',
+                                            machine=Machine.objects.get(serial_number='123456789'),
+                                            part_number='00000001',
+                                            issue_description='sample description',
+                                            part_name='Part_01_name',
+                                            doc_number='20-FP/0001')
 
     def test_save_comment(self):
-        expected_comment = wp_dbs.save_comment('comment body', 3, self.user)
+        expected_comment = wp_dbs.save_comment('comment body', self.issues.id, self.user)
         self.assertTrue(isinstance(expected_comment, Comments))
         self.assertTrue(isinstance(expected_comment.issue, Issues))
         self.assertTrue(isinstance(expected_comment.username, User))
         self.assertEqual(expected_comment.body, 'comment body')
         self.assertEqual(expected_comment.username.username, 'adam')
-        self.assertEqual(str(expected_comment), 'Comment by adam on 3')
+        self.assertEqual(str(expected_comment), f'Comment by adam on {self.issues.id}')
