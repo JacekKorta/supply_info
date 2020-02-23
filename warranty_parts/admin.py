@@ -126,6 +126,7 @@ class IssuesAdmin(admin.ModelAdmin):
                            'factory_status',
                            'doc_number',
                            'request',
+                           'issue_description',
                            ]}),
         ]
     list_display = ('id',
@@ -140,7 +141,7 @@ class IssuesAdmin(admin.ModelAdmin):
                     'doc_number',
                     'get_comments_sum',
                     'get_add_comment_link',
-                    'request'
+                    'request',
                     )
     raw_id_fields = ('machine',)
 
