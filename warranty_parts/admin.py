@@ -84,13 +84,23 @@ class IssuesAdmin(admin.ModelAdmin):
                          'Reply',
                          'Request'])
         for issue in queryset:
-            writer.writerow([issue.id,
-                             issue.machine.code,
-                             issue.machine.serial_number,
-                             issue.part_number,
-                             issue.quantity,
-                             issue.part_name,
-                             issue.issue_description])
+            try:
+                writer.writerow([issue.id,
+                                 issue.machine.code,
+                                 issue.machine.serial_number,
+                                 issue.part_number,
+                                 issue.quantity,
+                                 issue.part_name,
+                                 issue.issue_description])
+            except AttributeError:
+                # for issue separated from machine, ex individual parts or accessories
+                writer.writerow([issue.id,
+                                 issue.part_number,
+                                 '',
+                                 '',
+                                 issue.quantity,
+                                 issue.part_name,
+                                 issue.issue_description])
         return response
 
     create_csv_report.short_description = 'Pobierz raport'
