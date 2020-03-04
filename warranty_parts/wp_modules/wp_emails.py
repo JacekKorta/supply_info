@@ -4,13 +4,23 @@ from public_python.config import EmailConfigData
 
 def send_new_issue_notification(issue, machine):
     subject = f'[SERWIS] Nowe Zgłosznie nr {issue.id}'
-    body = f'Zgłosznie nr: {issue.id}\n' \
-           f'Kod produktu: {issue.part_number}\n' \
-           f'Nazwa produktu: {issue.part_name}\n' \
-           f'Maszyna: {machine.code}\n' \
-           f'Nr seryjny: {machine.serial_number}\n' \
-           f'Opis usterki: {issue.issue_description}\n' \
-           f'Część została wpisana na: {issue.doc_number}\n'
+    if machine:
+        body = f'Zgłosznie nr: {issue.id}\n' \
+               f'Kod produktu: {issue.part_number}\n' \
+               f'Nazwa produktu: {issue.part_name}\n' \
+               f'Maszyna: {machine.code}\n' \
+               f'Nr seryjny: {machine.serial_number}\n' \
+               f'Opis usterki: {issue.issue_description}\n' \
+               f'Część została wpisana na: {issue.doc_number}\n'
+    else:
+        body = f'Zgłosznie nr: {issue.id}\n' \
+               f'Kod produktu: {issue.part_number}\n' \
+               f'Nazwa produktu: {issue.part_name}\n' \
+               f'Maszyna: \n' \
+               f'Nr seryjny: \n' \
+               f'Opis usterki: {issue.issue_description}\n' \
+               f'Część została wpisana na: {issue.doc_number}\n'
+
     send_mail(subject,
               body,
               EmailConfigData.EMAIL_HOST_USER,
