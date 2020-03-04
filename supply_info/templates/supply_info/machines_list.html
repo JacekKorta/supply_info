@@ -15,7 +15,6 @@
             <th>Uwagi</th>
         </tr>
         {% for machine in machines %}
-        <tbody id="machine_list_table_body">
         {% if machine.active_product_list.all %}
         {% for item in machine.active_product_list.all %}
         {% if item.is_active %}
@@ -54,7 +53,6 @@
         {% endif %}
         {% endfor %}
         {% endif %}
-        </tbody>
         {% endfor %}
     </table>
 </div>

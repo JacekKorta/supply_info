@@ -11,7 +11,7 @@
   padding: 8px;
 }
 
-#machines_list_table tbody:nth-child(even){background-color: #f2f2f2;}
+#machines_list_table tr:nth-child(even){background-color: #f2f2f2;}
 
 #machines_list_table tr:hover {background-color: #ddd;}
 
