@@ -1,19 +1,19 @@
 {% extends 'supply_info/base.html' %}
 
 {% block content %}
-{% if title %}
-<h3>{{ title }}</h3>
-{% else %}
-<h3>Dodaj komentarz</h3>
-<br>
-{% endif %}
-<form method="POST" class="post-form">
-    {% csrf_token %}
-    {{ issue_id }}<br>
-    {{ user }} <br>
-    {{ form.as_p }}
-
-    <button type="submit" class="save btn btn-default">Zapisz</button>
-</form>
-
+<div class="container">
+    {% if title %}
+        <h3>{{ title }}</h3>
+    {% else %}
+        <h3>Dodaj komentarz</h3>
+    {% endif %}
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        <p><b>Numer zgłoszenia:</b> {{ issue_id }}</p>
+        <p><b>Komentujący:</b> {{ user }}</p>
+        {{ form.as_p }}
+        {{ form.errors }}
+        <button type="submit" class="save btn btn-default">Zapisz</button>
+    </form>
+</div>
 {% endblock %}
