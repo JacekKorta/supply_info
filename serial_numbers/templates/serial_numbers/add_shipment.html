@@ -1,36 +1,23 @@
 {% extends 'supply_info/base.html' %}
 
 {% block content %}
-{% if title %}
-<h3>{{ title }}</h3>
-{% else %}
-<h3>Dodaj wysyłkę</h3>
-<br>
-{% endif %}
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-    {% endfor %}
-</ul><br>
-{% endif %}
-<form method="POST" class="post-form">{% csrf_token %}
-    <table class="serial_number_table">
-        <tr>
-            <td>{{ form.customer.label_tag }}</td>
-            <td>{{ form.customer }}</td>
-        </tr>
-        <tr>
-            <td><B>Dokument: </B>WZ/</td>
-            <td>{{ form.delivery_note_number }}/{{ date_year }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.shipment.label_tag }}</td>
-            <td>{{ form.shipment }}</td>
-        </tr>
-    </table>
-
+<div class="container">
+    {% if title %}
+    <h3>{{ title }}</h3>
+    {% else %}
+    <h3>Dodaj wysyłkę</h3>
+    {% endif %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+        {% endfor %}
+    </ul><br>
+    {% endif %}
+    <form method="POST" class="post-form">{% csrf_token %}
+    {{ form.as_p }}
+    {{ form.errors }}
     <button type="submit" class="save btn btn-default">Zapisz</button>
-</form>
-
+    </form>
+</div>
 {% endblock %}

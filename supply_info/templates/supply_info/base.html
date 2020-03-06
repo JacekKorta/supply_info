@@ -2,6 +2,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155235325-1"></script>
         <script>
@@ -26,8 +27,8 @@
             {% if user.is_authenticated %}
             <li class="inside-upper-menu">
                 <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}" class="search-input">
-                <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu"/>
-                <input type="submit" name="submit" value="Szukaj"/>
+                <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu" class="search-input">
+                <input type="submit" name="submit" value="Szukaj" class="search-input">
                 </form>
             </li>
             <li class="inside-upper-menu">
