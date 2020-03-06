@@ -8,35 +8,43 @@
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-
           gtag('config', 'UA-155235325-1');
         </script>
         <title>Stany magazynowe</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'css/supply_info.css' %}">
     </head>
     <body>
         <div class="page-header">
-        <h1>Stany magazynowe JANOME i ELNA</h1>
+            <h1>Stany magazynowe JANOME i ELNA</h1>
+            Ostatnia aktualizacja: {{ last_update_time.date }}
         </div>
-        <div>Ostatnia aktualizacja: {{ last_update_time.date }}</div>
-        {% if user.is_authenticated %}
-        <div class ="user_menu">
-            <p>Zalogowany jako: <b>{{ user.username }}</b>
-                <a href="{% url 'supply_info:change_password' %}"><span title="Ustawienia" class="glyphicon glyphicon-cog"></span></a>
-                <a href="{% url 'logout' %}"><span title="Wyloguj" class="glyphicon glyphicon-log-out"></span></a>
-            </p>
-            <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}">
-            <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu"/>
-            <input type="submit" name="submit" value="Szukaj"/>
-            </form>
-        {% else %}
-            <a href="{% url 'login' %}" class="top-menu"><span class="pull-right glyphicon glyphicon-log-in" style="color:red"></span></a><br>
-        </div><br>
+        <ul class="upper-menu">
+            {% if user.is_authenticated %}
+            <li class="inside-upper-menu">
+                <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}" class="search-input">
+                <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu"/>
+                <input type="submit" name="submit" value="Szukaj"/>
+                </form>
+            </li>
+            <li class="inside-upper-menu">
+                <a href="{% url 'logout' %}"><span title="Wyloguj" class="glyphicon glyphicon-log-out"> Wyloguj</span></a>
+            </li>
+            <li class="inside-upper-menu">
+                <a href="{% url 'supply_info:change_password' %}"><span title="Ustawienia" class="glyphicon glyphicon-cog"> Konto</span></a>
+            </li>
+            <li class="inside-upper-menu">
+                <div> Zalogowany jako: <b>{{ user.username }}</b></div>
+            </li>
+            {% else %}
+            <li class="inside-upper-menu">
+                <a href="{% url 'login' %}" class="top-menu"><span class="pull-right glyphicon glyphicon-log-in" style="color:red"> Zaloguj</span></a>
+            </li>
         {% endif %}
-
+        </ul>
         <nav class='animated left-navbar'>
             <ul>
                 {% if user.is_staff %}
