@@ -1,6 +1,7 @@
-<div>
-    Administracja:
-    <a href="{% url 'admin:index' %}">Admin panel</a> |
-    <a href="{% url 'supply_info:update_product_info' %}" >Zasil bazę</a> |
-    <a href="{% url 'supply_info:update_product_availability' %}">Uaktualnij stany</a> |
-</div>
+<li class='sub-menu'><a href='#admin'>Administracja<div class='fa fa-caret-down right'></div></a>
+    <ul>
+        <li><a href="{% url 'admin:index' %}">Admin panel</a></li>
+        <li><a href="{% url 'supply_info:update_product_info' %}" >Zasil bazę</a></li>
+        <li><a href="{% url 'supply_info:update_product_availability' %}">Uaktualnij stany</a></li>
+    </ul>
+</li>

@@ -1,13 +1,13 @@
-<div>
-    <p>Przegląd: <a href="{% url 'supply_info:machines_list' %}" >Lista maszyn</a></p>
-    <p>Grupy produktów:
-        <a href="{% url 'supply_info:products_list' sub_type='akcesoria_eti' %}" >ETI</a> |
-        <a href="{% url 'supply_info:products_list' sub_type='hafciarka_z_programem' %}" >Hafciarki z programami</a> |
-        <a href="{% url 'supply_info:products_list' sub_type='igly' %}" >Igły</a> |
-        <a href="{% url 'supply_info:products_list' sub_type='nici' %}" >Nici</a> |
-        <a href="{% url 'supply_info:products_list' sub_type='nozyczki' %}" >Nożyczki</a> |
-        <a href="{% url 'supply_info:products_list' sub_type='programy' %}" >Programy</a> |
-        <a href="{% url 'supply_info:products_list' sub_type='wykroje' %}" >Wykroje</a> |
-        <a href="{% url 'supply_info:products_list' sub_type='zestawy_akcesoriow' %}" >Zestawy akcesoriów</a>
-    </p>
-</div>
+<li class='sub-menu'><a href='#produkts'>produkty<div class='fa fa-caret-down right'></div></a>
+    <ul>
+        <li><a href="{% url 'supply_info:machines_list' %}" >Lista maszyn</a></li>
+        <li><a href="{% url 'supply_info:products_list' sub_type='akcesoria_eti' %}" >ETI</a></li>
+        <li><a href="{% url 'supply_info:products_list' sub_type='hafciarka_z_programem' %}" >Hafciarki z programami</a></li>
+        <li><a href="{% url 'supply_info:products_list' sub_type='igly' %}" >Igły</a></li>
+        <li><a href="{% url 'supply_info:products_list' sub_type='nici' %}" >Nici</a></li>
+        <li><a href="{% url 'supply_info:products_list' sub_type='nozyczki' %}" >Nożyczki</a></li>
+        <li><a href="{% url 'supply_info:products_list' sub_type='programy' %}" >Programy</a></li>
+        <li><a href="{% url 'supply_info:products_list' sub_type='wykroje' %}" >Wykroje</a></li>
+        <li><a href="{% url 'supply_info:products_list' sub_type='zestawy_akcesoriow' %}" >Zestawy akcesoriów</a></li>
+    </ul>
+</li>

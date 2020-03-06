@@ -1,5 +1,6 @@
-<div>
-    Magazyn:
-    <a href="{% url 'serial_numbers:register_machines_in_warehouse'%}">Dodaj maszyny z dostawy</a> |
-    <a href="{% url 'serial_numbers:save_shipment'%}">Dodaj wysyłkę</a> |
-</div>
+<li class='sub-menu'><a href='#warehouse'>magazyn<div class='fa fa-caret-down right'></div></a>
+    <ul>
+        <li><a href="{% url 'serial_numbers:register_machines_in_warehouse'%}">dodaj maszyny z dostawy</a></li>
+        <li><a href="{% url 'serial_numbers:save_shipment'%}">dodaj wysyłkę</a></li>
+    </ul>
+</li>

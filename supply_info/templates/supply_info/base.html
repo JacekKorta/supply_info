@@ -22,21 +22,12 @@
         <h1>Stany magazynowe JANOME i ELNA</h1>
         </div>
         <div>Ostatnia aktualizacja: {{ last_update_time.date }}</div>
-        <br>
-        {% if user.is_staff %}
-            {% include "supply_info/admin_menu.html" %}<br>
-            {% include "supply_info/warehouse_menu.html" %}<br>
-            {% include "supply_info/service_menu.html" %}<br>
-        {% endif %}
-        <hr>
         {% if user.is_authenticated %}
         <div class ="user_menu">
             <p>Zalogowany jako: <b>{{ user.username }}</b>
                 <a href="{% url 'supply_info:change_password' %}"><span title="Ustawienia" class="glyphicon glyphicon-cog"></span></a>
                 <a href="{% url 'logout' %}"><span title="Wyloguj" class="glyphicon glyphicon-log-out"></span></a>
             </p>
-
-            {% include "supply_info/filters_menu.html" %}<br>
             <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}">
             <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu"/>
             <input type="submit" name="submit" value="Szukaj"/>
@@ -46,6 +37,18 @@
         </div><br>
         {% endif %}
 
+        <nav class='animated left-navbar'>
+            <ul>
+                {% if user.is_staff %}
+                    {% include "supply_info/admin_menu.html" %}
+                    {% include "supply_info/warehouse_menu.html" %}
+                    {% include "supply_info/service_menu.html" %}
+                {% endif %}
+                {% if user.is_authenticated %}
+                    {% include "supply_info/filters_menu.html" %}
+                {% endif %}
+            </ul>
+        </nav>
         {% block content %}
         {% endblock %}
     </body>
@@ -55,5 +58,11 @@
     $("a[id^=show_]").click(function(event) {
     $("#extra_" + $(this).attr('id').substr(5)).slideToggle("slow");
     event.preventDefault();
-});
+    });
+
+    $('.sub-menu ul').hide();
+    $(".sub-menu a").click(function () {
+        $(this).parent(".sub-menu").children("ul").slideToggle("100");
+        $(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+    });
 </script>
