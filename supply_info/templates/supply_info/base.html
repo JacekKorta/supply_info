@@ -21,14 +21,14 @@
     <body>
         <div class="page-header">
             <h1>Stany magazynowe JANOME i ELNA</h1>
-            Ostatnia aktualizacja: {{ last_update_time.date }}
+            <div>Ostatnia aktualizacja: {{ last_update_time.date }}</div>
         </div>
         <ul class="upper-menu">
             {% if user.is_authenticated %}
-            <li class="inside-upper-menu">
-                <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}" class="search-input">
-                <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu" class="search-input">
-                <input type="submit" name="submit" value="Szukaj" class="search-input">
+            <li class="inside-upper-menu" style="float:left; padding-left:10px;">
+                <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}" class="search-input form-inline">
+                <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu" class="search-input form-control">
+                <button type="submit" name="submit" value="Szukaj" class="search-input btn btn-default glyphicon glyphicon-search">
                 </form>
             </li>
             <li class="inside-upper-menu">
@@ -44,6 +44,7 @@
             <li class="inside-upper-menu">
                 <a href="{% url 'login' %}" class="top-menu"><span class="pull-right glyphicon glyphicon-log-in" style="color:red"> Zaloguj</span></a>
             </li>
+
         {% endif %}
         </ul>
         <nav class='animated left-navbar'>

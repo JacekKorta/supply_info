@@ -1,7 +1,10 @@
 /* =====Global ====*/
 * {
     font-family: Lato,sans-serif;
-    box-sizing: border-box;
+}
+
+body {
+    background-color: #fafafa;
 }
 
 /* ============== */
@@ -13,7 +16,8 @@
 
 
 #machines_list_table td, #machines_list_table th {
-  border: 3px solid #black;
+  border: 3px solid;
+  border-color: white;
   padding: 8px;
 }
 
@@ -48,9 +52,8 @@ h1, h2, h3, h4 {
 }
 
 head, body {
-margin: 15px;
+    margin: 0px 15px;;
 }
-
 /* ===== Left nav bar =====*/
 
 nav {
@@ -105,15 +108,22 @@ nav ul li ul li a:hover {
 	border-left: 4px solid #e13e2f;
 }
 
+nav li {
+    /* !!! first element has the individual style */
+    border-bottom: 0.3px solid;
+    border-color: #e7e7e7;
+}
+
 /* ==== upper menu ====*/
 
 .upper-menu {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  padding-right:315px;
+  padding-right:15px;
   overflow: hidden;
-  border: 1px solid #e7e7e7;
+  /*border: 1px solid #e7e7e7;*/
+  border-bottom: 1px solid #e7e7e7;
   font-size: 16px;
 }
 
@@ -151,6 +161,7 @@ nav ul li ul li a:hover {
   background-color: #ddd;
 }
 
+
 input[type=button], input[type=submit], input[type=reset] {
   height:30px;
   background-color: white;
@@ -161,14 +172,19 @@ input[type=button], input[type=submit], input[type=reset] {
   text-transform: uppercase;
   padding: 0px;
 }
-input[type=submit]:hover {
-    background-color: #ddd;
+
+.inside-upper-menu button {
+    font-size:16px;
+    padding: 4px 12px;
+    margin: 0px 0px 3px 0px;
 }
 
 .search-input {
   box-sizing: border-box;
   /*border: 1px solid #555;*/
   outline: none;
+  padding: 0px;
+  margin: 0px;
 }
 .search-input:focus {
   background-color: #ddd;
@@ -182,9 +198,11 @@ input[type=submit]:hover {
  border-radius: 5px;
  background-color: #f2f2f2;
  padding: 20px;
+ margin: 20px 40px;
+ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .container h3 {
-    text-align: center;
+    /*text-align: center;*/
 }
 
 .container input[type=text], input[type=number], select, textarea {
@@ -192,6 +210,10 @@ input[type=submit]:hover {
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
+}
+
+.container input[type=text]:focus {
+    background-color: #ddd;
 }
 
 .container label {
@@ -215,29 +237,4 @@ input[type=submit]:hover {
   background-color: #45a049;
 }
 
-.col-25 {
-  float: left;
-  width: 25%;
-  margin-top: 6px;
-}
 
-.col-75 {
-  float: left;
-  width: 75%;
-  margin-top: 6px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .col-25, .col-75, input[type=submit] {
-    width: 100%;
-    margin-top: 0;
-  }
-}
