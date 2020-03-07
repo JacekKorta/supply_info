@@ -40,7 +40,7 @@ body {
     background-color: orange;
     }
 #Dużotd {
-    background-color: #34d614;
+    background-color: #37b842;
     }
 
 h1, h2, h3, h4 {
@@ -51,8 +51,12 @@ h1, h2, h3, h4 {
     font-family: Lato,sans-serif;
 }
 
+.page-header {
+    border: 0px;
+    margin: 0px 15px;
+}
 head, body {
-    margin: 0px 15px;;
+    margin: 0px;
 }
 /* ===== Left nav bar =====*/
 
@@ -61,7 +65,7 @@ nav {
 	text-transform: uppercase;
 	float: left;
 	position: relative;
-	width: 260px;
+	width: 250px;
     height: 100%;
 }
 nav ul {
@@ -118,13 +122,13 @@ nav li {
 
 .upper-menu {
   list-style-type: none;
-  margin: 0;
+  margin: 0px;
   padding: 0;
   padding-right:15px;
   overflow: hidden;
   /*border: 1px solid #e7e7e7;*/
-  border-bottom: 1px solid #e7e7e7;
   font-size: 16px;
+  border: none;
 }
 
 .inside-upper-menu {
@@ -188,6 +192,15 @@ input[type=button], input[type=submit], input[type=reset] {
 }
 .search-input:focus {
   background-color: #ddd;
+}
+
+.sub-menu i {
+    margin: 0 11 0 0px;
+    color: #e13e2f;
+}
+.inside-upper-menu i {
+    margin: 0 5 0 0px;
+    color: #e13e2f;
 }
 
 /* ==== forms styling ============ */

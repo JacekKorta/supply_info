@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155235325-1"></script>
+        <script src="https://kit.fontawesome.com/5e054a9f6e.js" crossorigin="anonymous"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
@@ -23,26 +24,26 @@
             <h1>Stany magazynowe JANOME i ELNA</h1>
             <div>Ostatnia aktualizacja: {{ last_update_time.date }}</div>
         </div>
-        <ul class="upper-menu">
+        <ul class="upper-menu navbar navbar-default navbar-static-top">
             {% if user.is_authenticated %}
             <li class="inside-upper-menu" style="float:left; padding-left:10px;">
                 <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}" class="search-input form-inline">
                 <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu" class="search-input form-control">
-                <button type="submit" name="submit" value="Szukaj" class="search-input btn btn-default glyphicon glyphicon-search">
+                <button type="submit" name="submit" value="Szukaj" title="Szukaj" class="search-input btn btn-default glyphicon glyphicon-search"></button>
                 </form>
             </li>
             <li class="inside-upper-menu">
-                <a href="{% url 'logout' %}"><span title="Wyloguj" class="glyphicon glyphicon-log-out"> Wyloguj</span></a>
+                <a href="{% url 'logout' %}" ><i title="Wyloguj" class="glyphicon glyphicon-log-out"></i>Wyloguj</a>
             </li>
             <li class="inside-upper-menu">
-                <a href="{% url 'supply_info:change_password' %}"><span title="Ustawienia" class="glyphicon glyphicon-cog"> Konto</span></a>
+                <a href="{% url 'supply_info:change_password' %}"><i title="Ustawienia" class="glyphicon glyphicon-cog"></i>Konto</a>
             </li>
             <li class="inside-upper-menu">
                 <div> Zalogowany jako: <b>{{ user.username }}</b></div>
             </li>
             {% else %}
-            <li class="inside-upper-menu">
-                <a href="{% url 'login' %}" class="top-menu"><span class="pull-right glyphicon glyphicon-log-in" style="color:red"> Zaloguj</span></a>
+            <li class="inside-upper-menu-anonymous">
+                <a href="{% url 'login' %}" class="top-menu"><i class="pull-right glyphicon glyphicon-log-in" style="margin:17px; color:red;"></i></a>
             </li>
 
         {% endif %}
