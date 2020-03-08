@@ -23,8 +23,8 @@ class TestPageAdminLogged(AdminLoggedInTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'serial_numbers/register_machines.html')
         self.assertContains(response, 'Zarejestruj maszyny w magazynie')
-        self.assertContains(response, 'Administracja')
-        self.assertContains(response, 'Magazyn')
+        self.assertContains(response, 'administracja')
+        self.assertContains(response, 'magazyn')
 
     def test_save_shipment_page_works(self):
         current_year = datetime.now().year
@@ -32,11 +32,10 @@ class TestPageAdminLogged(AdminLoggedInTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'serial_numbers/add_shipment.html')
         self.assertContains(response, 'Dodaj wysyłkę')
-        self.assertContains(response, 'Administracja')
-        self.assertContains(response, 'Magazyn')
+        self.assertContains(response, 'administracja')
+        self.assertContains(response, 'magazyn')
         self.assertContains(response, 'Klient:')
-        self.assertContains(response, 'Dokument:')
-        self.assertContains(response, 'WZ/')
+        self.assertContains(response, 'Nr dokumentu WZ:')
         self.assertContains(response, f'{current_year}')
         self.assertContains(response, 'Numery seryjne:')
 

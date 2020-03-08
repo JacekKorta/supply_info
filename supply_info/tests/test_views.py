@@ -24,8 +24,8 @@ class TestPageAdminLogged(AdminLoggedInTestCase):
         self.assertContains(response, 'Stan')
         self.assertContains(response, 'Szukaj')
         self.assertContains(response, 'Lista maszyn')
-        self.assertContains(response, 'Administracja')
-        self.assertContains(response, 'Magazyn')
+        self.assertContains(response, 'administracja')
+        self.assertContains(response, 'magazyn')
 
     def test_update_product_info_works(self):
         response = self.client.get(reverse('supply_info:update_product_info'))
@@ -49,7 +49,7 @@ class TestPageLogged(LoggedInTestCase):
         self.assertContains(response, 'Stan ')
         self.assertContains(response, 'Szukaj')
         self.assertContains(response, 'Lista maszyn')
-        self.assertNotContains(response, 'Administracja')
+        self.assertNotContains(response, 'administracja')
         self.assertNotContains(response, 'Magazyn')
 
     def test_update_product_info_works(self):
