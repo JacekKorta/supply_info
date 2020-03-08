@@ -20,9 +20,9 @@ def index(request):
                                                 'product_availability').filter(mark='M').order_by("code")
     last_update_time = Event.objects.filter(event_name='availability update').last()
     return render(request, 'supply_info/machines_list.html', {'machines': machines,
-                                                             'now': datetime.today().date(),
-                                                             'last_update_time': last_update_time,
-                                                             })
+                                                              'now': datetime.today().date(),
+                                                              'last_update_time': last_update_time,
+                                                              })
 
 
 def machines_list(request):
@@ -30,17 +30,17 @@ def machines_list(request):
                                                 'product_availability').filter(mark='M').order_by("code")
     last_update_time = Event.objects.filter(event_name='availability update').last()
     return render(request, 'supply_info/machines_list.html', {'machines': machines,
-                                                             'now': datetime.today().date(),
-                                                             'last_update_time': last_update_time,
-                                                             })
+                                                              'now': datetime.today().date(),
+                                                              'last_update_time': last_update_time,
+                                                              })
 
 
 @login_required
 def product_list(request, sub_type):
     object_list = Product.objects.prefetch_related('price_lists',
-                                                'product_availability').filter(sub_type=sub_type).order_by("code")
-    # 100 products per page
-    paginator = Paginator(object_list, 100)
+                                                   'product_availability').filter(sub_type=sub_type).order_by("code")
+    # 50 products per page
+    paginator = Paginator(object_list, 50)
     page = request.GET.get('page')
     try:
         products = paginator.page(page)
