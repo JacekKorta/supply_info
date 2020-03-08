@@ -7,6 +7,10 @@ body {
     background-color: #fafafa;
 }
 
+.glyphicon-plus {
+    color: #a3b8c4;
+}
+
 /* ============== */
 #machines_list_table {
   border-collapse: collapse;
@@ -40,7 +44,7 @@ body {
     background-color: orange;
     }
 #Dużotd {
-    background-color: #37b842;
+    background-color: #1cb84b;
     }
 
 h1, h2, h3, h4 {
@@ -58,6 +62,18 @@ h1, h2, h3, h4 {
 head, body {
     margin: 0px;
 }
+/* ====== Paginator ====*/
+.paginator-buttons {
+    position:relative;
+    width:65%;
+    display: inline-block;
+}
+.paginator-buttons font {
+    padding: 0 5px;
+}
+
+
+
 /* ===== Left nav bar =====*/
 
 nav {
@@ -183,6 +199,10 @@ input[type=button], input[type=submit], input[type=reset] {
     margin: 0px 0px 3px 0px;
 }
 
+.inside-upper-menu font {
+    margin: 0 0 0 20px;
+}
+
 .search-input {
   box-sizing: border-box;
   /*border: 1px solid #555;*/
@@ -213,9 +233,6 @@ input[type=button], input[type=submit], input[type=reset] {
  padding: 20px;
  margin: 20px 40px;
  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-.container h3 {
-    /*text-align: center;*/
 }
 
 .container input[type=text], input[type=number], select, textarea {
@@ -249,5 +266,4 @@ input[type=button], input[type=submit], input[type=reset] {
 .container input[type=submit]:hover {
   background-color: #45a049;
 }
-
 
