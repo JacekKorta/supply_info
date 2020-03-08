@@ -27,7 +27,6 @@ class TestPageAdminLogged(AdminLoggedInTestCase):
         self.assertContains(response, 'magazyn')
 
     def test_save_shipment_page_works(self):
-        current_year = datetime.now().year
         response = self.client.get(reverse('serial_numbers:save_shipment'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'serial_numbers/add_shipment.html')
@@ -35,8 +34,7 @@ class TestPageAdminLogged(AdminLoggedInTestCase):
         self.assertContains(response, 'administracja')
         self.assertContains(response, 'magazyn')
         self.assertContains(response, 'Klient:')
-        self.assertContains(response, 'Nr dokumentu WZ:')
-        self.assertContains(response, f'{current_year}')
+        self.assertContains(response, 'Nr dokumentu WZ (bez serii i roku):')
         self.assertContains(response, 'Numery seryjne:')
 
 
