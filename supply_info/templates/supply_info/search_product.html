@@ -4,8 +4,6 @@
 
 {% if submitbutton == 'Szukaj' and request.GET.q != '' %}
 {% if results %}
-<h3>Wynik dla: <b>{{ request.GET.q }}</b></h3>
-<br/><br/>
 <div class="machine_table">
     <table border="1" id="machines_list_table">
         <tr>
@@ -20,7 +18,6 @@
         {% if result.active_product_list.all %}
         {% for item in result.active_product_list.all %}
         {% if item.is_active %}
-
         <tr>
             <form action="" method="post">
                 {% if result.site_address %}

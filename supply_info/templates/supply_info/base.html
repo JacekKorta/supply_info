@@ -30,8 +30,13 @@
                 <form action="{% url 'supply_info:search_product' %}" method="GET" value="{{request.GET.q}}" class="search-input form-inline">
                 <input type="text" name="q" value="{{request.GET.q}}" placeholder="wpisz kod produktu" class="search-input form-control">
                 <button type="submit" name="submit" value="Szukaj" title="Szukaj" class="search-input btn btn-default glyphicon glyphicon-search"></button>
+                {% if request.GET.q %}
+                    <font>Wynik dla: <b>{{ request.GET.q }}</b></font>
+                {% endif %}
                 </form>
+
             </li>
+
             <li class="inside-upper-menu">
                 <a href="{% url 'logout' %}" ><i title="Wyloguj" class="glyphicon glyphicon-log-out"></i>Wyloguj</a>
             </li>

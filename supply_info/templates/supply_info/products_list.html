@@ -2,7 +2,6 @@
 
 {% block content %}
 {% include "supply_info/pagination.html" with page=products %}
-<br/><br/>
 <div class="machine_table">
     <table border="1" id="machines_list_table">
         <tr>
@@ -17,7 +16,6 @@
         {% if product.active_product_list.all %}
         {% for item in product.active_product_list.all %}
         {% if item.is_active %}
-
         <tr>
             <form action="" method="post">
                 {% if product.site_address %}

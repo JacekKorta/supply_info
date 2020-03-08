@@ -1,13 +1,17 @@
-<div>
-    <span>
+<div aria-label="..." class="paginator-buttons">
+    <ul class="pager">
         {% if page.has_previous %}
-            <a href="?page={{ page.previous_page_number }}">Poprzednia<<</a>
+            <li><a href="?page={{ page.previous_page_number }}" class="paginator-bttn-prev">Poprzednia</a></li>
+        {% else %}
+            <li class="disabled"><a href="#" class="paginator-bttn-prev">Poprzednia</a></li>
         {% endif %}
         <span class="current">
-            Strona {{ page.number }} z {{ page.paginator.num_pages }} .
+            <font>Strona {{ page.number }} z {{ page.paginator.num_pages }}</font>
         </span>
         {% if page.has_next %}
-            <a href="?page={{ page.next_page_number }}">>>Następna</a>
+            <li><a href="?page={{ page.next_page_number }}" style="padding: 5 16 5 16px;">Następna</a></li>
+        {% else %}
+            <li class="disabled"><a href="#" class="paginator-bttn-next">Następna</a></li>
         {% endif %}
-    </span>
+    </ul>
 </div>
