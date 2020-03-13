@@ -1,10 +1,15 @@
 import csv
+import io
 from datetime import datetime
 
 from django.contrib import admin
-from django.http import HttpResponse
+from django.http import FileResponse, HttpResponse
 from django.utils.html import format_html
 from django.urls import reverse
+from django.shortcuts import render
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 
 from warranty_parts.models import Comments, Issues
 from serial_numbers.models import Machine
@@ -103,7 +108,29 @@ class IssuesAdmin(admin.ModelAdmin):
                                  issue.issue_description])
         return response
 
+    def issue_to_pdf(self, request, queryset):
+        for issue in queryset:
+            buffer = io.BytesIO()
+            pdfmetrics.registerFont(TTFont('Verdana', 'Verdana.ttf'))
+            page = canvas.Canvas(buffer)
+            page.setLineWidth(.3)
+            page.setFont("Verdana", 8)
+            page.drawString(30, 760, f'Zgłoszenie nr: {issue.id}')
+            page.drawString(30, 745, f'Numer części: {issue.part_number}')
+            page.drawString(30, 730, f'Nazwa części: {issue.part_name}')
+            if issue.machine:
+                page.drawString(30, 715, f'Model maszyny: {issue.machine.code}')
+                page.drawString(30, 700, f'Numer seryjny maszyny: {issue.machine.serial_number}')
+            page.drawString(30, 685, f'opsi usterki: {issue.issue_description}')
+            page.drawString(30, 670, f'Część została wpisana na proformę: {issue.doc_number}')
+            page.line(30, 650, 520, 650)
+            page.showPage()
+            page.save()
+            buffer.seek(0)
+            return FileResponse(buffer, as_attachment=True, filename='raport.pdf')
+
     create_csv_report.short_description = 'Pobierz raport'
+    issue_to_pdf.short_description = 'Pobierz kartę zgłoszenia'
     change_factory_status_to_reported.short_description = 'Oznacz jako: Zgłoszone'
     change_request_status.short_description = 'Oznacz jako: Do zwrotu'
     get_machine_serial_number.short_description = 'Numer seryjny'
@@ -113,7 +140,7 @@ class IssuesAdmin(admin.ModelAdmin):
     get_comments_sum.short_description = 'Komentarze'
     get_add_comment_link.short_description = 'Dodaj komentarz'
 
-    actions = [change_factory_status_to_reported, change_request_status, create_csv_report]
+    actions = [change_factory_status_to_reported, change_request_status, create_csv_report, issue_to_pdf]
     readonly_fields = ('id', 'time_stamp')
     fieldsets = [
         (None, {'fields': ['id',
