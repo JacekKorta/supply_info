@@ -33,6 +33,9 @@ class Issues(models.Model):
     issue_description = models.TextField(blank=True,
                                          null=True,
                                          verbose_name='Opis usterki')
+    eng_issue_description = models.TextField(blank=True,
+                                             null=True,
+                                             verbose_name='Opis usterki (ENG)')
     where_is_the_part = models.CharField(max_length=20,
                                          choices=WHERE_IS_THE_PART_CHOICES,
                                          default='czeka_na_wymiane',
