@@ -96,7 +96,7 @@ class IssuesAdmin(admin.ModelAdmin):
                                  issue.part_number,
                                  issue.quantity,
                                  issue.part_name,
-                                 issue.issue_description])
+                                 issue.eng_issue_description])
             except AttributeError:
                 # for issue separated from machine, ex individual parts or accessories
                 writer.writerow([issue.id,
@@ -154,6 +154,7 @@ class IssuesAdmin(admin.ModelAdmin):
                            'doc_number',
                            'request',
                            'issue_description',
+                           'eng_issue_description',
                            ]}),
         ]
     list_display = ('id',
