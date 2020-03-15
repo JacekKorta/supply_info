@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'coverage',
+    'info_channel',
     'supply_info',
     'serial_numbers',
     'rest_framework',
