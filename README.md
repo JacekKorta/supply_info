@@ -36,3 +36,5 @@ The concept was to create an app that helps to make the whole process more trans
 - coverage==5.0.3
 - Django==2.2.7
 - djangorestframework==3.11.0
+- googletrans==2.4.0
+- reportlab==3.5.34
