@@ -1,0 +1,25 @@
+{% extends 'supply_info/base.html' %}
+
+{% block title %}Informacje{% endblock %}
+{% block content %}
+{% include "supply_info/pagination.html" with page=page_obj %}
+    <h1 class="post_list_title">Informacje</h1>
+    {% for post in posts %}
+    <div class="post_preview">
+        <h2 class="post_preview_title">
+        <a href="{{ post.get_absolute_url }}">
+        {{ post.title }}
+        </a>
+        </h2>
+        <p class="post_preview_footer">
+            Opublikowano: {{ post.publish }}
+            {% if post.updated %}
+            Ostatnia aktualizacja: {{ post.updated }}
+            {% endif %}
+        </p>
+        <p class="post_body_preview">
+            {{ post.post_body_paragraph.all.0.body|truncatewords:30|linebreaks }}
+        </p>
+    </div>
+    {% endfor %}
+{% endblock %}

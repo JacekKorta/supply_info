@@ -1,0 +1,19 @@
+{% extends 'supply_info/base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+    {% block content %}
+    <h1>{{ post.title }}</h1>
+    <p class="date">
+        Published {{ post.publish }} by {{ post.author }}
+    </p>
+    {% for item in post.post_body_paragraph.all %}
+    <div class=post_paragraph>
+        {% if item.img_address %}
+            <img src="{{item.img_address}}" class="post_img{{ img_position }}">
+        {% endif %}
+        <div class="post_body">
+            {{ item.body|linebreaks }}
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
