@@ -267,3 +267,88 @@ input[type=button], input[type=submit], input[type=reset] {
   background-color: #45a049;
 }
 
+/* ========= post styling =======*/
+.post_list_title {
+    color: #428bca;
+    text-transform: uppercase;
+}
+
+.post-detail, .post_list{
+ float: left;
+ position: static;
+ width: 65%;
+ padding: 0 20px;
+ margin: 0px 40px;
+ font-family: Lato,sans-serif;
+}
+
+.post_preview_title {
+    font-size: 26px;
+}
+
+.post-detail {
+ float: left;
+ position: static;
+ width: 65%;
+ padding: 20px;
+ margin: 20px 40px;
+ font-family: Lato,sans-serif;
+}
+
+.post-title {
+    line-height: 1.4;
+    color: #3e3e3e;
+    padding: 5px 20 5 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border: 0px;
+    border-radius: 0px;
+    border-bottom: 1px dashed #98afbd;
+    border-top: 1px dashed #98afbd;
+    background: #e5ecf0;
+    outline: 0;
+    font-size: 18px;
+    font-weight: bold;
+    }
+
+
+.post-body {
+    margin: 0 0 10 0;
+    padding: 15 0px;
+}
+
+
+.post-img-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: auto;
+  width: 40%;
+  padding: 15 15 20 15px;
+}
+
+.post-img-left {
+    float: left;
+    overflow: auto;
+    padding: 15 15 15 0px;
+    max-width:300;
+    max-height: auto;
+    margin: 0 20 0 0;
+    padding: 15 0px;
+    }
+
+.post-img-right {
+    float: right;
+    overflow: auto;
+    padding: 15 0 15 15 px;
+    max-width:300;
+    max-height: auto;
+    margin:  0 0 0 10;
+    padding: 15 0px;
+}
+
+.post-date {
+    font-size: 12px;
+    padding: 5 5 5 0px;
+    font-style: italic;
+}
