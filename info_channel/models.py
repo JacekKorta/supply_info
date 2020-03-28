@@ -58,4 +58,6 @@ class PostBodyParagraph(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_body_paragraph')
     body = models.TextField()
     img_position = models.CharField(max_length=7, choices=IMAGE_POSITION_ChOICES, default='centrum')
-    img_address = models.CharField(max_length=250, blank=True, null=True)
+    img_address = models.CharField(max_length=250, blank=True, null=True, verbose_name='Adres grafiki')
+    img_link = models.URLField(max_length=250, blank=True, null=True, verbose_name='Link grafiki')
+    img_alt = models.CharField(max_length=40, blank=True, null=True, verbose_name='Tekst alternatywny')
