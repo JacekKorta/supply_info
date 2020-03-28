@@ -3,7 +3,8 @@
 {% block title %}Informacje{% endblock %}
 {% block content %}
 {% include "supply_info/pagination.html" with page=page_obj %}
-    <h1 class="post_list_title">Informacje</h1>
+<div class="post_list">
+    <h1 class="post_list_title">informacje</h1>
     {% for post in posts %}
     <div class="post_preview">
         <h2 class="post_preview_title">
@@ -22,4 +23,5 @@
         </p>
     </div>
     {% endfor %}
+</div>
 {% endblock %}

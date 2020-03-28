@@ -2,18 +2,22 @@
 
 {% block title %}{{ post.title }}{% endblock %}
     {% block content %}
-    <h1>{{ post.title }}</h1>
-    <p class="date">
-        Published {{ post.publish }} by {{ post.author }}
-    </p>
-    {% for item in post.post_body_paragraph.all %}
-    <div class=post_paragraph>
-        {% if item.img_address %}
-            <img src="{{item.img_address}}" class="post_img{{ img_position }}">
-        {% endif %}
-        <div class="post_body">
-            {{ item.body|linebreaks }}
+    <div class="post-detail">
+        <h1 class="post-title">{{ post.title }}</h1>
+        <p class="post-date">
+            Opublikowano: {{ post.publish }}. Ostatnia aktualizacja: {{ post.updated }}
+        </p>
+        {% for item in post.post_body_paragraph.all %}
+        <div class=post-paragraph>
+            {% if item.img_address %}
+                <a href="{{ item.img_link }}">
+                   <img src="{{ item.img_address }}" alt="{{ item.img_alt }}"  class="post-img-{{ item.img_position }}">
+                </a>
+            {% endif %}
+            <div class="post-body">
+                {{ item.body|linebreaks }}
+            </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 {% endblock %}
