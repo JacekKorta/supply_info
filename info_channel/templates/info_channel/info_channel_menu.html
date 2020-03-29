@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<li class='sub-menu'><a href='#informations'><i class="far fa-newspaper"></i>Informacje<div class='fa fa-caret-down right'></div></a>
+    <ul>
+        <li><a href="{% url 'info_channel:post_list' category='all' %}">Wszystkie wiadomości</a></li>
+        <li><a href="{% url 'info_channel:post_list' category='important_information' %}">Komunikaty</a></li>
+        <li><a href="{% url 'info_channel:post_list' category='news' %}">Nowości</a></li>
+        <li><a href="{% url 'info_channel:post_list' category='information' %}">Informacje</a></li>
+        {% if user.is_staff %}
+        <li><a href="{% url 'info_channel:post_list' category='inner_information' %}">Komunikaty firmowe</a></li>
+        {% endif %}
+    </ul>
+</li>
