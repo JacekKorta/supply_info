@@ -61,6 +61,7 @@
                     {% include "warranty_parts/service_menu.html" %}
                 {% endif %}
                 {% if user.is_authenticated %}
+                    {% include "info_channel/info_channel_menu.html" %}
                     {% include "supply_info/filters_menu.html" %}
                 {% endif %}
             </ul>
