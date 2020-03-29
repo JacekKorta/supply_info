@@ -1,3 +1,4 @@
+from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -8,6 +9,10 @@ from info_channel.models import Post, PostBodyParagraph
 
 class PostsSetUp(TestCase):
     def setUp(self):
+        now = datetime.now()
+        self.day = now.day
+        self.month = now.month
+        self.year = now.year
         self.user = User.objects.create_superuser('Artur_admin', 'artur_the_admin@example.com', 'arturadminpassword')
 
         sample_post1 = Post.objects.create(
@@ -74,7 +79,7 @@ class TestPostsListStaffLogged(StaffUserLoggedIn):
         # 'The post is unpublished, should be not visible'
         self.assertNotContains(response, 'Draft_title')
         self.assertNotContains(response, "unpublished body lorem ipsum...")
-        # The post origin from different category, shouldn't be visible
+        # The post have different category, shouldn't be visible
         self.assertNotContains(response, 'test title 3',)
         self.assertNotContains(response, 'News body lorem ipsum...')
 
@@ -85,6 +90,37 @@ class TestPostsListStaffLogged(StaffUserLoggedIn):
         self.assertContains(response, 'informacje')
         self.assertContains(response, 'test title 3')
         self.assertContains(response, 'News body lorem ipsum...')
+
+    def test_news_post_detail_staff_user_logged(self):
+        response = self.client.get(reverse('info_channel:post_detail',
+                                           kwargs={
+                                               'year': self.year,
+                                               'month': self.month,
+                                               'day': self.day,
+                                               'slug': 'test-title-3'
+                                           }))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'info_channel/post/detail.html')
+        self.assertContains(response, 'test title 3')
+        self.assertContains(response, 'News body lorem ipsum...')
+        self.assertContains(response, f"Opublikowano: {self.day}")
+        self.assertContains(response, f"{self.year}")
+
+    def test_inner_post_detail_staff_user_logged(self):
+        response = self.client.get(reverse('info_channel:post_detail',
+                                           kwargs={
+                                               'year': self.year,
+                                               'month': self.month,
+                                               'day': self.day,
+                                               'slug': 'test-title-2'
+                                           }))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'info_channel/post/detail.html')
+        self.assertContains(response, 'test title 2')
+        self.assertContains(response, 'inner body lorem ipsum...')
+        self.assertContains(response, f"Opublikowano: {self.day}")
+        self.assertContains(response, f"{self.year}")
+
 
 
 class TestPostsListUserLogged(UserLoggedIn):
@@ -99,7 +135,7 @@ class TestPostsListUserLogged(UserLoggedIn):
         # 'The post is unpublished, should be not visible'
         self.assertNotContains(response, 'Draft_title')
         self.assertNotContains(response, "unpublished body lorem ipsum...")
-        # The post origin from different category, shouldn't be visible
+        # The post have different category, shouldn't be visible
         self.assertNotContains(response, 'test title 3',)
         self.assertNotContains(response, 'News body lorem ipsum...')
 
@@ -110,3 +146,29 @@ class TestPostsListUserLogged(UserLoggedIn):
         self.assertContains(response, 'informacje')
         self.assertContains(response, 'test title 3')
         self.assertContains(response, 'News body lorem ipsum...')
+
+    def test_news_post_detail_user_logged(self):
+        response = self.client.get(reverse('info_channel:post_detail',
+                                           kwargs={
+                                               'year': self.year,
+                                               'month': self.month,
+                                               'day': self.day,
+                                               'slug': 'test-title-3'
+                                           }))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'info_channel/post/detail.html')
+        self.assertContains(response, 'test title 3')
+        self.assertContains(response, 'News body lorem ipsum...')
+        self.assertContains(response, f"Opublikowano: {self.day}")
+        self.assertContains(response, f"{self.year}")
+
+    def test_inner_post_detail_user_logged(self):
+        response = self.client.get(reverse('info_channel:post_detail',
+                                           kwargs={
+                                               'year': self.year,
+                                               'month': self.month,
+                                               'day': self.day,
+                                               'slug': 'test-title-2'
+                                           }))
+        self.assertEqual(response.status_code, 404)
+
