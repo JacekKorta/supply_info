@@ -7,6 +7,7 @@ from info_channel.models import Post
 
 @method_decorator(login_required, name='dispatch')
 class PostListView(ListView):
+    model = Post.published
 
     def get_queryset(self):
         category = self.kwargs.get('category')
