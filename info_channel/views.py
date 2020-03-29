@@ -7,7 +7,7 @@ from info_channel.models import Post
 
 @method_decorator(login_required, name='dispatch')
 class PostListView(ListView):
-    model = Post.published
+    model = Post
 
     def get_queryset(self):
         category = self.kwargs.get('category')
@@ -38,3 +38,10 @@ class PostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
     template_name = 'info_channel/post/detail.html'
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Post.published.all()
+        else:
+            return Post.published.all().exclude(category='inner_information')
+
