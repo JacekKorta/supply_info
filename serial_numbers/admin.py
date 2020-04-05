@@ -66,6 +66,7 @@ class ShipmentAdmin(admin.ModelAdmin):
 
     get_machine_sn.admin_order_field = 'item'
     get_machine_sn.short_description = 'Numer seryjny'
+    date_hierarchy = 'shipment_date'
 
     list_display = ['delivery_note_number',
                     'customer',
