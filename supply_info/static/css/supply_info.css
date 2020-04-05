@@ -286,6 +286,7 @@ input[type=button], input[type=submit], input[type=reset] {
     font-size: 26px;
 }
 
+
 .post-detail {
  float: left;
  position: static;
@@ -298,7 +299,7 @@ input[type=button], input[type=submit], input[type=reset] {
 .post-title {
     line-height: 1.4;
     color: #3e3e3e;
-    padding: 5px 20 5 10px;
+    padding: 5px 20 5 5px;
     margin-bottom: 10px;
     margin-top: 10px;
     border: 0px;
@@ -347,7 +348,7 @@ input[type=button], input[type=submit], input[type=reset] {
     padding: 15 0px;
 }
 
-.post-date {
+.post-date, .post_preview_footer  {
     font-size: 12px;
     padding: 5 5 5 0px;
     font-style: italic;
