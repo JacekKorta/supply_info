@@ -11,11 +11,17 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug', 'author', 'publish', 'category', 'status')
     list_filter = ('status', 'category', 'publish', 'created', 'author')
     search_fields = ('title',)
-    raw_id_fields = ('author',)
+    readonly_fields = ('author',)
     prepopulated_fields = {'slug': ('title',)}
     date_hierarchy = 'publish'
     ordering = ('status', 'publish')
 
     inlines = [PostBodyParagraphInline]
+
+    def save_model(self, request, obj, form, change):
+        if getattr(obj, 'author', None) is None:
+            obj.author = request.user
+        obj.save()
+        
 
 admin.site.register(Post, PostAdmin)
