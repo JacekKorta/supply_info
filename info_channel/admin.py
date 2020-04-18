@@ -22,6 +22,6 @@ class PostAdmin(admin.ModelAdmin):
         if getattr(obj, 'author', None) is None:
             obj.author = request.user
         obj.save()
-        
+
 
 admin.site.register(Post, PostAdmin)

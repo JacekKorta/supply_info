@@ -1,4 +1,5 @@
 {% extends 'supply_info/base.html' %}
+{% load info_channel_tags %}
 
 {% block title %}{{ post.title }}{% endblock %}
     {% block content %}
@@ -15,7 +16,7 @@
                 </a>
             {% endif %}
             <div class="post-body">
-                {{ item.body|linebreaks }}
+                {{ item.body|markdown }}
             </div>
         </div>
         {% endfor %}

@@ -1,4 +1,5 @@
 {% extends 'supply_info/base.html' %}
+{% load info_channel_tags %}
 
 {% block title %}Informacje{% endblock %}
 {% block content %}
@@ -19,7 +20,7 @@
             {% endif %}
         </p>
         <p class="post_body_preview">
-            {{ post.post_body_paragraph.all.0.body|truncatewords:30|linebreaks }}
+            {{ post.post_body_paragraph.all.0.body|markdown|truncatewords_html:30 }}
         </p>
     </div>
     {% endfor %}
