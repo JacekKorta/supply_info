@@ -37,4 +37,5 @@ The concept was to create an app that helps to make the whole process more trans
 - Django==2.2.7
 - djangorestframework==3.11.0
 - googletrans==2.4.0
+- Markdown==3.2.1
 - reportlab==3.5.34
