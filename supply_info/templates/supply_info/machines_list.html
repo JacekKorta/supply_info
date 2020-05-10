@@ -41,10 +41,14 @@
                 {% for item in machine.price_lists.all %}
                     <td align="right">{{ item.price_d }}</td>
                 {% endfor %}
-                {% if machine.next_shipment > now %}
-                <td>{{ machine.next_shipment }}</td>
+                {% if machine.next_shipment and machine.next_shipment > now %}
+                    <td>{{machine.next_shipment }}</td>
                 {% else %}
-                    <td> </td>
+                    {% if machine.get_next_shipment and machine.get_next_shipment > now %}
+                        <td>{{ machine.get_next_shipment }}</td>
+                    {% else %}
+                        <td> termin nieustalony </td>
+                    {% endif %}
                 {% endif %}
                 <td>{{ machine.additional_info|default_if_none:""}}</td>
                 {# <td><input type="button" name="send_question" value="Zadaj pytanie"></td> #}
