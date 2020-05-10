@@ -1,7 +1,7 @@
 from django.db import models
 
 from supply_info.sp_modules import products_info as pi
-
+from shipments.models import Shipment, ShipmentDetail
 
 class Product(models.Model):
     TYP_CHOICES = pi.TYPE_CATEGORIES
@@ -16,6 +16,17 @@ class Product(models.Model):
     additional_info = models.CharField(max_length=400, blank=True, null=True, verbose_name='Dodatkowe informacje')
     next_shipment = models.DateField(blank=True, null=True, verbose_name='Następna dostawa')
     site_address = models.CharField(max_length=100, blank=True, null=True, verbose_name='link do strony')
+
+    @property
+    def get_next_shipment(self):
+        try:
+            shipment = Shipment.objects.\
+                filter(shipmentdetail__product=self).\
+                filter(shipment_status='pending').\
+                order_by('estimated_time_arrival').first()
+            return shipment.estimated_time_arrival
+        except AttributeError:
+            return None
 
     def __str__(self):
         return self.code
