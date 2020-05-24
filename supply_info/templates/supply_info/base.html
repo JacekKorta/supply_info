@@ -57,6 +57,7 @@
             <ul>
                 {% if user.is_staff %}
                     {% include "supply_info/admin_menu.html" %}
+                    {% include "shipments/shipment_menu.html" %}
                     {% include "serial_numbers/warehouse_menu.html" %}
                     {% include "warranty_parts/service_menu.html" %}
                 {% endif %}

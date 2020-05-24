@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 from supply_info.sp_modules import products_info as pi
@@ -19,10 +21,12 @@ class Product(models.Model):
 
     @property
     def get_next_shipment(self):
+        today = datetime.today()
         try:
             shipment = Shipment.objects.\
                 filter(shipmentdetail__product=self).\
                 filter(shipment_status='pending').\
+                exclude(estimated_time_arrival__lte=today).\
                 order_by('estimated_time_arrival').first()
             return shipment.estimated_time_arrival
         except AttributeError:
