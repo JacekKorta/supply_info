@@ -110,10 +110,10 @@ class IssuesAdmin(admin.ModelAdmin):
     def issue_to_pdf(self, request, queryset):
         for issue in queryset:
             buffer = io.BytesIO()
-            pdfmetrics.registerFont(TTFont('Verdana', 'Verdana.ttf'))
+            pdfmetrics.registerFont(TTFont('Arial', '/usr/local/share/fonts/webfonts/arialbi.ttf'))
             page = canvas.Canvas(buffer)
             page.setLineWidth(.3)
-            page.setFont("Verdana", 8)
+            page.setFont("Arial", 8)
             page.drawString(30, 760, f'Zgłoszenie nr: {issue.id}')
             page.drawString(30, 745, f'Numer części: {issue.part_number}')
             page.drawString(30, 730, f'Nazwa części: {issue.part_name}')
