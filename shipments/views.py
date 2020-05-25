@@ -10,7 +10,6 @@ from .forms import NewShipmentDetailForm
 from supply_info.models import Product
 
 
-
 def create_row(machines, shipments):
     rows = []
     for i in range(0, len(machines)):
@@ -28,6 +27,7 @@ def create_row(machines, shipments):
         rows.append(row)
     return rows
 
+
 @staff_member_required
 def shipments_view(request):
     today = datetime.now().date()
@@ -36,9 +36,9 @@ def shipments_view(request):
         exclude(estimated_time_arrival__lt=today).\
         exclude(shipment_status__in=['done', 'canceled']).order_by('estimated_time_arrival')
     rows = create_row(machines, shipments)
-    return render( request, 'shipments/shipments_list.html', {'shipments': shipments,
-                                                              'machines': machines,
-                                                              'rows':rows})
+    return render(request, 'shipments/shipments_list.html', {'shipments': shipments,
+                                                             'machines': machines,
+                                                             'rows': rows})
 
 
 @staff_member_required

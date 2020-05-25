@@ -26,7 +26,6 @@ class StaffUserLoggedInTests(StaffUserLoggedInTestCase):
         self.assertContains(response, 'dostawy maszyn')
         self.assertContains(response, 'dodaj dostawę')
 
-
     def test_all_machines_are_visible(self):
         machines = Product.objects.filter(mark='M').order_by("code")
         response = self.client.get(reverse('shipments:shipments_view'))
@@ -39,6 +38,6 @@ class StaffUserLoggedInTests(StaffUserLoggedInTestCase):
 
     def test_past_shipment_is_not_visible(self):
         response = self.client.get(reverse('shipments:shipments_view'))
-        self.assertContains(response, 'TH0001')
+        self.assertNotContains(response, 'TH0001')
 
 

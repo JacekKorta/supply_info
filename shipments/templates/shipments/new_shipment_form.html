@@ -3,51 +3,24 @@
 {% block title %}Nowa dostawa{% endblock %}
 {% block content %}
 
-<!--
-<form class="container" method="post">
-    {% if title %}
-        <h3>{{ title }}</h3>
-    {% else %}
-            <h3>Dodaj nową dostawę</h3>
-    {% endif %}
+<form class="post-form" method="post">
     {% csrf_token %}
-    <div class="row">
-        <div class="col-md-8"><input type="text" class="form-control" placeholder="Numer dostawy" required></div>
-    {% for machine in machines %}
-
-      <div class="col-md-6"><input type="text" class="form-control" value="{{machine.code}}" disabled></div>
-      <div class="col-md-2"><input type="text" class="form-control" value="0"></div>
-        {% endfor %}
+    <div class="container">
+        {{ formset.management_form }}
+       <h2>Nowe zamówienie</h2>
+        <div class="row">
+            <div class="col-md-8"><input type="text" class="form-control" placeholder="Numer dostawy" name="shipment_number" required style="margin: 25 20px;" >
+        </div>
+        <div class="row" id="shipment_prod_qty" style="margin: 0 0 0 25px;">
+            {% for form in formset %}
+                {{ form.product.errors }}
+                <div class="col-md-6">{{ form.product }}</div>
+                {{ form.quantity.errors }}
+                <div class="col-md-2">{{ form.quantity }}</div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="save btn btn-default" style="margin: 15 35px;">Zapisz</button>
     </div>
-
-    <button type="submit" class="save btn btn-default">Zapisz</button>
-</form> -->
-<!---
-<form method="post">
-    {{ formset.management_form }}
-    <table>
-        {% for form in formset %}
-        {{ form }}
-        {% endfor %}
-    </table>
-</form>
---->
-
-<form class="container" method="post">
-    {% csrf_token %}
-    {{ formset.management_form }}
-    <div class="row">
-        <div class="col-md-8"><input type="text" class="form-control" placeholder="Numer dostawy" name="shipment_number" required>
-    </div>
-    <div class="row">
-        {% for form in formset %}
-            {{ form.product.errors }}
-            <div class="col-md-6">{{ form.product }}</div>
-            {{ form.quantity.errors }}
-            <div class="col-md-2">{{ form.quantity }}</div>
-        {% endfor %}
-    </div>
-    <button type="submit" class="save btn btn-default">Zapisz</button>
 </form>
 
 {% endblock %}

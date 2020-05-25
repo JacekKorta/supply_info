@@ -7,7 +7,7 @@ from shipments.models import ShipmentDetail, Shipment
 
 
 class NewShipmentDetailForm(forms.Form):
-    product = forms.CharField(widget=forms.TextInput)
+    product = forms.CharField(widget=forms.TextInput, disabled=True)
     quantity = forms.IntegerField(widget=forms.NumberInput)
 
 

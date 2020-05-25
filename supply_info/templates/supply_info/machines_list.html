@@ -47,7 +47,7 @@
                     {% if machine.get_next_shipment and machine.get_next_shipment > now %}
                         <td>{{ machine.get_next_shipment }}</td>
                     {% else %}
-                        <td> termin nieustalony </td>
+                        <td></td>
                     {% endif %}
                 {% endif %}
                 <td>{{ machine.additional_info|default_if_none:""}}</td>

@@ -38,7 +38,7 @@ class BasicSetup(TestCase):
             shipment_status='new',
             country_of_origin='oth',
             created=datetime.now().date(),
-            estimated_time_arrival=datetime.now().date() - timedelta(days=10)
+            estimated_time_arrival=datetime.now().date() + timedelta(days=10)
         )
         ShipmentDetail.objects.create(
             shipment=Shipment.objects.get(pk=1),
@@ -69,7 +69,7 @@ class BasicSetup(TestCase):
             shipment_status='pending',
             country_of_origin='oth',
             created=datetime.now().date(),
-            estimated_time_arrival= datetime.now().date() - timedelta(days=1),
+            estimated_time_arrival = datetime.now().date() - timedelta(days=1),
         )
         ShipmentDetail.objects.create(
             shipment=Shipment.objects.get(pk=3),
