@@ -1,0 +1,27 @@
+{% extends 'supply_info/base.html' %}
+{% load info_channel_tags %}
+{% block title %}Nowa dostawa{% endblock %}
+{% block content %}
+
+<form class="post-form" method="post">
+    {% csrf_token %}
+    <div class="container">
+        {{ formset.management_form }}
+       <h2>Nowe zamówienie</h2>
+        <div class="row">
+            <div class="col-md-8"><input type="text" class="form-control" placeholder="Numer dostawy" name="shipment_number" required style="margin: 25 20px;" >
+        </div>
+        <div class="row" id="shipment_prod_qty" style="margin: 0 0 0 25px;">
+            {% for form in formset %}
+                {{ form.product.errors }}
+                <div class="col-md-6">{{ form.product }}</div>
+                {{ form.quantity.errors }}
+                <div class="col-md-2">{{ form.quantity }}</div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="save btn btn-default" style="margin: 15 35px;">Zapisz</button>
+    </div>
+</form>
+
+{% endblock %}
+

@@ -1,0 +1,49 @@
+{% extends 'supply_info/base.html' %}
+{% load info_channel_tags %}
+
+{% block title %}Informacje{% endblock %}
+{% block content %}
+
+<div class="machine_table" style="margin-top: 70px;">
+    <table border="1" id="machine_shipment_table">
+    <tr>
+        <td width="21%"></td>
+        {% for shipment in shipments %}
+            <th style="text-align: center">
+                {{ shipment.shipment_number }}
+            </th>
+        {% endfor %}
+    </tr>
+    <tr>
+        <td></td>
+        {% for shipment in shipments %}
+            <td>
+                ETA: {{ shipment.estimated_time_arrival }}
+            </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <td width="21%"></td>
+        {% for shipment in shipments %}
+            <td>
+                Status: {{ shipment.shipment_status }}
+            </td>
+        {% endfor %}
+    </tr>
+    {% for row in rows %}
+        <tr>
+            <td style="text-align: left" title="Suma zamówień: {{ row.qty_sum }}">{{ row.code }}</td>
+            {% for qty in row.quantities %}
+                <td>{{ qty }}</td>
+            {% endfor %}
+        </tr>
+
+
+    {% endfor %}
+
+    </table>
+</div>
+
+
+{% endblock %}
+
