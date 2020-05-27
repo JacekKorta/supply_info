@@ -383,3 +383,13 @@ input[type=button], input[type=submit], input[type=reset] {
     padding: 5 5 5 0px;
     font-style: italic;
 }
+
+@media print {
+  * {
+    display: none;
+  }
+  #printableTable {
+    display: block;
+    border: 1px;
+  }
+}

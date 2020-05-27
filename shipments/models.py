@@ -1,5 +1,8 @@
-from django.db import models
 from datetime import datetime, timedelta
+
+from django.db import models
+from django.urls import reverse
+
 
 
 class Shipment(models.Model):
@@ -51,6 +54,9 @@ class Shipment(models.Model):
             return f"{shipment_number}-{today.strftime('%Y-%m-%d')}"
         except Shipment.DoesNotExist:
             return shipment_number
+
+    def get_absolute_url(self):
+        return reverse('shipments:shipments_details', args=[self.id])
 
 
 

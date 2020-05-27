@@ -10,7 +10,7 @@
         <td width="21%"></td>
         {% for shipment in shipments %}
             <th style="text-align: center">
-                {{ shipment.shipment_number }}
+                <a href="{{ shipment.get_absolute_url }}">{{ shipment.shipment_number }}</a>
             </th>
         {% endfor %}
     </tr>

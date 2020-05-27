@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic import DetailView, ListView, CreateView, FormView
 from django.forms import formset_factory
 
@@ -72,5 +72,12 @@ def add_new_shipment(request):
                'shipment_form': shipment_form,
                }
     return render(request, 'shipments/new_shipment_form.html', context)
+
+@staff_member_required
+def shipments_details(request, pk):
+    shipment = get_object_or_404(Shipment, pk=pk)
+    shipment_details = ShipmentDetail.objects.filter(shipment=shipment).order_by('product__code')
+    return render(request, 'shipments/shipment_details.html', {'shipment': shipment,
+                                                                   'shipment_details': shipment_details})
 
 
