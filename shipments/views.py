@@ -6,7 +6,7 @@ from django.views.generic import DetailView, ListView, CreateView, FormView
 from django.forms import formset_factory
 
 from .models import Shipment, ShipmentDetail
-from .forms import NewShipmentDetailForm
+from .forms import NewShipmentDetailForm, NewShipmentForm
 from supply_info.models import Product
 
 
@@ -46,51 +46,31 @@ def add_new_shipment(request):
     machines = Product.objects.filter(mark='M').order_by("code")
     NewShipmentFormset = formset_factory(NewShipmentDetailForm, max_num=len(machines))
     if request.method == 'POST':
+        shipment_form = NewShipmentForm(request.POST)
         formset = NewShipmentFormset(request.POST, initial=[{'product': machine.code, 'quantity': 0} for machine in machines])
-        if formset.is_valid():
-            formset_input = formset.cleaned_data
-            shipment_number = Shipment.form_unique_name_validation(request.POST['shipment_number'])
-            shipment = Shipment.objects.create(shipment_number=shipment_number)
-            for item in formset_input:
-                if item['quantity'] > 0:
-                    product = Product.objects.get(code=item['product'])
-                    ShipmentDetail.objects.create(shipment=shipment,
-                                                  product=product,
-                                                  quantity=item['quantity'])
+        if shipment_form.is_valid():
+            shipment_form_input = shipment_form.cleaned_data
+            if formset.is_valid():
+                formset_input = formset.cleaned_data
+                shipment_number = Shipment.form_unique_name_validation(shipment_form_input['shipment_number'])
+                shipment = Shipment.objects.create(shipment_number=shipment_number,
+                                                   country_of_origin=shipment_form_input['country_of_origin'])
+                for item in formset_input:
+                    if item['quantity'] > 0:
+                        product = Product.objects.get(code=item['product'])
+                        ShipmentDetail.objects.create(shipment=shipment,
+                                                      product=product,
+                                                      quantity=item['quantity'])
 
         return redirect('shipments:shipments_view')
     else:
         formset = NewShipmentFormset(initial=[{'product': machine.code, 'quantity': 0} for machine in machines])
+        shipment_form = NewShipmentForm()
 
     context = {'machines': machines,
-               'formset': formset
+               'formset': formset,
+               'shipment_form': shipment_form,
                }
     return render(request, 'shipments/new_shipment_form.html', context)
-
-
-
-
-
-
-
-"""
-form_class = NewShipmentDetailForm
-template_name = 'shipments/new_shipment_form.html'
-form = NewShipmentDetailForm
-success_url = '/dostawy/nowa'
-
-def get_context_data(self, **kwargs):
-    machines = Product.objects.filter(mark='M').order_by("code")
-    formset = formset_factory(NewShipmentDetailForm, max_num=len(machines))
-    context = {'machines': machines,
-               'formset': formset(initial=[{'product':machine.code, 'quantity':0} for machine in machines])
-               }
-    return context
-
-def form_valid(self, formset):
-    print(formset.cleaned_data)
-    def post(self, request, *args, **kwargs):
-    """
-
 
 
