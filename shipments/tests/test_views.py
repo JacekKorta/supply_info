@@ -40,4 +40,26 @@ class StaffUserLoggedInTests(StaffUserLoggedInTestCase):
         response = self.client.get(reverse('shipments:shipments_view'))
         self.assertNotContains(response, 'TH0001')
 
+    def test_shipment_detail_site_works(self):
+        response = self.client.get(reverse('shipments:shipments_details', kwargs={'pk':1}))
+        self.assertEqual(response.status_code, 200)
 
+    def test_shipment_detail_site_has_full_info(self):
+        response = self.client.get(reverse('shipments:shipments_details', kwargs={'pk':1}))
+        self.assertContains(response, 'TW0001')
+        self.assertContains(response, 'Machine1')
+        self.assertContains(response, 'Machine2')
+        self.assertContains(response, '50')
+        self.assertContains(response, '120')
+        self.assertContains(response, 'Drukuj')
+
+
+class UserLoggedIn(LoggedInTestCase):
+    def test_shipment_menu_is_Notvisible(self):
+        response = self.client.get(reverse('supply_info:index'))
+        self.assertNotContains(response, 'dostawy maszyn')
+        self.assertNotContains(response, 'dodaj dostawę')
+
+    def test_shipment_site_is_not_visible(self):
+        response = self.client.get(reverse('shipments:shipments_view'))
+        self.assertNotEqual(response.status_code, 200)
