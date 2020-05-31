@@ -8,6 +8,7 @@ from django.forms import formset_factory
 from .models import Shipment, ShipmentDetail
 from .forms import NewShipmentDetailForm, NewShipmentForm
 from supply_info.models import Product
+from serial_numbers.models import ShipmentToCustomer, Machine
 
 
 def create_row(machines, shipments):
@@ -47,7 +48,8 @@ def add_new_shipment(request):
     NewShipmentFormset = formset_factory(NewShipmentDetailForm, max_num=len(machines))
     if request.method == 'POST':
         shipment_form = NewShipmentForm(request.POST)
-        formset = NewShipmentFormset(request.POST, initial=[{'product': machine.code, 'quantity': 0} for machine in machines])
+        formset = NewShipmentFormset(request.POST,
+                                     initial=[{'product': machine.code, 'quantity': 0} for machine in machines])
         if shipment_form.is_valid():
             shipment_form_input = shipment_form.cleaned_data
             if formset.is_valid():
@@ -73,11 +75,15 @@ def add_new_shipment(request):
                }
     return render(request, 'shipments/new_shipment_form.html', context)
 
+
 @staff_member_required
 def shipments_details(request, pk):
     shipment = get_object_or_404(Shipment, pk=pk)
     shipment_details = ShipmentDetail.objects.filter(shipment=shipment).order_by('product__code')
     return render(request, 'shipments/shipment_details.html', {'shipment': shipment,
-                                                                   'shipment_details': shipment_details})
+                                                               'shipment_details': shipment_details})
 
 
+@staff_member_required
+def edit_shipment(request, pk):
+    shipment = get_object_or_404(Shipment, pk=pk)
