@@ -15,7 +15,7 @@
         {% endfor %}
     </tr>
     <tr>
-        <td></td>
+        <td>Pochodzenie:</td>
         {% for shipment in shipments %}
             <td>
                 {{ shipment.get_country_of_origin_display }}
@@ -23,18 +23,18 @@
         {% endfor %}
     </tr>
     <tr>
-        <td></td>
+        <td>ETA:</td>
         {% for shipment in shipments %}
             <td>
-                ETA: {{ shipment.estimated_time_arrival }}
+                {{ shipment.estimated_time_arrival }}
             </td>
         {% endfor %}
     </tr>
     <tr>
-        <td width="21%"></td>
+        <td width="21%">Status:</td>
         {% for shipment in shipments %}
             <td>
-                Status: {{ shipment.get_shipment_status_display }}
+                {{ shipment.get_shipment_status_display }}
             </td>
         {% endfor %}
     </tr>

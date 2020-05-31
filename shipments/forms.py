@@ -14,10 +14,11 @@ class NewShipmentDetailForm(forms.Form):
 class NewShipmentForm(forms.ModelForm):
     shipment_number = forms.CharField(max_length=10, widget=forms.TextInput(attrs={'placeholder': 'Numer dostawy'}))
     country_of_origin = forms.ChoiceField(choices=Shipment.COUNTRY_CHOICES, initial='tw')
+    shipment_status = forms.ChoiceField(choices=Shipment.SHIPMENT_STATUS_CHOICES, initial='draft')
 
     class Meta:
         model = Shipment
-        fields = ['shipment_number', 'country_of_origin']
+        fields = ['shipment_number', 'country_of_origin', 'shipment_status']
 
 
 

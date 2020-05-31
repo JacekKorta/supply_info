@@ -7,17 +7,20 @@
     {% csrf_token %}
     <div class="container">
         {{ formset.management_form }}
-       <h2>Nowe zamówienie</h2>
+       <h2 style="text-align:center;">Nowe zamówienie</h2>
         <div class="row" style="margin: 0 0 0 25px;">
-            <div class="col-md-8">{{ shipment_form.shipment_number }}</div>
+            <div class="col-md-10">{{ shipment_form.shipment_number }}</div>
         </div>
         <div class="row" style="margin: 0 0 0 25px;">
-            <div class="col-md-8">{{ shipment_form.country_of_origin }}</div>
+            <div class="col-md-10">{{ shipment_form.country_of_origin }}</div>
+        </div>
+        <div class="row" style="margin: 0 0 0 25px;">
+            <div class="col-md-10">{{ shipment_form.shipment_status }}</div>
         </div>
         <div class="row" id="shipment_prod_qty" style="margin: 0 0 0 25px;">
             {% for form in formset %}
                 {{ form.product.errors }}
-                <div class="col-md-6">{{ form.product }}</div>
+                <div class="col-md-7">{{ form.product }}</div>
                 {{ form.quantity.errors }}
                 <div class="col-md-3">{{ form.quantity }}</div>
             {% endfor %}
