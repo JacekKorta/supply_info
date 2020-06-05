@@ -32,10 +32,34 @@ The company is a wholesaler of household appliances. As a part of its business, 
 The concept was to create an app that helps to make the whole process more transparent and the most automated possible.
 
 
-## Requirements: 
-- coverage==5.0.3
-- Django==2.2.7
-- djangorestframework==3.11.0
-- googletrans==2.4.0
-- Markdown==3.2.1
-- reportlab==3.5.34
+## How to run?
+
+1. Create and activate the virtual environment
+    python -m venv venv
+    source venv/Scripts/Activate
+
+2. Install requirements
+```
+    pip install -r requirements.txt
+```
+3. Install PostgreSQL<br>
+ tutorials:
+   - https://tutorial-extensions.djangogirls.org/en/optional_postgresql_installation/
+   - https://www.2ndquadrant.com/en/blog/pginstaller-install-postgresql/
+
+4. Create DB<br>
+  Run PSQL Shell
+  ```
+    CREATE USER paytoapp WITH PASSWORD <db_password>;
+    CREATE DATABASE payto OWNER <db_username>;
+  ```
+5. Make migration
+```
+    python manage.py makemigrations
+    python manage.py migrate
+```
+6. Run server
+```
+    python manage.py runserver
+```
+enjoy.
