@@ -1,0 +1,38 @@
+{% extends 'supply_info/base.html' %}
+{% load info_channel_tags %}
+
+{% block title %}Informacje{% endblock %}
+{% block content %}
+<div class="container">
+<div id="printableTable">
+    <table class="table table-hover ">
+        <tr>
+            <th>Numer dostawy:</th>
+            <th>{{ shipment.shipment_number }}</th>
+        </tr>
+        <tr>
+            <td>Kod</td>
+            <td>Ilosć</td>
+        </tr>
+        {% for item in shipment_details %}
+            <tr>
+                <td>{{ item.product }} </td>
+                <td>{{ item.quantity }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+<iframe name="print_frame" width="0" height="0" frameborder="0" src="about:blank"></iframe>
+<button class="save btn btn-default" onclick="printDiv()">Drukuj</button>
+</div>
+
+<script>
+    function printDiv() {
+     window.frames["print_frame"].document.body.innerHTML = document.getElementById("printableTable").innerHTML;
+     window.frames["print_frame"].window.focus();
+     window.frames["print_frame"].window.print();
+       }
+</script>
+
+{% endblock %}
+

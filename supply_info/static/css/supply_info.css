@@ -16,6 +16,7 @@ body {
   border-collapse: collapse;
   width: 65%;
   color: black;
+  overflow: auto;
 }
 
 
@@ -30,6 +31,35 @@ body {
 #machines_list_table tr:hover {background-color: #ddd;}
 
 #machines_list_table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #e5ecf0;
+  color: black;
+}
+
+#machine_shipment_table {
+  border-collapse: collapse;
+  width: 65%;
+  color: black;
+}
+
+
+#machine_shipment_table td, #machine_shipment_table th {
+  border: 3px solid;
+  border-color: white;
+  padding: 5px;
+  text-align: center;
+}
+#machine_shipment_table a {
+
+}
+
+#machine_shipment_table tr:nth-child(even){background-color: #f2f2f2;}
+
+#machine_shipment_table tr:hover {background-color: #ddd;}
+
+#machine_shipment_table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
@@ -352,4 +382,14 @@ input[type=button], input[type=submit], input[type=reset] {
     font-size: 12px;
     padding: 5 5 5 0px;
     font-style: italic;
+}
+
+@media print {
+  * {
+    display: none;
+  }
+  #printableTable {
+    display: block;
+    border: 1px;
+  }
 }
