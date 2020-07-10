@@ -10,7 +10,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 
 from supply_info.forms import ProductFullInfoUpdateForm
-from supply_info.models import Event, Product
+from supply_info.models import Event, Product, Alert
 from supply_info.sp_modules import db_save, receiving_data
 
 
@@ -117,5 +117,10 @@ def search_product(request):
             return render(request, 'supply_info/search_product.html')
     else:
         return render(request, 'supply_info/search_product.html')
+
+@login_required
+def alerts_list_view(request):
+    alerts = Alert.objects.filter(user=request.user).order_by('updated')
+    return render(request, 'supply_info/alerts_list.html', {'alerts': alerts})
 
 

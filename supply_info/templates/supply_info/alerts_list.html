@@ -1,0 +1,30 @@
+{% extends 'supply_info/base.html' %}
+{% load alerts_tags %}
+
+{% block content %}
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col">produkt</th>
+              <th scope="col">typ</th>
+              <th scope="col">poziom</th>
+              <th scope="col">ostatnia modyfikacja</th>
+              <th scope="col"> </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in alerts %}
+                <tr>
+                    <td scope="row">{{ alert.product.code }}</td>
+                    <td>{{ alert.less_or_equal|less_or_equal_bool_to_text }}</td>
+                    <td>{{ alert.qty_alert_lvl }}</td>
+                    <td>{{ alert.updated }}</td>
+                    <td>buttons</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
