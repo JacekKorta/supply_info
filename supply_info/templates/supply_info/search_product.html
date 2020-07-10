@@ -35,7 +35,15 @@
                 {% for item in result.price_lists.all %}
                     <td>{{ item.price_d }} zł</td>
                 {% endfor %}
-                <td>{{ result.next_shipment|default_if_none:"" }}</td>
+                {% if result.next_shipment and result.next_shipment > now %}
+                    <td>{{result.next_shipment }}</td>
+                {% else %}
+                    {% if result.get_next_shipment and result.get_next_shipment > now %}
+                        <td>{{ result.get_next_shipment }}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                {% endif %}
                 <td>{{ result.additional_info|default_if_none:"" }}</td>
                 <td width="1%"><a href="#" id="show_{{ forloop.parentloop.counter }}"><span class="glyphicon glyphicon-plus"></span></a></td>
             </form>
