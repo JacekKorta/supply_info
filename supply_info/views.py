@@ -7,9 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
-from supply_info.forms import ProductFullInfoUpdateForm
+from supply_info.forms import AlertEditForm, ProductFullInfoUpdateForm
 from supply_info.models import Event, Product, Alert
 from supply_info.sp_modules import db_save, receiving_data
 
@@ -122,5 +122,31 @@ def search_product(request):
 def alerts_list_view(request):
     alerts = Alert.objects.filter(user=request.user).order_by('updated')
     return render(request, 'supply_info/alerts_list.html', {'alerts': alerts})
+
+
+def alert_edit_view(request, alert_pk):
+    alert = get_object_or_404(Alert, pk=alert_pk)
+    if alert.user == request.user:
+        if request.method == 'POST':
+            print('post')
+            default_data = {'user': request.user, 'product': alert.product, 'less_or_equal': alert.less_or_equal, 'qty_alert_lvl': alert.qty_alert_lvl}
+            form = AlertEditForm(request.POST, default_data)
+            if form.is_valid():
+                alert.less_or_equal = form.cleaned_data['less_or_equal']
+                alert.qty_alert_lvl = form.cleaned_data['qty_alert_lvl']
+                alert.is_active = form.cleaned_data['is_active']
+                alert.save()
+                return redirect('supply_info:alerts_list_view')
+            else:
+                print(form._errors)
+            return render(request, 'supply_info/alert_edit.html', {'alert': alert, 'form': form})
+        else:
+            form = AlertEditForm(instance=alert)
+            return render(request, 'supply_info/alert_edit.html', {'alert': alert, 'form': form})
+    else:
+        redirect('supply_info:alerts_list_view')
+
+
+
 
 
