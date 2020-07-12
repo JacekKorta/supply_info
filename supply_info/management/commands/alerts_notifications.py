@@ -1,3 +1,5 @@
+from smtplib import SMTPException
+
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.core.management.base import BaseCommand
@@ -36,7 +38,7 @@ class Command(BaseCommand):
     def send_alert_email(alerts_to_send, email_to):
         html_message = loader.render_to_string('supply_info/emails/alert_list_email.html',
                                                {'alerts_to_send': alerts_to_send})
-        subject = 'JANONE - Alerty o dostępności produktów'
+        subject = 'JANOME - Alerty o dostępności produktów'
         from_email = 'Janome - powiadomienia automatyczne <powiadomienia@janomeklub.pl>'
         to = [email_to]
         send_mail(subject=subject,
@@ -53,7 +55,15 @@ class Command(BaseCommand):
             user_alerts = self.get_user_alerts(pk)
             alerts_to_send = self.alerts_to_send(user_alerts)
             if user_email:
-                self.send_alert_email(alerts_to_send, user_email)
+                try:
+                    self.send_alert_email(alerts_to_send, user_email)
+                    for alert, _ in alerts_to_send:
+                        alert.is_active = False
+                        alert.save()
+                except SMTPException as e:
+                    print(f'Error code {e.smtp_code} - {e.smtp_error}')
+
             else:
+                print(pk)
                 print('Brak adresu email')
 
