@@ -118,34 +118,71 @@ def search_product(request):
     else:
         return render(request, 'supply_info/search_product.html')
 
+# alerts
+
+
 @login_required
 def alerts_list_view(request):
-    alerts = Alert.objects.filter(user=request.user).order_by('updated')
+    alerts = Alert.objects.filter(user=request.user).order_by('updated').order_by('-is_active')
+    if request.method == 'POST':
+        if 'disable' in request.POST:
+            alert = get_object_or_404(Alert, pk=request.POST['disable'])
+            alert.is_active = False
+            alert.save()
+        elif 'enable' in request.POST:
+            alert = get_object_or_404(Alert, pk=request.POST['enable'])
+            alert.is_active = True
+            alert.save()
     return render(request, 'supply_info/alerts_list.html', {'alerts': alerts})
 
 
+@login_required
 def alert_edit_view(request, alert_pk):
     alert = get_object_or_404(Alert, pk=alert_pk)
     if alert.user == request.user:
         if request.method == 'POST':
-            print('post')
-            default_data = {'user': request.user, 'product': alert.product, 'less_or_equal': alert.less_or_equal, 'qty_alert_lvl': alert.qty_alert_lvl}
+            default_data = {'user': request.user, 'product': alert.product,
+                            'less_or_equal': alert.less_or_equal,
+                            'qty_alert_lvl': alert.qty_alert_lvl}
             form = AlertEditForm(request.POST, default_data)
             if form.is_valid():
                 alert.less_or_equal = form.cleaned_data['less_or_equal']
                 alert.qty_alert_lvl = form.cleaned_data['qty_alert_lvl']
-                alert.is_active = form.cleaned_data['is_active']
                 alert.save()
                 return redirect('supply_info:alerts_list_view')
             else:
                 print(form._errors)
-            return render(request, 'supply_info/alert_edit.html', {'alert': alert, 'form': form})
+            return render(request, 'supply_info/alert_edit.html', {'h2': f'Edytuj alert dla {alert.product.code}',
+                                                                   'form': form})
         else:
             form = AlertEditForm(instance=alert)
-            return render(request, 'supply_info/alert_edit.html', {'alert': alert, 'form': form})
+            return render(request, 'supply_info/alert_edit.html', {'h2': f'Edytuj alert dla {alert.product.code}',
+                                                                   'form': form})
     else:
         redirect('supply_info:alerts_list_view')
 
+
+@login_required
+def alert_add_view(request, product_pk):
+    product = get_object_or_404(Product, pk=product_pk)
+    if request.method == 'POST':
+        default_data = {'product': product, 'qty_alert_lvl': 1}
+        form = AlertEditForm(request.POST, default_data)
+        if form.is_valid():
+            Alert.objects.create(user=request.user,
+                                 product=product,
+                                 less_or_equal=form.cleaned_data['less_or_equal'],
+                                 qty_alert_lvl=form.cleaned_data['qty_alert_lvl'],
+                                 is_active=True
+                                 )
+            return redirect('supply_info:alerts_list_view')
+        else:
+            print(form._errors)
+        return render(request, 'supply_info/alert_edit.html', {'form': form, 'h2': f'Utwórz alert dla {product.code}'})
+    else:
+        default_data = {'product': product, 'qty_alert_lvl': 1}
+        form = AlertEditForm(request.POST, default_data)
+        return render(request, 'supply_info/alert_edit.html', {'form': form, 'h2': f'Utwórz alert dla {product.code}'})
 
 
 

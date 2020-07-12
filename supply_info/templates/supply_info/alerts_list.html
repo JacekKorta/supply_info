@@ -2,7 +2,7 @@
 {% load alerts_tags %}
 
 {% block content %}
-<div class="container">
+<div class="container" style="width: 65%">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -10,6 +10,8 @@
               <th scope="col">typ</th>
               <th scope="col">poziom</th>
               <th scope="col">ostatnia modyfikacja</th>
+              <th scope="col">aktywny</th>
+              <th scope="col"> </th>
               <th scope="col"> </th>
             </tr>
         </thead>
@@ -18,9 +20,21 @@
                 <tr>
                     <td scope="row">{{ alert.product.code }}</td>
                     <td>{{ alert.less_or_equal|less_or_equal_bool_to_text }}</td>
-                    <td>{{ alert.qty_alert_lvl }}</td>
+                    <td>{{ alert.qty_alert_lvl }} szt.</td>
                     <td>{{ alert.updated }}</td>
-                    <td><button type="submit" class="save btn btn-default" >Edytuj</button></td>
+                    <td>{{ alert.is_active }}</td>
+                    {% if alert.is_active %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <td><button type="submit" class="btn btn-default" name="disable" value="{{alert.id}}">Wyłącz</button></td>
+                        </form>
+                    {% else %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <td><button type="submit" class="btn btn-default" name="enable" value="{{alert.id}}" style="padding: 6 16px;">Włącz</button></td>
+                        </form>
+                    {% endif %}
+                    <td><a href="{% url 'supply_info:alert_edit_view' alert.id %}"><button type="button" class="btn btn-default">Edytuj</button></a></td>
                 </tr>
             {% endfor %}
         </tbody>

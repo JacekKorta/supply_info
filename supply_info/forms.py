@@ -15,7 +15,7 @@ class AlertEditForm(forms.ModelForm):
     less_or_equal = forms.ChoiceField(choices=LESS_EQUAL_CHOICES, initial=True,
                                       label='Opcja', widget=forms.Select())
     qty_alert_lvl = forms.IntegerField(required=True, widget=forms.NumberInput, label='Poziom alertu (szt.)')
-    is_active = forms.BooleanField(label='Aktywny')
+    is_active = forms.BooleanField(label='Aktywny', required=False)
 
     class Meta:
         model = Alert
