@@ -39,8 +39,11 @@ class BasicSetup(TestCase):
                              qty_alert_lvl=4
                              )
 
+
 class LoggedInTestCase(BasicSetup):
     def setUp(self):
         self.user = User.objects.create_user('adam', 'adam@example.com', 'adampassword')
         self.client.login(username='adam', password='adampassword')
         return super().setUp()
+
+

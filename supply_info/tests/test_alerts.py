@@ -32,6 +32,3 @@ class BasicViewTest(LoggedInTestCase):
         self.assertContains(response, '10')
         self.assertContains(response, 'Mniej lub równe')
 
-
-
-
