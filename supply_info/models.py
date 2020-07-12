@@ -33,6 +33,9 @@ class Product(models.Model):
             return shipment.estimated_time_arrival
         except AttributeError:
             return None
+    @property
+    def get_prod_availability(self):
+        return ProductAvailability.objects.get(product_code=self).availability
 
     def __str__(self):
         return self.code
