@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="machine_table" style="margin-top: 70px;">
+<div class="machine_table" style="margin-top: 70px; width: 100%">
     <table id="machines_list_table">
         <tr>
             <th width="21%">Kod produktu</th>
@@ -13,6 +13,9 @@
             <th width="7%" >Cena <br>katalowa</th>
             <th width="16%">Kolejna dostawa</th>
             <th>Uwagi</th>
+            {% if user.is_authenticated %}
+            <th width="3%"> </th>
+            {% endif %}
         </tr>
         {% for machine in machines %}
         {% if machine.active_product_list.all %}
@@ -51,9 +54,13 @@
                     {% endif %}
                 {% endif %}
                 <td>{{ machine.additional_info|default_if_none:""}}</td>
+                {% if user.is_authenticated %}
+                        <td><a href="{% url 'supply_info:alert_add_view' product_pk=machine.id  %}"><i class="far fa-bell" style="color:#e13e2f; font-size: 1.3em;"></i></a> </td>
+                {% endif %}
                 {# <td><input type="button" name="send_question" value="Zadaj pytanie"></td> #}
             </form>
         </tr>
+
         {% endif %}
         {% endfor %}
         {% endif %}
