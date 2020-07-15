@@ -10,7 +10,7 @@
               <th scope="col">typ</th>
               <th scope="col">poziom</th>
               <th scope="col">ostatnia modyfikacja</th>
-              <th scope="col">aktywny</th>
+              <th scope="col">aktywny </th>
               <th scope="col"> </th>
               <th scope="col"> </th>
             </tr>
@@ -22,13 +22,14 @@
                     <td>{{ alert.less_or_equal|less_or_equal_bool_to_text }}</td>
                     <td>{{ alert.qty_alert_lvl }} szt.</td>
                     <td>{{ alert.updated }}</td>
-                    <td>{{ alert.is_active }}</td>
                     {% if alert.is_active %}
+                        <td><i class="fas fa-check-circle" style="color: green; font-size: 1.3em; padding: 5 0 0 18"></i></td>
                         <form method="post">
                             {% csrf_token %}
                             <td><button type="submit" class="btn btn-default" name="disable" value="{{alert.id}}">Wyłącz</button></td>
                         </form>
                     {% else %}
+                        <td><i class="fas fa-times-circle" style="color: #e13e2f; font-size: 1.3em; padding: 5 0 0 18"></i></td>
                         <form method="post">
                             {% csrf_token %}
                             <td><button type="submit" class="btn btn-default" name="enable" value="{{alert.id}}" style="padding: 6 16px;">Włącz</button></td>
