@@ -6,7 +6,7 @@ app_name = 'supply_info'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('alerty/', views.alerts_list_view, name='alerts_list_view'),
+    path('alerty/<only_active>', views.alerts_list_view, name='alerts_list_view'),
     path('edytuj-alert/<int:alert_pk>', views.alert_edit_view, name='alert_edit_view'),
     path('dodaj-alert/<int:product_pk>', views.alert_add_view, name='alert_add_view'),
     path('lista-maszyn/', views.machines_list, name='machines_list'),

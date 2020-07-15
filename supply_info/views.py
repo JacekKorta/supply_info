@@ -122,8 +122,11 @@ def search_product(request):
 
 
 @login_required
-def alerts_list_view(request):
-    alerts = Alert.objects.filter(user=request.user).order_by('updated').order_by('-is_active')
+def alerts_list_view(request, only_active='all'):
+    if only_active == 'aktywne':
+        alerts = Alert.objects.filter(user=request.user).filter(is_active=True).order_by('updated')
+    else:
+        alerts = Alert.objects.filter(user=request.user).order_by('updated').order_by('-is_active')
     if request.method == 'POST':
         if 'disable' in request.POST:
             alert = get_object_or_404(Alert, pk=request.POST['disable'])
