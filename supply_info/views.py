@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -123,10 +123,12 @@ def search_product(request):
 
 @login_required
 def alerts_list_view(request, only_active='all'):
+    old = datetime.today() - timedelta(days=60)
     if only_active == 'aktywne':
-        alerts = Alert.objects.filter(user=request.user).filter(is_active=True).order_by('updated')
+        alerts = Alert.objects.filter(user=request.user).filter(is_active=True).order_by('-updated')
     else:
-        alerts = Alert.objects.filter(user=request.user).order_by('updated').order_by('-is_active')
+        lookups = Q(user=request.user, is_active=True) | Q(user=request.user, is_active=False, updated__gte=old)
+        alerts = Alert.objects.filter(lookups).order_by('-is_active', '-updated')
     if request.method == 'POST':
         if 'disable' in request.POST:
             alert = get_object_or_404(Alert, pk=request.POST['disable'])
@@ -178,7 +180,7 @@ def alert_add_view(request, product_pk):
                                  qty_alert_lvl=form.cleaned_data['qty_alert_lvl'],
                                  is_active=True
                                  )
-            return redirect('supply_info:alerts_list_view')
+            return redirect('supply_info:alerts_list_view', {'only_active': 'wszystkie'})
         else:
             print(form._errors)
         return render(request, 'supply_info/alert_edit.html', {'form': form, 'h2': f'Utwórz alert dla {product.code}'})
