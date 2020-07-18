@@ -54,7 +54,7 @@ class Command(BaseCommand):
             user_email = get_object_or_404(User, pk=pk).email
             user_alerts = self.get_user_alerts(pk)
             alerts_to_send = self.alerts_to_send(user_alerts)
-            if user_email:
+            if user_email and alerts_to_send:
                 try:
                     self.send_alert_email(alerts_to_send, user_email)
                     for alert, _ in alerts_to_send:
