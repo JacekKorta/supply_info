@@ -8,6 +8,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 
 from supply_info.forms import AlertEditForm, ProductFullInfoUpdateForm
 from supply_info.models import Event, Product, Alert
@@ -123,7 +124,7 @@ def search_product(request):
 
 @login_required
 def alerts_list_view(request, only_active='all'):
-    old = datetime.today() - timedelta(days=60)
+    old = timezone.now() - timedelta(days=60)
     if only_active == 'aktywne':
         alerts = Alert.objects.filter(user=request.user).filter(is_active=True).order_by('-updated')
     else:
