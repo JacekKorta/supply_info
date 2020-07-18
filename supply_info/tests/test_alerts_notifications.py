@@ -59,5 +59,6 @@ class NotificationsTest(TestCase):
         users_pk = Command.get_users_pk()
         users_alerts = Command.get_user_alerts(users_pk[0])
         alerts_to_send = Command.alerts_to_send(users_alerts)
-        self.assertTrue(isinstance(alerts_to_send[0], Alert))
+        self.assertTrue(isinstance(alerts_to_send[0][0], Alert))
+        self.assertTrue(isinstance(alerts_to_send[0][1], int))
         self.assertEqual(len(alerts_to_send), 2)
