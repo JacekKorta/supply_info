@@ -58,6 +58,7 @@ class ProductsAlertsAdmin(admin.ModelAdmin):
     def change_status_to_inactive(self, request, queryset):
         queryset.update(is_active=False)
 
+    raw_id_fields = ('product', 'user')
     change_status_to_inactive.short_description = 'Deaktywuj alerty'
 
     fieldsets = [
