@@ -1,0 +1,6 @@
+<li class='sub-menu'><a href='#produkts'><i class="fas fa-bell"></i>alerty<div class='fa fa-caret-down right'></div></a>
+    <ul>
+        <li><a href="{% url 'supply_info:alerts_list_view' only_active='aktywne' %}" >Aktywne alerty</a></li>
+        <li><a href="{% url 'supply_info:alerts_list_view' only_active='wszystkie' %}">Wszystkie alerty</a></li>
+    </ul>
+</li>
