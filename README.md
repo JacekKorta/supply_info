@@ -34,6 +34,11 @@ The concept was to create an app that helps to make the whole process more trans
 
 ## How to run?
 
+Before you start. 
+- change public_python/local_settings.py name to .../settings.py
+- change public_python/example_config.py name to .../config.py
+- fill the new config file or set up your environment variables
+
 1. Create and activate the virtual environment
     python -m venv venv
     source venv/Scripts/Activate
