@@ -1,0 +1,206 @@
+{% load alerts_tags %}
+
+    <head>
+<style>
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+* {
+	font-family: Lato,sans-serif;
+}
+.container {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+/* @media all and (min-width:768px) */
+.container {
+	width: 750px;
+}
+/* @media all and (min-width:992px) */
+.container {
+	width: 970px;
+}
+/* @media all and (min-width:1200px) */
+.container {
+	width: 1170px;
+}
+.container {
+	width: 35%;
+	float: left;
+	position: relative;
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 20px;
+	margin: 20px 40px;
+	box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2), 0px 6px 20px 0px rgba(0,0,0,0.19);
+}
+body {
+	margin: 0;
+}
+body {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14px;
+	line-height: 1.4285;
+	color: #333;
+	background-color: #fff;
+}
+body {
+	background-color: #fafafa;
+}
+head, body {
+	margin: 0px;
+}
+html {
+	font-family: sans-serif;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+}
+html {
+	font-size: 10px;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+table {
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+table {
+	background-color: transparent;
+}
+.table {
+	width: 100%;
+	max-width: 100%;
+	margin-bottom: 20px;
+}
+td, th {
+	padding: 0;
+}
+th {
+	text-align: left;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+	padding: 8px;
+	line-height: 1.4285;
+	vertical-align: top;
+	border-top: 1px solid #ddd;
+}
+button, input, optgroup, select, textarea {
+	margin: 0;
+	font: inherit;
+	color: inherit;
+}
+input {
+	line-height: normal;
+}
+button {
+	overflow: visible;
+}
+button, select {
+	text-transform: none;
+}
+button, html input[type=button], input[type=reset], input[type=submit] {
+	-webkit-appearance: button;
+	cursor: pointer;
+}
+input, button, select, textarea {
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+a {
+	background: 0 0;
+}
+a {
+	color: #428bca;
+	text-decoration: none;
+}
+.btn {
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0px;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.4285;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+.btn-default {
+	color: #333;
+	background-color: #fff;
+	border-color: #ccc;
+}
+.btn-default, .btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger {
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.2);
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075);
+	box-shadow: inset 0px 1px 0px rgba(255,255,255,0.15), 0px 1px 1px rgba(0,0,0,0.075);
+}
+.btn-default {
+	text-shadow: 0px 1px 0px #fff;
+	background-image: -webkit-linear-gradient(rgb(255, 255, 255) 0px, rgb(224, 224, 224) 100%);
+	background-image: -o-linear-gradient(top,#fff 0,#e0e0e0 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(255, 255, 255)), to(rgb(224, 224, 224)));
+	background-image: linear-gradient(rgb(255, 255, 255) 0px, rgb(224, 224, 224) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+	background-repeat: repeat-x;
+	border-color: #dbdbdb;
+	border-color: #ccc;
+}
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+	background-color: #f9f9f9;
+}
+.table > thead > tr > th {
+	vertical-align: bottom;
+	border-bottom: 2px solid #ddd;
+}
+.table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th, .table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td {
+	border-top: 0;
+}
+</style>
+    </head>
+<html>
+<p>
+    Dzień dobry,<br>
+    poniżej znajdują się informacje o produktach, które dodali Państwo do obserwowanych.<br>
+    Prosze pamiętać, że podane stany magazynowe nie uwzględniają niezrealizowanych zamówień złożonych po zamknięciu naszego biura. <br>
+</p>
+ <p>
+    Wszystkie poniższe alerty zostały dezaktywowane. Aby je aktywować proszę zalogować
+    się na <a href="https://janomeklub.pl/alerty">janomeklub.pl/alerty</a> i właczyć je ponownie.
+</p>
+    <div class="container" style="width: 65%">
+        <h3>Twoje powiadomienia</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th scope="col">produkt</th>
+                  <th scope="col">typ</th>
+                  <th scope="col">poziom</th>
+                  <th scope="col">biezący stan</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alert, availability in alerts_to_send %}
+                    <tr>
+                        <td scope="row">{{ alert.product.code }}</td>
+                        <td>{{ alert.less_or_equal|less_or_equal_bool_to_text }}</td>
+                        <td>{{ alert.qty_alert_lvl }} szt.</td>
+                        <td>{{ availability }} szt.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div><br>
+</html>

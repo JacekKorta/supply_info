@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from django.db import models
+from django.conf import settings
+from django.shortcuts import reverse
 
 from supply_info.sp_modules import products_info as pi
 from shipments.models import Shipment, ShipmentDetail
@@ -31,6 +33,9 @@ class Product(models.Model):
             return shipment.estimated_time_arrival
         except AttributeError:
             return None
+    @property
+    def get_prod_availability(self):
+        return ProductAvailability.objects.get(product_code=self).availability
 
     def __str__(self):
         return self.code
@@ -110,3 +115,25 @@ class Event(models.Model):
     class Meta:
         verbose_name = 'Zdarzenie'
         verbose_name_plural = 'Zdarzenia'
+
+
+class Alert(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Użytkownik')
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Produkt')
+    less_or_equal = models.BooleanField(default=True,
+                                        help_text='If True, then alert will appear when the product quantity'
+                                                  ' will be less or equal than qty_lvl', verbose_name='Mniej/więcej')
+    qty_alert_lvl = models.PositiveSmallIntegerField(verbose_name='Poziom alertu (szt.)')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Utworzono')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Edytowano')
+    is_active = models.BooleanField(default=True, verbose_name='Aktywny')
+
+    def get_absolute_url(self):
+        return reverse('supply_info:alert_edit_view', args=[self.id])
+
+    def __str__(self):
+        return f'Alert utworzony przez {self.user.username} na produkt {self.product.code} na poziomie {self.qty_alert_lvl}'
+
+    class Meta:
+        verbose_name = 'Alert'
+        verbose_name_plural = 'Alerty'

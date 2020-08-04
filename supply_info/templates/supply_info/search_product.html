@@ -12,6 +12,7 @@
             <th width=11%>Cena katalogowa (brutto)</th>
             <th width=24%>Kolejna dostawa</th>
             <th>Uwagi</th>
+            <th></th>
         </tr>
         {% for result in results %}
         <tbody id="machines_search_table_body">
@@ -35,23 +36,31 @@
                 {% for item in result.price_lists.all %}
                     <td>{{ item.price_d }} zł</td>
                 {% endfor %}
-                <td>{{ result.next_shipment|default_if_none:"" }}</td>
+                {% if result.next_shipment and result.next_shipment > now %}
+                    <td>{{result.next_shipment }}</td>
+                {% else %}
+                    {% if result.get_next_shipment and result.get_next_shipment > now %}
+                        <td>{{ result.get_next_shipment }}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                {% endif %}
                 <td>{{ result.additional_info|default_if_none:"" }}</td>
                 <td width="1%"><a href="#" id="show_{{ forloop.parentloop.counter }}"><span class="glyphicon glyphicon-plus"></span></a></td>
             </form>
         </tr>
         <tr>
-            <td colspan="5">
-                <div id="extra_{{ forloop.parentloop.counter }}" style="display: none;">
-                    <br>Opis: {{ result.name }}
+            <td colspan="6">
+                <div class="row" id="extra_{{ forloop.parentloop.counter }}" style="display: none;">
+                    <div class="col-md-9">
+                    Opis: {{ result.name }}
                     <br>Cena hurtowa:  {% for item in result.price_lists.all %}
-                            {% if request.user|has_group:"Dystrybutorzy_B" %}
                                 {{ item.price_b }} zł NETTO
-                            {% else %}
-                                {{ item.price_c }} zł NETTO
-                            {% endif %}
                             {% endfor %}
-                    <br>
+                    </div>
+                    <div class="col-md-3" align="right">
+                        <a href="{% url 'supply_info:alert_add_view' product_pk=result.id  %}"><i class="far fa-bell" style="color:#e13e2f; padding: 20 20; font-size: 1.3em;"></i></a>
+                    </div>
                 </div>
             </td>
         </tr>

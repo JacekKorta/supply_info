@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import sys
 
 from public_python import config
 
@@ -97,6 +98,9 @@ DATABASES = {
     }
 }
 
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -146,8 +150,8 @@ REST_FRAMEWORK = {
 # Emails
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = config.EmailConfigData.EMAIL_USE_TLS
-EMAIL_HOST = config.EmailConfigData.EMAIL_HOST
-EMAIL_HOST_USER = config.EmailConfigData.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = config.EmailConfigData.EMAIL_HOST_PASSWORD
-EMAIL_PORT = config.EmailConfigData.EMAIL_PORT
+EMAIL_HOST = os.environ.get('EMAIL_HOST') or config.EmailConfigData.EMAIL_HOST
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') or config.EmailConfigData.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') or config.EmailConfigData.EMAIL_HOST_PASSWORD
+EMAIL_PORT = os.environ.get('EMAIL_PORT') or config.EmailConfigData.EMAIL_PORT
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') or config.EmailConfigData.EMAIL_USE_TLS

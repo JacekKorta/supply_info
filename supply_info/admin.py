@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from supply_info.models import ActiveProductList, PriceList, Product, ProductAvailability
+from supply_info.models import ActiveProductList, PriceList, Product, ProductAvailability, Alert
 
 
 class ActiveProductInLine(admin.StackedInline):
@@ -53,6 +53,24 @@ class ActiveProductListAdmin(admin.ModelAdmin):
     search_fields = ['product_code']
 
 
+class ProductsAlertsAdmin(admin.ModelAdmin):
+
+    def change_status_to_inactive(self, request, queryset):
+        queryset.update(is_active=False)
+
+    raw_id_fields = ('product', 'user')
+    change_status_to_inactive.short_description = 'Deaktywuj alerty'
+
+    fieldsets = [
+        (None, {'fields': ['user', 'product', 'less_or_equal', 'qty_alert_lvl', 'is_active', 'created', 'updated']}),
+        ]
+    readonly_fields = ['created', 'updated']
+    list_display = ('user', 'product', 'less_or_equal', 'qty_alert_lvl', 'created', 'updated', 'is_active')
+    list_filter = ('user', 'is_active')
+    actions = [change_status_to_inactive,]
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ActiveProductList, ActiveProductListAdmin )
+admin.site.register(Alert, ProductsAlertsAdmin)
 
