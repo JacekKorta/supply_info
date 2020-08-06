@@ -11,11 +11,14 @@ from warranty_parts.wp_modules import wp_emails
 @staff_member_required
 def add_issue(request):
     if request.method == 'POST':
-        form = AddIssueForm(request.POST)
+        form = AddIssueForm(request.POST or None)
         if form.is_valid():
             form_input = form.cleaned_data
             issue, machine = wp_db_save.save_issues(form_input)
             wp_emails.send_new_issue_notification(issue, machine)
+        else:
+            form = AddIssueForm(request.POST)
+            return render(request, 'warranty_parts/add_issue.html', {'form': form})
         return redirect('warranty_parts:add_issue')
     else:
         form = AddIssueForm()
