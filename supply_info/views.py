@@ -155,7 +155,7 @@ def alert_edit_view(request, alert_pk):
                 alert.less_or_equal = form.cleaned_data['less_or_equal']
                 alert.qty_alert_lvl = form.cleaned_data['qty_alert_lvl']
                 alert.save()
-                return redirect('supply_info:alerts_list_view')
+                return redirect('supply_info:alerts_list_view', only_active='wszystkie')
             else:
                 print(form._errors)
             return render(request, 'supply_info/alert_edit.html', {'h2': f'Edytuj alert dla {alert.product.code}',
