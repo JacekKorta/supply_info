@@ -3,6 +3,7 @@ from datetime import datetime
 from django.test import TestCase
 
 from warranty_parts.forms import AddCommentForm, AddIssueForm
+from serial_numbers.models import Machine
 
 
 class AddCommentFormTest(TestCase):
@@ -20,12 +21,15 @@ class AddCommentFormTest(TestCase):
 
 
 class AddIssueFormTest(TestCase):
+
     # valid form data
     def test_add_issue_form(self):
+        Machine.objects.create(code='JUNO E1015', serial_number='1234567898')
         today = datetime.now()
         form = AddIssueForm(data={'today': today,
                                   'customer': 'Customer_01',
                                   'machine_serial_number': '1234567898',
+                                  'machine_model': None,
                                   'part_number': '000-000-001',
                                   'part_name': 'Part name',
                                   'quantity': 2,

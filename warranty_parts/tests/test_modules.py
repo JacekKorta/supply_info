@@ -14,6 +14,7 @@ class WPDbSaveSaveIssuesTest(TestCase):
     def test_save_issue_unregistered_machine(self):
         form_dict = {'customer': 'Customer_01',
                      'machine_sn': '012345678',
+                     'machine': None,
                      'part_number': '000-000-001',
                      'part_name': 'Part name01',
                      'quantity': 2,
@@ -36,6 +37,7 @@ class WPDbSaveSaveIssuesTest(TestCase):
     def test_save_issue_registered_machine(self):
         form_dict = {'customer': 'Customer_01',
                      'machine_sn': '123456789',
+                     'machine': None,
                      'part_number': '000-000-001',
                      'part_name': 'Part name01',
                      'quantity': 2,

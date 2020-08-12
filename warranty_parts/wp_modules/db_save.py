@@ -18,7 +18,7 @@ def issues_desc_translate(description):
 
 
 def save_issues(form_dict):
-    customer, machine_sn, part_number, part_name, quantity, issue_description, document_number = form_dict.values()
+    customer, machine_sn, _, part_number, part_name, quantity, issue_description, document_number = form_dict.values()
     try:
         machine = Machine.objects.get(serial_number=machine_sn)
     except Machine.DoesNotExist:
