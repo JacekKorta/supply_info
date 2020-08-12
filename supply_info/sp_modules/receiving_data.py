@@ -26,7 +26,7 @@ def receive_main_data(data):
         except Product.DoesNotExist:
                 prod = Product(code=code,
                                name=name[:400],
-                               mark=marks[int(mark)],
+                               mark=marks.get(int(mark), ''),
                                type=type,
                                sub_type=sub_type,
                                manufacturer=manufacturer)
