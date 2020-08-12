@@ -20,8 +20,6 @@ venv/
 .coverage
 app.db
 config.py
-products_info.py
-supply_info/sp_modules/receiving_data.py
 settings.py
 passenger_wsgi.py
 
