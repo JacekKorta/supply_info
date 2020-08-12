@@ -38,8 +38,8 @@ def fill_manufacturer(code):
 
 
 def fill_type(mark):
-    # 91 to "M" w symfonii
-    if int(mark) == 91:
+    # 77 to "M" w symfonii
+    if int(mark) == 77:
         type = 'maszyny'
     else:
         type = 'akcesoria'
@@ -48,12 +48,12 @@ def fill_type(mark):
 
 def fill_sub_type(manufacturer, mark, code):
     # 70 to "F"
-    # 91 to "M" w symfonii
+    # 77 to "M" w symfonii
     mark = int(mark)
     if manufacturer == 'Fiskars' and mark == 70:
         sub_type = 'nożyczki'
         is_active = True
-    elif mark == 91:
+    elif mark == 77:
         sub_type = ''
         is_active = True
     elif mark == '':

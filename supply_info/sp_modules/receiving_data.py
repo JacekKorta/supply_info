@@ -6,7 +6,7 @@ from supply_info.models import ActiveProductList, PriceList, Product, ProductAva
 from . import products_info
 
 marks = {70: 'F',
-         91: 'M'}
+         77: 'M'}
 
 def receive_main_data(data):
     errors = []
