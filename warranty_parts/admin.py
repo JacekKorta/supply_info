@@ -40,23 +40,23 @@ class CommentsInlineAdmin(admin.StackedInline):
 
 class IssuesAdmin(admin.ModelAdmin):
     def get_machine_serial_number(self, obj):
-        machine = Machine.objects.filter(warranty_parts_issue=obj)
-        if machine.exists():
-            return machine.first().serial_number
+        machine = Machine.objects.filter(warranty_parts_issue=obj).first()
+        if machine:
+            return machine.serial_number
         else:
             return None
 
     def get_machine_code(self, obj):
-        machine = Machine.objects.filter(warranty_parts_issue=obj)
-        if machine.exists():
-            return machine.first().code
+        machine = Machine.objects.filter(warranty_parts_issue=obj).first()
+        if machine:
+            return machine.code
         else:
             return None
 
     def get_comments_sum(self, obj):
         comments = Comments.objects.filter(issue=obj)
         if comments.exists():
-            return len(comments)
+            return comments.count()
         else:
             return 'Brak'
 
