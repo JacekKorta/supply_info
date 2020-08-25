@@ -42,7 +42,8 @@ def receive_main_data(data):
                     a = ActiveProductList(product_code=Product.objects.get(code=prod.code),
                                           is_active=True)
                     a.save()
-        except:
+        except Exception as e:
+            print(e)
             print(f'{prod} - database error')
             errors.append(f'{prod} - database error')
     print(errors)
