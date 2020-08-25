@@ -1,12 +1,10 @@
-import json
-
-from django.contrib import messages
 
 from supply_info.models import ActiveProductList, PriceList, Product, ProductAvailability
 from . import products_info
 
 marks = {70: 'F',
          77: 'M'}
+
 
 def receive_main_data(data):
     errors = []
@@ -16,13 +14,15 @@ def receive_main_data(data):
         manufacturer, type, sub_type, is_active = products_info.fill_category(code, mark)
         try:
             prod = Product.objects.get(code=code)
-            p = PriceList(pk=prod.pk)
-            p.price_a = price_a
-            p.price_b = price_b
-            p.price_c = price_c
-            p.price_d = price_d
-            p.save(update_fields=['price_a', 'price_b', 'price_c', 'price_d'])
-            print(f'{code} - prices was updated')
+            p = PriceList.objects.get(product_code=prod)
+            if [p.price_a, p.price_b, p.price_c, p.price_d] != [price_a, price_b, price_c, price_d]:
+                p.save(update_fields=['price_a', 'price_b', 'price_c', 'price_d'])
+                p.price_a = price_a
+                p.price_b = price_b
+                p.price_c = price_c
+                p.price_d = price_d
+                p.save(update_fields=['price_a', 'price_b', 'price_c', 'price_d'])
+                print(f'{code} - prices was updated')
         except Product.DoesNotExist:
                 prod = Product(code=code,
                                name=name[:400],
@@ -39,12 +39,11 @@ def receive_main_data(data):
                               price_d=round(float(price_d), 2))
                 p.save()
                 if is_active:
-                    a = ActiveProductList(product_code=Product.objects.get(code=prod.code),
-                                          is_active=True)
+                    a = ActiveProductList.objects.get(product_code=Product.objects.get(code=prod.code),
+                                                      is_active=True)
                     a.save()
         except Exception as e:
             print(e)
-            print(f'{prod} - database error')
             errors.append(f'{prod} - database error')
     print(errors)
 
