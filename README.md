@@ -40,8 +40,10 @@ Before you start.
 - fill the new config file or set up your environment variables
 
 1. Create and activate the virtual environment
+```
     python -m venv venv
     source venv/Scripts/Activate
+```
 
 2. Install requirements
 ```
