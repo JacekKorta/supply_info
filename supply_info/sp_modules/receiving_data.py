@@ -39,8 +39,8 @@ def receive_main_data(data):
                               price_d=round(float(price_d), 2))
                 p.save()
                 if is_active:
-                    a = ActiveProductList.objects.get(product_code=Product.objects.get(code=prod.code),
-                                                      is_active=True)
+                    a = ActiveProductList.objects.get(product_code=prod)
+                    a.is_active = True
                     a.save()
         except Exception as e:
             print(e)
