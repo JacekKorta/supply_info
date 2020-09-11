@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from serial_numbers.models import Customer, Machine, ShipmentToCustomer
-
+from serial_numbers.sn_modules.admin_addons import AdminAddons
 
 class ShipmentToCustomerInLineAdmin(admin.TabularInline):
     model = ShipmentToCustomer
@@ -81,6 +81,9 @@ class ShipmentAdmin(admin.ModelAdmin):
                      'customer__name']
     list_filter = ['shipment_date', 'item_id__code',]
 
+    AdminAddons.create_csv_report_serial_numbers.short_description = 'Pobierz raport'
+
+    actions = [AdminAddons.create_csv_report_serial_numbers,]
 
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Machine, MachineAdmin)
