@@ -64,7 +64,7 @@ class ShipmentAdmin(admin.ModelAdmin):
     def get_machine_sn(self, obj):
         return obj.item.serial_number
 
-    get_machine_sn.admin_order_field = 'item'
+    get_machine_sn.admin_order_field = 'item__serial_number'
     get_machine_sn.short_description = 'Numer seryjny'
     date_hierarchy = 'shipment_date'
 
