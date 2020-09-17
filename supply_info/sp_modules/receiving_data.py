@@ -32,6 +32,7 @@ def receive_main_data(data):
                                manufacturer=manufacturer)
 
                 prod.save()
+                print(prod.code)
                 p = PriceList(product_code=Product.objects.get(code=prod.code),
                               price_a=round(float(price_a), 2),
                               price_b=round(float(price_b), 2),
@@ -39,9 +40,13 @@ def receive_main_data(data):
                               price_d=round(float(price_d), 2))
                 p.save()
                 if is_active:
-                    a = ActiveProductList.objects.get(product_code=prod)
-                    a.is_active = True
-                    a.save()
+                    try:
+                        a = ActiveProductList.objects.get(product_code=prod)
+                        a.is_active = True
+                        a.save()
+                    except ActiveProductList.DoesNotExist:
+                        ActiveProductList.objects.create(product_code=prod, is_active=True)
+
         except Exception as e:
             print(e)
             errors.append(f'{prod} - database error')

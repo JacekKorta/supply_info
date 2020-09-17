@@ -60,10 +60,11 @@ class Command(BaseCommand):
                     for alert, _ in alerts_to_send:
                         alert.is_active = False
                         alert.save()
+                        print(f'wysłano {alert} do {user_email}')
                 except SMTPException as e:
                     print(f'Error code {e.smtp_code} - {e.smtp_error}')
 
-            else:
+            if not user_email and alerts_to_send:
                 print(pk)
                 print('Brak adresu email')
 
