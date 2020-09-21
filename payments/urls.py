@@ -5,5 +5,5 @@ from payments import views
 app_name = 'payments'
 
 urlpatterns = [
-    # path('payments/', views.XXXX, name='payments'),
+    path('read_invoices_data/', views.read_invoices_data, name='read_invoices_data'),
     ]
