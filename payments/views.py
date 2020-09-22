@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 
 from payments.forms import InvoiceDataForm
 from payments.contrib import payments_mod
-from payments.contrib.payment_session import Session
+from payments.contrib.payments_session import Session
 
 
 @staff_member_required
