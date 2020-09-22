@@ -15,13 +15,17 @@ def read_invoices_data(request):
             form_input = form.cleaned_data
             payments_mod.Invoice.extract_payment_data(form_input['data'])
             payments_mod.Invoice.get_delayed_invoices()
+            request.session['delayed_invoices'] = {}
+            request.session['delayed_invoices']['total_dept'] = 0
             request.session['delayed_invoices'] = payments_mod.Invoice.invoices_to_dict()
-            print(request.session['delayed_invoices']) ###
-        return redirect("payments:read_invoices_data")  # na widok płatności
+        return redirect("payments:delayed_invoices")  # na widok płatności
     else:
         form = InvoiceDataForm()
     return render(request, 'payments/import_invoices_data.html', {'form': form, 'title': 'Płatności'})
 
+
 @staff_member_required
 def delayed_invoices_handle(request):
-    pass
+    delayed_invoices = request.session['delayed_invoices']
+    print(delayed_invoices)
+    return render(request, 'payments/delayed_payments_list.html', {'delayed_invoices': delayed_invoices})
