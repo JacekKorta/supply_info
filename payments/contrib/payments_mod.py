@@ -60,13 +60,12 @@ class Invoice:
         delayed_invoices_dict = {}
         for item in Invoice.delayed_invoices_list:
             if item.customer not in delayed_invoices_dict.keys():
-                delayed_invoices_dict[item.customer] = {}
-            delayed_invoices_dict[item.customer][item.invoice_no] = {
-                'inv_create_date': datetime.strftime(item.inv_create_date, '%Y-%m-%d'),
-                'inv_payment_term': datetime.strftime(item.inv_payment_term, '%Y-%m-%d'),
-                'total_gross_amount': item.total_gross_amount,
-                'current_gross_amount': item.current_gross_amount
-            }
+                delayed_invoices_dict[item.customer] = {'invoices': {}}
+            delayed_invoices_dict[item.customer]['invoices'][item.invoice_no] = \
+                {'inv_create_date': datetime.strftime(item.inv_create_date, '%Y-%m-%d'),
+                 'inv_payment_term': datetime.strftime(item.inv_payment_term, '%Y-%m-%d'),
+                 'total_gross_amount': item.total_gross_amount,
+                 'current_gross_amount': item.current_gross_amount}
         for customer in delayed_invoices_dict.keys():
             total_dept = Invoice.get_customer_total_dept(customer, Invoice.delayed_invoices_list)
             delayed_invoices_dict[customer]['total_dept'] = total_dept
