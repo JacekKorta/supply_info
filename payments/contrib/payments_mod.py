@@ -17,6 +17,8 @@ class Invoice:
     @staticmethod
     def extract_payment_data(payment_data: str) -> None:
         """extracts payments data from 'Symfonia handel' report."""
+        Invoice.invoices_list = []
+        Invoice.delayed_invoices_list = []
         for line in payment_data.split('\n'):
             if len(line.split('\t')) > 5:
                 customer, _, invoice_no, _, inv_create_date, inv_payment_term,\
@@ -46,13 +48,14 @@ class Invoice:
         for invoice in Invoice.invoices_list:
             if invoice.inv_payment_term < today: # zmień jeśli ma pokazywać faktury przeterminowane dzisiaj
                 Invoice.delayed_invoices_list.append(invoice)
+        Invoice.delayed_invoices_list.sort(key=lambda x: x.customer)
 
     @staticmethod
     def get_customer_total_dept(customer: str, invoices: list) -> float:
         total_dept = 0
         for item in invoices:
             if item.customer == customer:
-                total_dept += float(item.total_gross_amount.replace(',', '.'))
+                total_dept += float(item.current_gross_amount.replace(',', '.'))
         return round(total_dept, 2)
 
     @staticmethod
