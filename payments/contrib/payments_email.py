@@ -1,7 +1,10 @@
 from django.template import loader
 
 from django.core.mail import send_mail
+
 from serial_numbers.models import Customer
+from public_python.config import EmailConfigData
+
 
 class Email:
 
@@ -22,8 +25,8 @@ class Email:
                                                {'data': data,
                                                 'customer_name': customer_name})
         subject = f'{customer_name} Zaległe płatności dla ETI'
-        from_email = 'Janome - powiadomienia automatyczne <powiadomienia@janomeklub.pl>'
-        to = [email_to]
+        from_email = 'Janome - Zaległe płatności <powiadomienia@janomeklub.pl>'
+        to = [email_to, EmailConfigData.OFFICE_RECIPIENTS[0]]
         try:
             send_mail(subject=subject,
                       from_email=from_email,
