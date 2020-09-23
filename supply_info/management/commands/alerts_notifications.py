@@ -7,6 +7,7 @@ from django.template import loader
 from django.shortcuts import get_object_or_404
 
 from supply_info.models import Alert, Product
+from public_python.config import EmailConfigData
 
 
 class Command(BaseCommand):
@@ -48,8 +49,23 @@ class Command(BaseCommand):
                   fail_silently=False,
                   html_message=html_message)
 
+    @staticmethod
+    def send_alert_recap(alerts_list):
+        html_message = loader.render_to_string('supply_info/emails/alerts_recap.html',
+                                               {'alerts_list': alerts_list})
+        subject = f'[JANOMEKLUB] - Zestawienie wysłanych alertów'
+        from_email = 'Janome - powiadomienia automatyczne <powiadomienia@janomeklub.pl>'
+        to = EmailConfigData.OFFICE_RECIPIENTS
+        send_mail(subject=subject,
+                  from_email=from_email,
+                  recipient_list=to,
+                  message='',
+                  fail_silently=False,
+                  html_message=html_message)
+
     def handle(self, **options):
         users_pk = self.get_users_pk()
+        alerts_list = []
         for pk in users_pk:
             user_email = get_object_or_404(User, pk=pk).email
             user_alerts = self.get_user_alerts(pk)
@@ -57,6 +73,7 @@ class Command(BaseCommand):
             if user_email and alerts_to_send:
                 try:
                     self.send_alert_email(alerts_to_send, user_email)
+                    alerts_list.append((alerts_to_send, user_email))
                     for alert, _ in alerts_to_send:
                         alert.is_active = False
                         alert.save()
@@ -66,4 +83,6 @@ class Command(BaseCommand):
             else:
                 print(pk)
                 print('Brak adresu email')
+
+        self.send_alert_recap(alerts_list)
 
