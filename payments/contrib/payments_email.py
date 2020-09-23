@@ -24,10 +24,14 @@ class Email:
         subject = f'{customer_name} Zaległe płatności dla ETI'
         from_email = 'Janome - powiadomienia automatyczne <powiadomienia@janomeklub.pl>'
         to = [email_to]
-        send_mail(subject=subject,
-                  from_email=from_email,
-                  recipient_list=to,
-                  message='',
-                  fail_silently=False,
-                  html_message=html_message)
+        try:
+            send_mail(subject=subject,
+                      from_email=from_email,
+                      recipient_list=to,
+                      message='',
+                      fail_silently=False,
+                      html_message=html_message)
+            return f'Wysłano wiadomosć do: {customer_name} na adres {email_to}.'
+        except Exception as e:
+            return f'Error: {e}.'
 
