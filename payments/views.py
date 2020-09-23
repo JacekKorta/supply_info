@@ -1,4 +1,3 @@
-from datetime import date
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -34,7 +33,7 @@ def delayed_invoices_handle(request):
         if 'send' in request.POST:
             email = Email.get_customer_email(request.POST['send'])
             if '@' not in email:
-                messages.success(request, f' email: {email}')
+                messages.success(request, f' Bład: {email}')
             else:
                 data = request.session['delayed_invoices'][request.POST['send']]
                 customer_name = request.POST['send']
