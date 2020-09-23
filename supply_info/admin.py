@@ -68,6 +68,7 @@ class ProductsAlertsAdmin(admin.ModelAdmin):
     list_display = ('user', 'product', 'less_or_equal', 'qty_alert_lvl', 'created', 'updated', 'is_active')
     list_filter = ('user', 'is_active')
     actions = [change_status_to_inactive,]
+    search_fields = ['product__code']
 
 
 admin.site.register(Product, ProductAdmin)
