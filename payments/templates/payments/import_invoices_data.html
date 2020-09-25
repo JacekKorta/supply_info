@@ -1,0 +1,16 @@
+{% extends 'supply_info/base.html' %}
+
+{% block content %}
+<div class="container">
+    {% if title %}
+        <h3>{{ title }}</h3>
+    {% else %}
+        <h3>Dodaj dane</h3>
+    {% endif %}
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        {{ form.errors }}
+        <button type="submit" class="save btn btn-default">Przetwarzaj</button>
+    </form>
+</div>
+{% endblock %}

@@ -139,6 +139,9 @@ def alerts_list_view(request, only_active='all'):
             alert = get_object_or_404(Alert, pk=request.POST['enable'])
             alert.is_active = True
             alert.save()
+        elif 'delete' in request.POST:
+            alert = get_object_or_404(Alert, pk=request.POST['delete'])
+            alert.delete()
     return render(request, 'supply_info/alerts_list.html', {'alerts': alerts})
 
 

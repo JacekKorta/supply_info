@@ -1,0 +1,60 @@
+{% extends 'supply_info/base.html' %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+    <h4  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </h4>
+    {% endfor %}
+{% endif %}
+
+{% for customer, invoices in delayed_invoices.items %}
+<div class="container" style="width: 675px;">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th colspan="3">
+                    Nazwa klienta: {{ customer }}
+                </th>
+            </tr>
+            <tr>
+              <th scope="col">Nr faktury</th>
+              <th scope="col">Data wystawienia</th>
+              <th scope="col">Termin płatności</th>
+              <th scope="col">Pozostało do zapłaty</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for key, invoice in invoices.items %}
+                {% for invoice_number, invoice_data  in invoice.items %}
+                <td>{{ invoice_number }}</td>
+                <td>{{ invoice_data.inv_create_date}} </td>
+                <td>{{ invoice_data.inv_payment_term }}</td>
+                <td >{{ invoice_data.current_gross_amount }} zł</td>
+        </tr>
+                {% endfor %}
+            {% endfor %}
+
+        <tr>
+            <td>Razem do zapłaty:</td>
+            <td colspan="2"> </td>
+            <td><b>{{ invoices.total_dept }} zł</b></td>
+        </tr>
+        <tr>
+            <td colspan="3"> </td>
+            <td>
+                <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-default" name="delete" value="{{customer}}">Usuń</button>
+                <button type="submit" class="btn btn-danger" name="send" value="{{customer}}">Wyślij</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endfor %}
+
+
+{% endblock %}

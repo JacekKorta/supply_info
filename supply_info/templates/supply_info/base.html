@@ -60,10 +60,11 @@
                     {% include "shipments/shipment_menu.html" %}
                     {% include "serial_numbers/warehouse_menu.html" %}
                     {% include "warranty_parts/service_menu.html" %}
+                    {% include "payments/payment_menu.html" %}
                 {% endif %}
                 {% if user.is_authenticated %}
                     {% include "supply_info/alerts_menu.html" %}
-                    {% include "info_channel/info_channel_menu.html" %}
+                    <!--{% include "info_channel/info_channel_menu.html" %} this app is temporary disabled -->
                     {% include "supply_info/filters_menu.html" %}
                 {% endif %}
             </ul>
