@@ -74,12 +74,15 @@ class Command(BaseCommand):
                 try:
                     self.send_alert_email(alerts_to_send, user_email)
                     alerts_list.append((alerts_to_send, user_email))
+                    print(f'wysłano alerty do {user_email}')
+                except SMTPException as e:
+                    print(f'Error code {e.smtp_code} - {e.smtp_error}')
+                try:
                     for alert, _ in alerts_to_send:
                         alert.is_active = False
                         alert.save()
-                        print(f'wysłano {alert} do {user_email}')
-                except SMTPException as e:
-                    print(f'Error code {e.smtp_code} - {e.smtp_error}')
+                except Exception as e:
+                    print(f'bład podczas zmiany stanu: {e}')
 
             if not user_email and alerts_to_send:
                 print(pk)
