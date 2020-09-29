@@ -74,11 +74,11 @@ class Command(BaseCommand):
                 try:
                     self.send_alert_email(alerts_to_send, user_email)
                     alerts_list.append((alerts_to_send, user_email))
-                    print(f'wysłano alerty do {user_email}')
+                    print(f'wyslano alerty do {user_email}')
                 except SMTPException as e:
                     print(f'Error code {e.smtp_code} - {e.smtp_error}')
                 except Exception as e:
-                    print(f'Błąd przy wysyałaniu maili: {e}')
+                    print(f'Błąd przy wysyalaniu maili: {e}')
                 try:
                     for alert, _ in alerts_to_send:
                         alert.is_active = False
