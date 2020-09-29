@@ -77,6 +77,8 @@ class Command(BaseCommand):
                     print(f'wysłano alerty do {user_email}')
                 except SMTPException as e:
                     print(f'Error code {e.smtp_code} - {e.smtp_error}')
+                except Exception as e:
+                    print(f'Błąd przy wysyałaniu maili: {e}')
                 try:
                     for alert, _ in alerts_to_send:
                         alert.is_active = False
