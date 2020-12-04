@@ -11,7 +11,7 @@ def issues_desc_translate(description):
     except:
         result = None
 
-    if result.text:
+    if result:
         return f'{result.text}  <=== UWAGA: przetłumaczono automatycznie ==='
     else:
         return ''
