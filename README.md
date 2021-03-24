@@ -57,8 +57,8 @@ Before you start.
 4. Create DB<br>
   Run PSQL Shell
   ```
-    CREATE USER paytoapp WITH PASSWORD <db_password>;
-    CREATE DATABASE payto OWNER <db_username>;
+    CREATE USER postgres WITH PASSWORD <db_password>;
+    CREATE DATABASE posgres OWNER <db_username>;
   ```
 5. Make migration
 ```
