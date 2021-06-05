@@ -1,6 +1,6 @@
 coverage==5.0.3
 Django==3.1.9
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 googletrans==2.4.0
 Markdown==3.2.1
 psycopg2==2.8.4
