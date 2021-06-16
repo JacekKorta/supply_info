@@ -18,8 +18,12 @@ venv/
 *.sqlite3
 
 .coverage
+
 app.db
+data.json
+
 config.py
 settings.py
 passenger_wsgi.py
+
 
