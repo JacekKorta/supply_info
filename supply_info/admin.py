@@ -1,56 +1,51 @@
+import logging
+
 from django.contrib import admin
 
-from supply_info.models import ActiveProductList, PriceList, Product, ProductAvailability, Alert
+from supply_info.models import Product, Alert
 
-
-class ActiveProductInLine(admin.StackedInline):
-    model = ActiveProductList
-    extra = 0
-
-
-class PriceListInLine(admin.TabularInline):
-    model = PriceList
-    extra = 0
-
-
-class ProductAvailabilityInLine(admin.TabularInline):
-    model = ProductAvailability
-    extra = 0
+logger = logging.getLogger(__name__)
 
 
 class ProductAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['code', 'name', 'next_shipment','additional_info']}),
-        ('Dodatkowe informacje:', {'fields': ['manufacturer', 'site_address'], 'classes': ['collapse']}),
-        ('Grupy:', {'fields': ['type', 'sub_type', 'mark'], 'classes': ['collapse']}),
-
+        (None,
+         {'fields': ['code', 'name', 'next_shipment','additional_info', 'is_active', 'synchronize']}
+         ),
+        ('Ceny:',
+         {'fields': ['price_a', 'price_b', 'price_c', 'price_d']}),
+        ('Grupy:',
+         {'fields': ['type', 'sub_type', 'mark']}),
+        ('Dodatkowe informacje:',
+         {'fields': ['manufacturer', 'site_address']}
+         ),
+        ('Dostepność:',
+         {'fields': ['availability', 'not_enough', 'unavailable']})
     ]
-    inlines = [ActiveProductInLine, PriceListInLine, ProductAvailabilityInLine]
 
-    list_display = ('code', 'name', )
-    search_fields = ['code', 'name']
-    list_filter = ['type', 'sub_type']
+    list_display = ('code', 'name', 'type', 'sub_type', 'is_active', 'synchronize', 'mark')
+    search_fields = ['code', 'name', 'type', 'sub_type']
+    list_filter = ['type', 'sub_type', 'is_active', 'synchronize', 'mark']
 
-    actions = ['change_activity_status']
+    actions = ['change_activity_status', 'change_synchronize_status']
 
+    @admin.action(description='Zmień status aktywności produktu')
     def change_activity_status(self, request, queryset):
-        print(type(queryset[0]))
-        print(queryset[0].code)
+        logger.debug(type(queryset[0]))
+        logger.debug(queryset[0].code)
         for product_in_query in queryset:
-            a = ActiveProductList.objects.filter(product_code__code=product_in_query)
-            if a:
-                new_status = (not a[0].is_active)
-                a[0].change_activity(new_status)
+            new_status = (not product_in_query.is_active)
+            product_in_query.change_activity(new_status)
         pass
 
-
-class ActiveProductListAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None, {'fields': ['product_code', 'is_active']}),
-        ]
-    list_display = ('product_code', 'is_active')
-    list_filter = ['is_active']
-    search_fields = ['product_code']
+    @admin.action(description='Zmień status synchronizacji produktu')
+    def change_synchronize_status(self, request, queryset):
+        logger.debug(type(queryset[0]))
+        logger.debug(queryset[0].code)
+        for product_in_query in queryset:
+            new_status = (not product_in_query.synchronize)
+            product_in_query.change_synchronize(new_status)
+        pass
 
 
 class ProductsAlertsAdmin(admin.ModelAdmin):
@@ -72,6 +67,5 @@ class ProductsAlertsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Product, ProductAdmin)
-admin.site.register(ActiveProductList, ActiveProductListAdmin )
 admin.site.register(Alert, ProductsAlertsAdmin)
 

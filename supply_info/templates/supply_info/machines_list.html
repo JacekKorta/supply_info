@@ -18,9 +18,6 @@
             {% endif %}
         </tr>
         {% for machine in machines %}
-        {% if machine.active_product_list.all %}
-        {% for item in machine.active_product_list.all %}
-        {% if item.is_active %}
         <tr>
             <form action="" method="post">
                 {% if machine.site_address %}
@@ -28,22 +25,19 @@
                 {% else %}
                     <td>{{ machine.code }}</td>
                 {% endif %}
-                {% if machine.product_availability.all %}
-                    {% for item in machine.product_availability.all %}
-                        <td id="{{ item.availability_info }}td" align="center"> {{ item.availability_info }}</td>
-                        {% if user.is_authenticated %}
-                            <td align="right"> {{ item.availability }}</td>
-                        {% endif %}
-                    {% endfor %}
-                {% else %}
-                    <td> </td>
+                {% if machine.availability != None %}
+                    <td id="{{ machine.availability_info }}td" align="center"> {{ machine.availability_info }}</td>
                     {% if user.is_authenticated %}
-                        <td> </td>
+                        <td align="right"> {{ machine.availability }}</td>
                     {% endif %}
+                {% else %}
+                    <td> Test</td>
+                {% if user.is_authenticated %}
+                    <td> </td>
                 {% endif %}
-                {% for item in machine.price_lists.all %}
-                    <td align="right">{{ item.price_d }}</td>
-                {% endfor %}
+                {% endif %}
+                <td align="right">{{ machine.price_d }}</td>
+
                 {% if machine.next_shipment and machine.next_shipment > now %}
                     <td>{{machine.next_shipment }}</td>
                 {% else %}
@@ -60,10 +54,6 @@
                 {# <td><input type="button" name="send_question" value="Zadaj pytanie"></td> #}
             </form>
         </tr>
-
-        {% endif %}
-        {% endfor %}
-        {% endif %}
         {% endfor %}
     </table>
 </div>

@@ -1,3 +1,4 @@
+import logging
 from smtplib import SMTPException
 
 from django.contrib.auth.models import User
@@ -8,6 +9,8 @@ from django.shortcuts import get_object_or_404
 
 from supply_info.models import Alert, Product
 from public_python.config import EmailConfigData
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -27,11 +30,11 @@ class Command(BaseCommand):
         for alert in alerts:
             product = get_object_or_404(Product, pk=alert.product.id)
             if alert.less_or_equal:
-                if alert.qty_alert_lvl >= product.get_prod_availability:
-                    alerts_to_send.append((alert, product.get_prod_availability))
+                if alert.qty_alert_lvl >= product.availability:
+                    alerts_to_send.append((alert, product.availability))
             else:
-                if alert.qty_alert_lvl < product.get_prod_availability:
-                    alerts_to_send.append((alert, product.get_prod_availability))
+                if alert.qty_alert_lvl < product.availability:
+                    alerts_to_send.append((alert, product.availability))
         return alerts_to_send
 
 
@@ -74,21 +77,21 @@ class Command(BaseCommand):
                 try:
                     self.send_alert_email(alerts_to_send, user_email)
                     alerts_list.append((alerts_to_send, user_email))
-                    print(f'wyslano alerty do {user_email}')
+                    logger.info(f'Mail was send to: {user_email}')
                 except SMTPException as e:
-                    print(f'Error code {e.smtp_code} - {e.smtp_error}')
+                    logger.error(f'Error code {e.smtp_code} - {e.smtp_error}')
                 except Exception as e:
-                    print(f'Błąd przy wysyalaniu maili: {e}')
+                    logger.error(f'Error during the email send: {e}')
                 try:
                     for alert, _ in alerts_to_send:
                         alert.is_active = False
                         alert.save()
                 except Exception as e:
-                    print(f'bład podczas zmiany stanu: {e}')
+                    logger.error(f'Error during the state change: {e}')
 
             if not user_email and alerts_to_send:
-                print(pk)
-                print('Brak adresu email')
+                logger.error(pk)
+                logger.error('No email address')
 
         self.send_alert_recap(alerts_list)
 
