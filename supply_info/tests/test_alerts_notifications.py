@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from supply_info.management.commands.alerts_notifications import Command
-from supply_info.models import Alert, Product, ProductAvailability
+from supply_info.models import Alert, Product
 
 
 class NotificationsTest(TestCase):
@@ -13,18 +13,16 @@ class NotificationsTest(TestCase):
             code='Machine1',
             name='machine_1 desc',
             type='maszyny',
-            mark='M'
+            mark='M',
+            availability=9
         )
-        ProductAvailability.objects.create(product_code=Product.objects.get(code="Machine1"), availability=9)
-
         Product.objects.create(
             code='Machine2',
             name='machine_2 desc',
             type='maszyny',
-            mark='M'
+            mark='M',
+            availability=5
         )
-        b = ProductAvailability(product_code=Product.objects.get(code="Machine2"), availability=5)
-        b.save()
 
         Alert.objects.create(user=self.user,
                              product=Product.objects.get(code='Machine1'),

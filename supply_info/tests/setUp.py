@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from supply_info.models import Alert, Product, ProductAvailability, ActiveProductList
+from supply_info.models import Alert, Product
 
 
 class BasicSetup(TestCase):
@@ -12,23 +12,18 @@ class BasicSetup(TestCase):
             code='Machine1',
             name='machine_1 desc',
             type='maszyny',
-            mark='M'
+            mark='M',
+            availability=10,
+            is_active=True
         )
-        ProductAvailability.objects.create(product_code=Product.objects.get(code="Machine1"), availability=10)
-        a = ActiveProductList(product_code=Product.objects.get(code="Machine1"))
-        a.is_active = True
-        a.save()
         Product.objects.create(
             code='Machine2',
             name='machine_2 desc',
             type='maszyny',
-            mark='M'
+            mark='M',
+            availability=0,
+            is_active=True
         )
-        b = ProductAvailability(product_code=Product.objects.get(code="Machine2"), availability=0)
-        b.save()
-        b = ActiveProductList(product_code=Product.objects.get(code="Machine2"))
-        b.is_active = True
-        b.save()
         Alert.objects.create(user=self.user,
                              product=Product.objects.get(code='Machine1'),
                              qty_alert_lvl=10

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
-from supply_info.models import Alert, Product, ProductAvailability, ActiveProductList
+from supply_info.models import Alert, Product
 from .setUp import BasicSetup, LoggedInTestCase
 
 

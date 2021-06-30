@@ -1,4 +1,7 @@
 from datetime import datetime, timedelta
+import logging
+import mimetypes
+import os
 
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -7,18 +10,20 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 
-from supply_info.forms import AlertEditForm, ProductFullInfoUpdateForm
+from supply_info.forms import AlertEditForm
 from supply_info.models import Event, Product, Alert
-from supply_info.sp_modules import db_save, receiving_data
+from supply_info.sp_modules import db_save
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
     # this page will be changed in the future
-    machines = Product.objects.prefetch_related('price_lists',
-                                                'product_availability').filter(mark='M').order_by("code")
+    machines = Product.objects.filter(mark='M').filter(is_active=True).order_by("code")
     last_update_time = Event.objects.filter(event_name='availability update').last()
     return render(request, 'supply_info/machines_list.html', {'machines': machines,
                                                               'now': datetime.today().date(),
@@ -27,8 +32,7 @@ def index(request):
 
 
 def machines_list(request):
-    machines = Product.objects.prefetch_related('price_lists',
-                                                'product_availability').filter(mark='M').order_by("code")
+    machines = Product.objects.filter(mark='M').filter(is_active=True).order_by("code")
     last_update_time = Event.objects.filter(event_name='availability update').last()
     return render(request, 'supply_info/machines_list.html', {'machines': machines,
                                                               'now': datetime.today().date(),
@@ -38,8 +42,7 @@ def machines_list(request):
 
 @login_required
 def product_list(request, sub_type):
-    object_list = Product.objects.prefetch_related('price_lists',
-                                                   'product_availability').filter(sub_type=sub_type).order_by("code")
+    object_list = Product.objects.filter(sub_type=sub_type).filter(is_active=True).order_by("code")
     # 50 products per page
     paginator = Paginator(object_list, 50)
     page = request.GET.get('page')
@@ -71,32 +74,6 @@ def change_password(request):
     return render(request, 'supply_info/change_password.html', {'form': form})
 
 
-@staff_member_required
-def update_product_info(request):
-    if request.method == 'POST':
-        form = ProductFullInfoUpdateForm(request.POST)
-        if form.is_valid():
-            form_input = form.cleaned_data
-            receiving_data.receive_main_data(form_input['data'])
-        return redirect('supply_info:index')
-    else:
-        form = ProductFullInfoUpdateForm()
-    return render(request, 'supply_info/update_product_info.html', {'form': form, 'title': 'Import produktów'})
-
-
-@staff_member_required
-def update_product_availability(request):
-    if request.method == 'POST':
-        form = ProductFullInfoUpdateForm(request.POST)
-        if form.is_valid():
-            form_input = form.cleaned_data
-            receiving_data.receive_availability_data(form_input['data'])
-            db_save.event_record(request.user.username, 'availability update')
-        return redirect('supply_info:index')
-    else:
-        form = ProductFullInfoUpdateForm()
-    return render(request, 'supply_info/update_product_info.html', {'form': form, 'title': 'Uaktualnij stany'})
-
 
 @login_required
 def search_product(request):
@@ -106,21 +83,19 @@ def search_product(request):
         submitbutton = request.GET.get('submit')
         if query is not None:
             lookups = Q(code__icontains=query) | Q(sub_type__icontains=query) | Q(name__icontains=query)
-            results = Product.objects.prefetch_related('price_lists',
-                                                       'product_availability').filter(lookups).order_by('code')
-            context = {'results': results,
+            results = Product.objects.filter(is_active=True).filter(lookups).order_by('code')
+            context = {'products': results,
                        'submitbutton': submitbutton,
                        'now': datetime.today(),
                        'last_update_time': last_update_time}
-            return render(request, 'supply_info/search_product.html', context)
+            return render(request, 'supply_info/products_list.html', context)
 
         else:
-            return render(request, 'supply_info/search_product.html')
+            return render(request, 'supply_info/products_list.html')
     else:
-        return render(request, 'supply_info/search_product.html')
+        return render(request, 'supply_info/products_list.html')
 
 # alerts
-
 
 @login_required
 def alerts_list_view(request, only_active='all'):
@@ -160,7 +135,7 @@ def alert_edit_view(request, alert_pk):
                 alert.save()
                 return redirect('supply_info:alerts_list_view', only_active='wszystkie')
             else:
-                print(form._errors)
+                logger.error(form._errors)
             return render(request, 'supply_info/alert_edit.html', {'h2': f'Edytuj alert dla {alert.product.code}',
                                                                    'form': form})
         else:
@@ -186,7 +161,7 @@ def alert_add_view(request, product_pk):
                                  )
             return redirect('supply_info:alerts_list_view', {'only_active': 'wszystkie'})
         else:
-            print(form._errors)
+            logger.error(form._errors)
         return render(request, 'supply_info/alert_edit.html', {'form': form, 'h2': f'Utwórz alert dla {product.code}'})
     else:
         default_data = {'product': product, 'qty_alert_lvl': 1}
@@ -194,5 +169,13 @@ def alert_add_view(request, product_pk):
         return render(request, 'supply_info/alert_edit.html', {'form': form, 'h2': f'Utwórz alert dla {product.code}'})
 
 
-
-
+@staff_member_required
+def download_file(request):
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    filename = 'data.json'
+    filepath = BASE_DIR + '/public_python/data/' + filename
+    path = open(filepath, 'r')
+    mime_type, _ = mimetypes.guess_type(filepath)
+    response = HttpResponse(path, content_type=mime_type)
+    response['Content-Disposition'] = "attachment; filename=%s" % filename
+    return response

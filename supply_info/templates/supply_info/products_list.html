@@ -1,4 +1,5 @@
 {% extends 'supply_info/base.html' %}
+{% load group_tags %}
 
 {% block content %}
 {% include "supply_info/pagination.html" with page=products %}
@@ -14,9 +15,6 @@
         </tr>
         {% for product in products %}
         <tbody id="machines_search_table_body">
-        {% if product.active_product_list.all %}
-        {% for item in product.active_product_list.all %}
-        {% if item.is_active %}
         <tr>
             <form action="" method="post">
                 {% if product.site_address %}
@@ -24,16 +22,16 @@
                 {% else %}
                     <td>{{ product.code }}</td>
                 {% endif %}
-                {% if product.product_availability.all %}
-                    {% for item in product.product_availability.all %}
-                        <td> {{ item.availability }}</td>
-                    {% endfor %}
+                {% if product.availability != None and product.mark not in 'K, 2' %}
+                <td> {{ product.availability }}</td>
                 {% else %}
                     <td> </td>
                 {% endif %}
-                {% for item in product.price_lists.all %}
-                    <td>{{ item.price_d }} zł</td>
-                {% endfor %}
+                {% if product.price_d != None %}
+                <td>{{ product.price_d }} zł</td>
+                {% else %}
+                    <td> </td>
+                {% endif %}
                 <td>{{ product.next_shipment|default_if_none:"" }}</td>
                 <td>{{ product.additional_info|default_if_none:"" }}</td>
                 <td width="1%">
@@ -45,10 +43,12 @@
             <td colspan="6">
                 <div class="row" id="extra_{{ forloop.parentloop.counter }}" style="display: none;">
                     <div class="col-md-9">
-                    Opis: {{ product.name }}
-                    <br>Cena hurtowa:  {% for item in product.price_lists.all %}
-                                {{ item.price_b }} zł NETTO
-                            {% endfor %}
+                        Opis: {{ product.name }}
+                        {% if request.user|has_group:"Dystrybutorzy_C" %}
+                            <br>Cena hurtowa: {{ product.price_c }} zł NETTO
+                        {% else %}
+                            <br>Cena hurtowa: {{ product.price_b }} zł NETTO
+                        {% endif %}
                     </div>
                     <div class="col-md-3" align="right">
                         <a href="{% url 'supply_info:alert_add_view' product_pk=product.id  %}"><i class="far fa-bell" style="color:#e13e2f; padding: 20 20; font-size: 1.3em;"></i></a>
@@ -56,9 +56,6 @@
                 </div>
             </td>
         </tr>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
         </tbody>
         {% endfor %}
     </table>

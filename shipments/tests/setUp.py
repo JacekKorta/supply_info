@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from shipments.models import Shipment, ShipmentDetail
-from supply_info.models import Product, ProductAvailability, ActiveProductList
+from supply_info.models import Product
 
 
 class BasicSetup(TestCase):
@@ -13,24 +13,18 @@ class BasicSetup(TestCase):
             code='Machine1',
             name='machine_1 desc',
             type='maszyny',
-            mark='M'
+            mark='M',
+            is_active=True,
+            availability=10
         )
-        a = ProductAvailability(product_code=Product.objects.get(code="Machine1"), availability=10)
-        a.save()
-        a = ActiveProductList(product_code=Product.objects.get(code="Machine1"))
-        a.is_active = True
-        a.save()
         Product.objects.create(
             code='Machine2',
             name='machine_2 desc',
             type='maszyny',
-            mark='M'
+            mark='M',
+            is_active=True,
+            availability=0
         )
-        b = ProductAvailability(product_code=Product.objects.get(code="Machine2"), availability=0)
-        b.save()
-        b = ActiveProductList(product_code=Product.objects.get(code="Machine2"))
-        b.is_active = True
-        b.save()
 
         # future shipment
         Shipment.objects.create(
