@@ -35,13 +35,13 @@
                 <td>{{ product.next_shipment|default_if_none:"" }}</td>
                 <td>{{ product.additional_info|default_if_none:"" }}</td>
                 <td width="1%">
-                    <a href="#" id="show_{{ forloop.parentloop.counter }}" ><span class="glyphicon glyphicon-plus"></span></a>
+                    <a href="#" id="show_{{ forloop.counter }}" ><span class="glyphicon glyphicon-plus"></span></a>
                 </td>
             </form>
         </tr>
         <tr>
             <td colspan="6">
-                <div class="row" id="extra_{{ forloop.parentloop.counter }}" style="display: none;">
+                <div class="row" id="extra_{{ forloop.counter }}" style="display: none;">
                     <div class="col-md-9">
                         Opis: {{ product.name }}
                         {% if request.user|has_group:"Dystrybutorzy_C" %}
